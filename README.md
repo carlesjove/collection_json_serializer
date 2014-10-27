@@ -1,6 +1,8 @@
 # CollectionJsonRails
 
-TODO: Write a gem description
+A Rails gem to respond with Collection+JSON.
+
+CollectionJsonRails formats JSON responses following the Collection+JSON media type by Mike Amudsen. It also handles input data templates.
 
 ## Installation
 
@@ -20,7 +22,44 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+As this gem user, you will be mainly writing/generating and mantaining serializers for your models. A serializer goes like:
+
+```ruby
+class UserSerializer < CollectionJsonRails::Serializer
+  data :id, :name, :email
+  
+  template :name, :email
+  
+  links :profile
+end
+```
+
+This will generate this Collection+JSON response:
+
+```javascript
+{ "collection": {
+  "version" : "1.0",
+    "href" : "http://example.com/users",
+    "items" : [{
+      "href": "http://example.com/users/1",
+      "data": [
+        { "name": "id", "value": "1" },
+        { "name": "name", "value": "Carles Jove" },
+        { "name": "email", "value": "email@example.com" },
+      ],
+      "links": [
+        { "name": "profile", "href": "http://example.com/profile" }
+      ]
+    }],
+    "template" : {
+      "data": [
+        { "name": "name", "value": "" },
+        { "name": "email", "value": "" }
+      ]
+    },
+  }
+}
+```
 
 ## Contributing
 

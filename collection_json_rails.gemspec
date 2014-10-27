@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = CollectionJsonRails::VERSION
   spec.authors       = ["Carles Jove i Buxeda"]
   spec.email         = ["hola@carlus.cat"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
+  spec.summary       = %q{A Rails gem to respond with Collection+JSON.}
   spec.description   = %q{TODO: Write a longer description. Optional.}
   spec.homepage      = ""
   spec.license       = "MIT"
