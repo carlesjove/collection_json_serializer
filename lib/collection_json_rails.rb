@@ -1,5 +1,3 @@
 require "collection_json_rails/version"
 
-module CollectionJsonRails
-  # Your code goes here...
-end
+require "collection_json_rails/serializer"
