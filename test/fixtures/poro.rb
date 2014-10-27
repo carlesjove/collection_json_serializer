@@ -5,6 +5,13 @@ class Model
 end
 
 class User < Model
+  def name
+    @attributes[:name]
+  end
+
+  def email
+    @attributes[:email]
+  end
 end
 
 class UserSerializer < CollectionJsonRails::Serializer

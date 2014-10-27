@@ -17,5 +17,13 @@ module CollectionJsonRails
     def initialize(resource)
       @resource = resource
     end
+
+    def data
+      h = Hash.new
+      self.class.data.each do |attr|
+        h[attr] = @resource.send(attr)
+      end
+      h
+    end
   end
 end

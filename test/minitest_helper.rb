@@ -4,3 +4,5 @@ require 'collection_json_rails'
 require 'minitest/autorun'
 
 require 'fixtures/poro'
+
+require 'active_support/json'
