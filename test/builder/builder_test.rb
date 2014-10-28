@@ -20,7 +20,13 @@ module CollectionJsonRails
                     { name: 'email', value: 'hola@carlus.cat' }
                   ]
                 }
-              ]
+              ],
+              template: {
+                data: [
+                  { name: 'name', value: '' },
+                  { name: 'email', value: '' }
+                ]
+              }
             }
           }
           
