@@ -16,5 +16,5 @@ end
 
 class UserSerializer < CollectionJsonRails::Serializer
   data :name, :email
-  template :name, :email
+  template :name, { email: { prompt: 'My email' } }
 end

@@ -23,7 +23,17 @@ module CollectionJsonRails
         @collection[:template].store :data, Array.new
 
         @serializer.template.each do |attr|
-          c = { name: attr, value: nil.to_s }
+          case attr
+          when Hash
+            name = attr.keys.first
+            properties = attr[name]
+          else
+            name = attr
+          end
+
+          c = Hash.new
+          c = { name: name, value: nil.to_s }
+          properties.each {|k,v| c.store k, v } if properties
           @collection[:template][:data] << c
         end
       end

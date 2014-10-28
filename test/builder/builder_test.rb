@@ -24,12 +24,12 @@ module CollectionJsonRails
               template: {
                 data: [
                   { name: 'name', value: '' },
-                  { name: 'email', value: '' }
+                  { name: 'email', value: '', prompt: 'My email' }
                 ]
               }
             }
           }
-          
+
           assert_equal expected.to_json, @builder.to_json
         end
       end

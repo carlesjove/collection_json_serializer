@@ -33,7 +33,7 @@ module CollectionJsonRails
     end
 
     def template
-      self.class.template.to_a
+      self.class.template
     end
   end
 end
