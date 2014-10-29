@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Carles Jove i Buxeda"]
   spec.email         = ["hola@carlus.cat"]
   spec.summary       = %q{A Rails gem to respond with Collection+JSON.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.description   = %q{CollectionJsonRails lets you have models' serializers to format JSON responses following the Collection+JSON media type by Mike Amudsen.}
+  spec.homepage      = "https://github.com/carlesjove/collection_json_rails"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")

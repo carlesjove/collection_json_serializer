@@ -54,7 +54,7 @@ This will generate this Collection+JSON response:
     "template" : {
       "data": [
         { "name": "name", "value": "" },
-        { "name": "email", "value": "" }
+        { "name": "email", "value": "", "prompt": "My email" }
       ]
     },
   }
