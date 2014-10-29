@@ -3,11 +3,13 @@ module CollectionJsonRails
     class << self
       attr_accessor :data
       attr_accessor :template
+      attr_accessor :links
     end
 
     def self.inherited(base)
       base.data = []
       base.template = []
+      base.links = []
     end
 
     def self.data(*attrs)
@@ -16,6 +18,10 @@ module CollectionJsonRails
 
     def self.template(*attrs)
       @template.concat attrs
+    end
+
+    def self.links(*attrs)
+      @links.concat attrs
     end
 
     attr_accessor :resource
@@ -34,6 +40,10 @@ module CollectionJsonRails
 
     def template
       self.class.template
+    end
+
+    def links
+      self.class.links
     end
   end
 end

@@ -11,10 +11,21 @@ module CollectionJsonRails
 
         h = Hash.new
         h.store :data, Array.new
+        h.store(:links, Array.new) if @serializer.links.present?
+
         @serializer.data.each do |attr, value|
           c = { name: attr, value: value }
           h[:data] << c
         end
+
+        @serializer.links.each do |attr|
+          # TODO: This way of building links kinda sucks :-(
+          resource_base = @serializer.resource.account.class.to_s.downcase.pluralize
+          resource_id = @serializer.resource.send(attr).id
+          c = { name: attr, href: "/#{resource_base}/#{resource_id}" }
+          h[:links] << c
+        end if @serializer.links.present?
+
         @collection[:items] << h
       end
 

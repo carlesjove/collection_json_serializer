@@ -5,4 +5,6 @@ require 'minitest/autorun'
 
 require 'fixtures/poro'
 
+require 'rails'
+
 require 'active_support/json'

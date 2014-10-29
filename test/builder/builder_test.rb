@@ -6,6 +6,8 @@ module CollectionJsonRails
       class TestBuilder < Minitest::Test
         def setup
           @user = User.new({name: 'Carles Jove', email: 'hola@carlus.cat'})
+          @account = Account.new({id: 1, name: 'My Account', created_at: Time.now})
+          @user.account = @account
           @user_serializer = UserSerializer.new(@user)
           @builder = Builder.new(@user_serializer)
         end
@@ -18,6 +20,9 @@ module CollectionJsonRails
                   data: [
                     { name: 'name', value: 'Carles Jove' },
                     { name: 'email', value: 'hola@carlus.cat' }
+                  ],
+                  links: [
+                    { name: 'account', href: "/accounts/#{@account.id}" }
                   ]
                 }
               ],
