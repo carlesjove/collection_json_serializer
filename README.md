@@ -30,7 +30,7 @@ class UserSerializer < CollectionJsonRails::Serializer
   
   template :name, { email: { prompt: 'My email' } }
   
-  links :profile
+  links :profile, { dashboard: '/dashboard' }
 end
 ```
 
@@ -48,7 +48,8 @@ This will generate this Collection+JSON response:
         { "name": "email", "value": "email@example.com" },
       ],
       "links": [
-        { "name": "profile", "href": "http://example.com/profile" }
+        { "name": "profile", "href": "http://example.com/profile" },
+        { "name": "dashboard", "href": "http://example.com/dashboard" }
       ]
     }],
     "template" : {
