@@ -13,16 +13,27 @@ module CollectionJsonRails
         h.store :data, Array.new
         h.store(:links, Array.new) if @serializer.links.present?
 
+        # add item data
         @serializer.data.each do |attr, value|
           c = { name: attr, value: value }
           h[:data] << c
         end
 
+        # add item links
         @serializer.links.each do |attr|
-          # TODO: This way of building links kinda sucks :-(
-          resource_base = @serializer.resource.account.class.to_s.downcase.pluralize
-          resource_id = @serializer.resource.send(attr).id
-          c = { name: attr, href: "/#{resource_base}/#{resource_id}" }
+          case attr
+          when Symbol
+            # TODO: This way of building links kinda sucks :-(
+            resource_base = @serializer.resource.account.class.to_s.downcase.pluralize
+            resource_id = @serializer.resource.send(attr).id
+            name = attr
+            url = "/#{resource_base}/#{resource_id}"
+          when Hash
+            name = attr.keys.first
+            url = attr[name]
+          end
+
+          c = { name: name.to_s, href: url.to_s }
           h[:links] << c
         end if @serializer.links.present?
 

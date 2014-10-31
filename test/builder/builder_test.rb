@@ -22,7 +22,8 @@ module CollectionJsonRails
                     { name: 'email', value: 'hola@carlus.cat' }
                   ],
                   links: [
-                    { name: 'account', href: "/accounts/#{@account.id}" }
+                    { name: 'account', href: "/accounts/#{@account.id}" },
+                    { name: 'dashboard', href: "/dashboard" }
                   ]
                 }
               ],

@@ -24,5 +24,5 @@ Account = Class.new(Model)
 class UserSerializer < CollectionJsonRails::Serializer
   data :name, :email
   template :name, { email: { prompt: 'My email' } }
-  links :account
+  links :account, { dashboard: '/dashboard' }
 end
