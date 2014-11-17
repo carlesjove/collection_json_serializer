@@ -5,8 +5,8 @@ module CollectionJsonRails
     class Builder
       class TestBuilder < Minitest::Test
         def setup
-          @user = User.new({name: "Carles Jove", email: "hola@carlus.cat"})
-          @account = Account.new({id: 1, name: "My Account", created_at: Time.now})
+          @user = User.new(name: "Carles Jove", email: "hola@carlus.cat")
+          @account = Account.new(id: 1, name: "My Account", created_at: Time.now)
           @user.account = @account
           @user_serializer = UserSerializer.new(@user)
           @builder = Builder.new(@user_serializer)

@@ -4,7 +4,7 @@ module CollectionJsonRails
   class Serializer
     class TestLinks < Minitest::Test
       def setup
-        @user = User.new({name: 'Carles Jove', email: 'hola@carlus.cat'})
+        @user = User.new(name: 'Carles Jove', email: 'hola@carlus.cat')
         @user_serializer = UserSerializer.new(@user)
       end
 
