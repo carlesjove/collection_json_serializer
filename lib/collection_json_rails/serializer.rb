@@ -33,7 +33,11 @@ module CollectionJsonRails
     def attributes
       h = Hash.new
       self.class.attributes.each do |attr|
-        h[attr] = @resource.send(attr)
+        begin
+          h[attr] = @resource.send(attr)
+        rescue
+          # ignore unknown attributes
+        end
       end
       h
     end
