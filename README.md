@@ -1,5 +1,8 @@
 # CollectionJsonRails
 
+| :warning: ** This is _not finished_ yet, so you better do not use it ** |
+---------------------------------------------------------------------------
+
 A Rails gem to respond with Collection+JSON.
 
 CollectionJsonRails formats JSON responses following the Collection+JSON media type by Mike Amudsen. It also handles input data templates.
@@ -28,9 +31,9 @@ As this gem user, you will be mainly writing/generating and mantaining serialize
 class UserSerializer < CollectionJsonRails::Serializer
   data :id, :name, :email
   
-  template :name, { email: { prompt: "My email" } }
+  template :name, email: { prompt: "My email" }
   
-  links :profile, { dashboard: { href: "/my-dashboard" } }
+  links :profile, dashboard: { href: "/my-dashboard" }
 end
 ```
 
