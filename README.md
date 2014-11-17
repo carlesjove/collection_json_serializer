@@ -29,7 +29,7 @@ As this gem user, you will be mainly writing/generating and mantaining serialize
 
 ```ruby
 class UserSerializer < CollectionJsonRails::Serializer
-  data :id, :name, :email
+  attributes :id, :name, :email
   
   template :name, email: { prompt: "My email" }
   

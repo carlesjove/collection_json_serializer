@@ -8,8 +8,8 @@ module CollectionJsonRails
         @user_serializer = UserSerializer.new(@user)
       end
 
-      def test_data_properties
-        assert_equal [:name, :email], @user_serializer.class.data
+      def test_attributes_properties
+        assert_equal [:name, :email], @user_serializer.class.attributes
       end
     end
   end

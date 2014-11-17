@@ -6,7 +6,7 @@ module CollectionJsonRails
         @collection = {}
       end
 
-      def add_data_attributes
+      def add_item_attributes
         @collection.store :items, Array.new
 
         h = Hash.new
@@ -14,7 +14,7 @@ module CollectionJsonRails
         h.store(:links, Array.new) if @serializer.links.present?
 
         # add item data
-        @serializer.data.each do |attr, value|
+        @serializer.attributes.each do |attr, value|
           c = { name: attr, value: value }
           h[:data] << c
         end
@@ -74,7 +74,7 @@ module CollectionJsonRails
 
         def build!
           # There might be a more elegant way to do it, yes
-          add_data_attributes
+          add_item_attributes
           add_template_attributes
           wrap
         end

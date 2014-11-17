@@ -1,19 +1,19 @@
 module CollectionJsonRails
   class Serializer
     class << self
-      attr_accessor :data
+      attr_accessor :attributes
       attr_accessor :template
       attr_accessor :links
     end
 
     def self.inherited(base)
-      base.data = []
+      base.attributes = []
       base.template = []
       base.links = []
     end
 
-    def self.data(*attrs)
-      @data.concat attrs
+    def self.attributes(*attrs)
+      @attributes.concat attrs
     end
 
     def self.template(*attrs)
@@ -30,9 +30,9 @@ module CollectionJsonRails
       @resource = resource
     end
 
-    def data
+    def attributes
       h = Hash.new
-      self.class.data.each do |attr|
+      self.class.attributes.each do |attr|
         h[attr] = @resource.send(attr)
       end
       h
