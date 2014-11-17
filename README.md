@@ -28,9 +28,9 @@ As this gem user, you will be mainly writing/generating and mantaining serialize
 class UserSerializer < CollectionJsonRails::Serializer
   data :id, :name, :email
   
-  template :name, { email: { prompt: 'My email' } }
+  template :name, { email: { prompt: "My email" } }
   
-  links :profile
+  links :profile, { dashboard: { href: "/my-dashboard" } }
 end
 ```
 
@@ -48,7 +48,8 @@ This will generate this Collection+JSON response:
         { "name": "email", "value": "email@example.com" },
       ],
       "links": [
-        { "name": "profile", "href": "http://example.com/profile" }
+        { "name": "profile", "href": "http://example.com/profile" },
+        { "name": "dashboard", "href": "http://example.com/my-dashboard" }
       ]
     }],
     "template" : {
