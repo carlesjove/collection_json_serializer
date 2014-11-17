@@ -28,9 +28,9 @@ As this gem user, you will be mainly writing/generating and mantaining serialize
 class UserSerializer < CollectionJsonRails::Serializer
   data :id, :name, :email
   
-  template :name, { email: { prompt: 'My email' } }
+  template :name, { email: { prompt: "My email" } }
   
-  links :profile, { dashboard: { href: '/my-dashboard' } }
+  links :profile, { dashboard: { href: "/my-dashboard" } }
 end
 ```
 

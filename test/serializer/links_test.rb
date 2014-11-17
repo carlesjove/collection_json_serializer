@@ -9,7 +9,7 @@ module CollectionJsonRails
       end
 
       def test_item_links_attributes
-        assert_equal [:account, { dashboard: { href: '/my-dashboard' } }], @user_serializer.class.links
+        assert_equal [:account, dashboard: { href: "/my-dashboard" }], @user_serializer.class.links
       end
     end
   end

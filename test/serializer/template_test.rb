@@ -9,7 +9,7 @@ module CollectionJsonRails
       end
 
       def test_template_attributes
-        assert_equal [:name, { email: { prompt: 'My email' } }], @user_serializer.class.template
+        assert_equal [:name, email: { prompt: "My email" }], @user_serializer.class.template
       end
     end
   end
