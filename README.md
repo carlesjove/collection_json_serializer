@@ -1,18 +1,18 @@
-# CollectionJsonRails
+# CollectionJsonSerializer
 
 | :warning: ** This is _not finished_ yet, so you better do not use it ** |
 ---------------------------------------------------------------------------
 
-A Rails gem to respond with Collection+JSON.
+A Ruby gem to respond with Collection+JSON.
 
-CollectionJsonRails formats JSON responses following the Collection+JSON media type by Mike Amudsen. It also handles input data templates.
+CollectionJsonSerializer formats JSON responses following the Collection+JSON media type by Mike Amudsen. It also handles input data templates.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'collection_json_rails'
+gem 'collection_json_serializer'
 ```
 
 And then execute:
@@ -21,14 +21,14 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install collection_json_rails
+    $ gem install collection_json_serializer
 
 ## Usage
 
 As this gem user, you will be mainly writing/generating and mantaining serializers for your models. A serializer goes like:
 
 ```ruby
-class UserSerializer < CollectionJsonRails::Serializer
+class UserSerializer < CollectionJsonSerializer::Serializer
   attributes :id, :name, :email
   
   template :name, email: { prompt: "My email" }
@@ -67,7 +67,7 @@ This will generate this Collection+JSON response:
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/collection_json_rails/fork )
+1. Fork it ( https://github.com/[my-github-username]/collection_json_serializer/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

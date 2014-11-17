@@ -1,4 +1,4 @@
-module CollectionJsonRails
+module CollectionJsonSerializer
   class Serializer
     class Builder
       def initialize(serializer)
