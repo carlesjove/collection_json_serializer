@@ -30,7 +30,7 @@ module CollectionJsonRails
             url = "/#{resource_base}/#{resource_id}"
           when Hash
             name = attr.keys.first
-            url = attr[name]
+            url = attr[name][:href]
           end
 
           c = { name: name.to_s, href: url.to_s }

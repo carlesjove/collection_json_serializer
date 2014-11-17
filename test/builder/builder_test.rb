@@ -23,7 +23,7 @@ module CollectionJsonRails
                   ],
                   links: [
                     { name: 'account', href: "/accounts/#{@account.id}" },
-                    { name: 'dashboard', href: "/dashboard" }
+                    { name: 'dashboard', href: "/my-dashboard" }
                   ]
                 }
               ],
