@@ -1,3 +1,10 @@
+# Base class for pseudo Models
+#
+# Create a model:
+# User = Class.new(Model)
+# 
+# and then populate it in your tests:
+# @user = User.new(name: "Carles Jove", email: "hola@carlus.cat")
 class Model
   def initialize(hash = {})
     @attributes = hash
@@ -16,13 +23,4 @@ class Model
       super
     end
   end
-end
-
-User = Class.new(Model)
-Account = Class.new(Model)
-
-class UserSerializer < CollectionJsonRails::Serializer
-  attributes :name, :email
-  template :name, email: { prompt: "My email" }
-  links :account, dashboard: { href: "/my-dashboard" }
 end
