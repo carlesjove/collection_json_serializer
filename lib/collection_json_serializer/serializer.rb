@@ -1,4 +1,4 @@
-module CollectionJsonRails
+module CollectionJsonSerializer
   class Serializer
     class << self
       attr_accessor :attributes

@@ -1,6 +1,6 @@
 require 'minitest_helper'
 
-module CollectionJsonRails
+module CollectionJsonSerializer
   class Serializer
     class Builder
       class TestBuilder < Minitest::Test
