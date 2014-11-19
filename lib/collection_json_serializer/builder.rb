@@ -23,18 +23,16 @@ module CollectionJsonSerializer
       end
 
       def to_json
-        build!
-
+        build and wrap
         @collection.to_json
       end
 
       private
 
-        def build!
+        def build
           # There might be a more elegant way to do it, yes
           add_items
           add_template
-          wrap
         end
     end
   end
