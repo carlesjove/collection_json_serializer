@@ -14,22 +14,8 @@ module CollectionJsonSerializer
 
       def add_template_attributes
         @collection.store :template, Hash.new
-        @collection[:template].store :data, Array.new
-
-        @serializer.template.each do |attr|
-          case attr
-          when Hash
-            name = attr.keys.first
-            properties = attr[name]
-          else
-            name = attr
-          end
-
-          c = Hash.new
-          c = { name: name, value: nil.to_s }
-          properties.each {|k,v| c.store k, v } if properties
-          @collection[:template][:data] << c
-        end
+        template = CollectionJsonSerializer::Serializer::Objects::Template.new(@serializer)
+        @collection[:template].store :data, template.create
       end
 
       def wrap
