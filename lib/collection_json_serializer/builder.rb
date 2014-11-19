@@ -6,13 +6,13 @@ module CollectionJsonSerializer
         @collection = {}
       end
 
-      def add_item_attributes
+      def add_items
         @collection.store :items, Array.new
         item = CollectionJsonSerializer::Serializer::Objects::Item.new(@serializer)
         @collection[:items] << item.create
       end
 
-      def add_template_attributes
+      def add_template
         @collection.store :template, Hash.new
         template = CollectionJsonSerializer::Serializer::Objects::Template.new(@serializer)
         @collection[:template].store :data, template.create
@@ -32,8 +32,8 @@ module CollectionJsonSerializer
 
         def build!
           # There might be a more elegant way to do it, yes
-          add_item_attributes
-          add_template_attributes
+          add_items
+          add_template
           wrap
         end
     end
