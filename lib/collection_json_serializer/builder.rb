@@ -18,12 +18,12 @@ module CollectionJsonSerializer
         @collection[:template].store :data, template.create
       end
 
-      def wrap
+      def pack
         @collection = { collection: @collection }
       end
 
       def to_json
-        build and wrap
+        build and pack
         @collection.to_json
       end
 
