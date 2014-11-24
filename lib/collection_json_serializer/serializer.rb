@@ -35,7 +35,7 @@ module CollectionJsonSerializer
       self.class.attributes.each do |attr|
         begin
           h[attr] = @resource.send(attr)
-        rescue
+        rescue NoMethodError
           # ignore unknown attributes
         end
       end
