@@ -23,7 +23,7 @@ module CollectionJsonSerializer
       end
 
       def to_json
-        build and pack
+        build && pack
         @collection.to_json
       end
 

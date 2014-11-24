@@ -14,7 +14,7 @@ module CollectionJsonSerializer
           end
 
           def test_that_an_item_can_be_build
-            expected = { 
+            expected = {
               data: [
                 { name: "name", value: "Carles Jove" },
                 { name: "email", value: "hola@carlus.cat" }
@@ -24,7 +24,7 @@ module CollectionJsonSerializer
                 { name: "dashboard", href: "/my-dashboard" }
               ]
             }
-            
+
             assert_equal expected.to_json, @item.create.to_json
           end
         end

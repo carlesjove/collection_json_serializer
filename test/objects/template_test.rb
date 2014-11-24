@@ -18,7 +18,7 @@ module CollectionJsonSerializer
               { name: "name", value: "" },
               { name: "email", value: "", prompt: "My email" }
             ]
-            
+
             assert_equal expected.to_json, @template.create.to_json
           end
         end

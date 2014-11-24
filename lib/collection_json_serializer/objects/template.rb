@@ -19,7 +19,7 @@ module CollectionJsonSerializer
 
             c = Hash.new
             c = { name: name, value: nil.to_s }
-            properties.each {|k,v| c.store k, v } if properties
+            properties.each { |k, v| c.store k, v } if properties
             @data << c
           end
 
