@@ -19,21 +19,21 @@ module CollectionJsonSerializer
       end
 
       def pack
-        @collection = { collection: @collection }
+        build
+        { collection: @collection }
       end
 
       def to_json
-        build && pack
-        @collection.to_json
+        pack.to_json
       end
 
       private
 
-        def build
-          # There might be a more elegant way to do it, yes
-          add_items
-          add_template
-        end
+      def build
+        # There might be a more elegant way to do it, yes
+        add_items
+        add_template
+      end
     end
   end
 end
