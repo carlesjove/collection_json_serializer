@@ -21,6 +21,18 @@ module CollectionJsonSerializer
 
             assert_equal expected.to_json, @template.create.to_json
           end
+
+          def test_that_a_template_can_be_build_with_random_attributes
+            custom_serializer = CustomTemplateSerializer.new(@user)
+            template = Template.new(custom_serializer)
+
+            expected = [
+              { name: "name", value: "" },
+              { name: "email", value: "", prompt: "My email", anything: "at all", whatever: "really" }
+            ]
+
+            assert_equal expected.to_json, template.create.to_json
+          end
         end
       end
     end
