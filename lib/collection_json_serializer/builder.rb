@@ -31,8 +31,8 @@ module CollectionJsonSerializer
 
       def build
         # There might be a more elegant way to do it, yes
-        add_items
-        add_template
+        add_items if @serializer.attributes.present?
+        add_template if @serializer.template.present?
       end
     end
   end
