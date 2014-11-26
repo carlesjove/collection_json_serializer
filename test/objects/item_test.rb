@@ -27,6 +27,19 @@ module CollectionJsonSerializer
 
             assert_equal expected.to_json, @item.create.to_json
           end
+
+          def test_that_an_item_can_be_build_with_random_attributes
+            custom_serializer = CustomItemSerializer.new(@user)
+            item = Item.new(custom_serializer)
+
+            expected = {
+              data: [
+                { name: "name", value: "Carles Jove", anything: "at all", whatever: "really" },
+              ]
+            }
+
+            assert_equal expected.to_json, item.create.to_json
+          end
         end
       end
     end

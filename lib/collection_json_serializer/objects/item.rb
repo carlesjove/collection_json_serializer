@@ -12,8 +12,23 @@ module CollectionJsonSerializer
           h.store(:links, Array.new) if @serializer.links.present?
 
           # add item data
-          @serializer.attributes.each do |attr, value|
-            c = { name: attr, value: value }
+          @serializer.attributes.each do |attr|
+            case attr
+            when Hash
+              name = attr.keys.first
+              properties = attr[name]
+            else
+              name = attr
+            end
+
+            begin
+              value = @serializer.resource.send(name)
+            rescue NoMethodError
+              # ignore unknown attributes
+            end
+
+            c = { name: name, value: value } if value
+            properties.each { |k, v| c.store k, v } if properties
             h[:data] << c
           end
 
