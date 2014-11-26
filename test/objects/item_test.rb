@@ -37,8 +37,20 @@ module CollectionJsonSerializer
                 { name: "name", value: "Carles Jove", anything: "at all", whatever: "really" },
               ]
             }
-
             assert_equal expected.to_json, item.create.to_json
+          end
+
+          def test_that_an_item_link_can_be_build_with_unlimited_attributes
+            custom_serializer = CustomItemLinksSerializer.new(@user)
+            item = Item.new(custom_serializer)
+
+            expected = {
+              links: [
+                { name: "dashboard", href: "/my-dashboard", anything: "at all", whatever: "really" }
+              ]
+            }
+
+            assert_equal expected[:links], item.create[:links]
           end
         end
       end
