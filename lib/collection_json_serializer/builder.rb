@@ -6,18 +6,6 @@ module CollectionJsonSerializer
         @collection = {}
       end
 
-      def add_items
-        @collection.store :items, Array.new
-        item = CollectionJsonSerializer::Serializer::Objects::Item.new(@serializer)
-        @collection[:items] << item.create
-      end
-
-      def add_template
-        @collection.store :template, Hash.new
-        template = CollectionJsonSerializer::Serializer::Objects::Template.new(@serializer)
-        @collection[:template].store :data, template.create
-      end
-
       def pack
         build
         { collection: @collection }
@@ -31,8 +19,20 @@ module CollectionJsonSerializer
 
       def build
         # There might be a more elegant way to do it, yes
-        add_items
-        add_template
+        add_items if @serializer.attributes.present?
+        add_template if @serializer.template.present?
+      end
+
+      def add_items
+        @collection.store :items, Array.new
+        item = CollectionJsonSerializer::Serializer::Objects::Item.new(@serializer)
+        @collection[:items] << item.create
+      end
+
+      def add_template
+        @collection.store :template, Hash.new
+        template = CollectionJsonSerializer::Serializer::Objects::Template.new(@serializer)
+        @collection[:template].store :data, template.create
       end
     end
   end

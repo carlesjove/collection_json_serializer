@@ -11,6 +11,12 @@ module CollectionJsonSerializer
       def test_item_links_attributes
         assert_equal [:account, dashboard: { href: "/my-dashboard" }], @user_serializer.class.links
       end
+
+      def test_item_links_attributes_can_take_unlimited_properties
+        custom_serializer = CustomItemLinksSerializer.new(@user)
+        expected = [dashboard: { href: "/my-dashboard", anything: "at all", whatever: "really" }]
+        assert_equal expected, custom_serializer.class.links
+      end
     end
   end
 end

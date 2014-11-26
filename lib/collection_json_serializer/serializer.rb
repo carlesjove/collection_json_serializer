@@ -31,15 +31,7 @@ module CollectionJsonSerializer
     end
 
     def attributes
-      h = Hash.new
-      self.class.attributes.each do |attr|
-        begin
-          h[attr] = @resource.send(attr)
-        rescue NoMethodError
-          # ignore unknown attributes
-        end
-      end
-      h
+      self.class.attributes
     end
 
     def template
