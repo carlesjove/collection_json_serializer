@@ -14,11 +14,14 @@ module CollectionJsonSerializer
 
       def test_that_any_attributes_can_be_passed
         custom_serializer = CustomTemplateSerializer.new(@user)
-        expected = [:name, email: { 
-          prompt: "My email", 
-          anything: "at all", 
-          whatever: "really" 
-          }]
+        expected = [
+          :name,
+          email: {
+            prompt: "My email",
+            anything: "at all",
+            whatever: "really"
+          }
+        ]
 
         assert_equal expected, custom_serializer.class.template
       end

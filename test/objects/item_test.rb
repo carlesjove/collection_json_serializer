@@ -52,6 +52,12 @@ module CollectionJsonSerializer
 
             assert_equal expected[:links], item.create[:links]
           end
+
+          def test_that_unknown_attributes_are_silently_ignored
+            serializer_with_unknown_attr = UnknownAttributeSerializer.new(@user)
+            item = Item.new(serializer_with_unknown_attr)
+            refute item.create.include?(:unknown)
+          end
         end
       end
     end

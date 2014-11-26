@@ -43,7 +43,7 @@ module CollectionJsonSerializer
 
         def add_links
           @item.store(:links, Array.new)
-          
+
           @serializer.links.each do |attr|
             case attr
             when Symbol
