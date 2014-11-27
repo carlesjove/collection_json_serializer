@@ -3,7 +3,7 @@ module CollectionJsonSerializer
     class Builder
       def initialize(serializer)
         @serializer = serializer
-        @collection = {}
+        @collection = { version: "1.0" }
       end
 
       def pack
