@@ -15,6 +15,7 @@ module CollectionJsonSerializer
         def test_response_format
           expected = {
             collection: {
+              version: "1.0",
               items: [
                 {
                   data: [
@@ -45,6 +46,7 @@ module CollectionJsonSerializer
 
           expected = {
             collection: {
+              version: "1.0",
               template: {
                 data: [
                   { name: "name", value: "" },
