@@ -12,8 +12,10 @@ module CollectionJsonSerializer
         assert_equal ["/users"], @user_serializer.class.href
       end
 
-      def test_that_only_one_value_is_passed
-        skip
+      def test_that_only_one_href_value_is_passed_to_builder
+        multiple_href_serializer = MultipleHrefSerializer.new(@user)
+        assert_equal %w(/a /b /c), multiple_href_serializer.class.href
+        assert_equal "/a", multiple_href_serializer.href
       end
     end
   end

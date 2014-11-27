@@ -37,7 +37,7 @@ module CollectionJsonSerializer
     end
 
     def href
-      self.class.href
+      self.class.href.first
     end
 
     def attributes

@@ -25,8 +25,7 @@ module CollectionJsonSerializer
       end
 
       def add_href
-        # TODO: only one value should be allowed
-        @collection.store :href, @serializer.href.first
+        @collection.store :href, @serializer.href
       end
 
       def add_items
