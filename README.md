@@ -29,10 +29,9 @@ As this gem user, you will be mainly writing/generating and mantaining serialize
 
 ```ruby
 class UserSerializer < CollectionJsonSerializer::Serializer
+  href "http://example.com/users"
   attributes :id, :name, :email
-  
   template :name, email: { prompt: "My email" }
-  
   links :profile, dashboard: { href: "/my-dashboard" }
 end
 ```
@@ -40,8 +39,9 @@ end
 This will generate this Collection+JSON response:
 
 ```javascript
-{ "collection": {
-  "version" : "1.0",
+{ "collection": 
+  {
+    "version" : "1.0",
     "href" : "http://example.com/users",
     "items" : [{
       "href": "http://example.com/users/1",
@@ -60,7 +60,7 @@ This will generate this Collection+JSON response:
         { "name": "name", "value": "" },
         { "name": "email", "value": "", "prompt": "My email" }
       ]
-    },
+    }
   }
 }
 ```

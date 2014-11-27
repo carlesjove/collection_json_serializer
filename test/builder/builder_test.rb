@@ -16,6 +16,7 @@ module CollectionJsonSerializer
           expected = {
             collection: {
               version: "1.0",
+              href: "/users",
               items: [
                 {
                   data: [

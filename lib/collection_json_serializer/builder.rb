@@ -19,8 +19,14 @@ module CollectionJsonSerializer
 
       def build
         # There might be a more elegant way to do it, yes
+        add_href if @serializer.href.present?
         add_items if @serializer.attributes.present?
         add_template if @serializer.template.present?
+      end
+
+      def add_href
+        # TODO: only one value should be allowed
+        @collection.store :href, @serializer.href.first
       end
 
       def add_items
