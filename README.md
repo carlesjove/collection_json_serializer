@@ -65,6 +65,18 @@ This will generate this Collection+JSON response:
 }
 ```
 
+Collection+JSON serializer has an __open attributes policy__, which means that objects' attributes can be extended at will. That is good if you want to use many of the [extensions available](https://github.com/collection-json/extensions), and also if you need to add custom extensions to suit your particular needs. Be aware that, as the specs say, you must only extend attributes in a way that won't break clients that are not aware of them.
+
+```ruby
+class UserSerializer < CollectionJsonSerializer::Serializer
+  attributes :id, name: { css_class: "people" }
+
+  template name: { regex: "/\A[a-zA-Z0-9_]*\z/" }
+
+  links profile: { css_class: "button" }
+end
+```
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/collection_json_serializer/fork )
