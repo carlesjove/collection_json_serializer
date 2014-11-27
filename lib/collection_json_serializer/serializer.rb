@@ -1,15 +1,21 @@
 module CollectionJsonSerializer
   class Serializer
     class << self
+      attr_accessor :href
       attr_accessor :attributes
       attr_accessor :template
       attr_accessor :links
     end
 
     def self.inherited(base)
+      base.href = []
       base.attributes = []
       base.template = []
       base.links = []
+    end
+
+    def self.href(*url)
+      @href.concat url
     end
 
     def self.attributes(*attrs)
@@ -28,6 +34,10 @@ module CollectionJsonSerializer
 
     def initialize(resource)
       @resource = resource
+    end
+
+    def href
+      self.class.href
     end
 
     def attributes
