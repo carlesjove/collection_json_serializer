@@ -9,7 +9,7 @@ module CollectionJsonSerializer
       end
 
       def test_href_object
-        assert_equal ['/users'], @user_serializer.class.href
+        assert_equal ["/users"], @user_serializer.class.href
       end
 
       def test_that_only_one_value_is_passed
