@@ -19,13 +19,15 @@ module CollectionJsonSerializer
 
       def build
         # There might be a more elegant way to do it, yes
-        add_href if @serializer.href.present?
+        add_href if @serializer.href.respond_to? :key
         add_items if @serializer.attributes.present?
         add_template if @serializer.template.present?
       end
 
       def add_href
-        @collection.store :href, @serializer.href
+        if @serializer.href.key? :collection
+          @collection.store :href, @serializer.href[:collection]
+        end
       end
 
       def add_items

@@ -9,7 +9,8 @@ module CollectionJsonSerializer
       end
 
       def test_href_object
-        assert_equal ["/users"], @user_serializer.class.href
+        expected = [{ self: "/users/1", collection: "/users" }]
+        assert_equal expected, @user_serializer.class.href
       end
 
       def test_that_only_one_href_value_is_passed_to_builder
