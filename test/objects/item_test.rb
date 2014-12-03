@@ -15,6 +15,7 @@ module CollectionJsonSerializer
 
           def test_that_an_item_can_be_build
             expected = {
+              href: "/users/1",
               data: [
                 { name: "name", value: "Carles Jove" },
                 { name: "email", value: "hola@carlus.cat" }

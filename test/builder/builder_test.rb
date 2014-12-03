@@ -19,6 +19,7 @@ module CollectionJsonSerializer
               href: "/users",
               items: [
                 {
+                  href: "/users/1",
                   data: [
                     { name: "name", value: "Carles Jove" },
                     { name: "email", value: "hola@carlus.cat" }

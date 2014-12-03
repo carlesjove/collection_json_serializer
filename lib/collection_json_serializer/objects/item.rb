@@ -8,6 +8,7 @@ module CollectionJsonSerializer
         end
 
         def create
+          add_href if @serializer.href.present?
           add_data
           add_links if @serializer.links.present?
 
@@ -15,6 +16,10 @@ module CollectionJsonSerializer
         end
 
         private
+
+        def add_href
+          @item.store :href, @serializer.href[:self] || @serializer.href
+        end
 
         def add_data
           @item.store :data, Array.new
