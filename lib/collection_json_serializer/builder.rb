@@ -12,7 +12,8 @@ module CollectionJsonSerializer
           { collection: @collection }
         else
           error = "The #{@serializer.class} has errors: "
-          error << "#{@serializer.errors.join(', ')}"
+          error << @serializer.errors.
+            each_value { |v| v.join(', ') }.to_s
           raise Exception, error
         end
       end

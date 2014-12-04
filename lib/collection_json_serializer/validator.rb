@@ -5,7 +5,7 @@ module CollectionJsonSerializer
 
       def initialize(serializer)
         @serializer = serializer
-        @errors = []
+        @errors = {}
         validate
       end
 
@@ -28,11 +28,17 @@ module CollectionJsonSerializer
         case href
         when String
           url = CollectionJsonSerializer::Serializer::Validator::Url.new(href)
-          @errors << "#{@serializer.class} href is an invalid URL" unless url.valid?
+          unless url.valid?
+            @errors[:href] = [] unless @errors.key? :href
+            @errors[:href] << "#{@serializer.class} href is an invalid URL"
+          end
         when Hash
           href.each do |key, value|
             url = CollectionJsonSerializer::Serializer::Validator::Url.new(value)
-            @errors << "#{@serializer.class} href:#{key} is an invalid URL" unless url.valid?
+            unless url.valid?
+              @errors[:href] = [] unless @errors.key? :href
+              @errors[:href] << "#{@serializer.class} href:#{key} is an invalid URL"
+            end
           end
         end
       end
