@@ -51,12 +51,6 @@ module CollectionJsonSerializer
 
           @serializer.links.each do |attr|
             case attr
-            when Symbol
-              # TODO: This way of building links kinda sucks :-(
-              resource_base = @serializer.resource.account.class.to_s.downcase.pluralize
-              resource_id = @serializer.resource.send(attr).id
-              name = attr
-              url = "/#{resource_base}/#{resource_id}"
             when Hash
               name = attr.keys.first
               url = attr[name][:href]

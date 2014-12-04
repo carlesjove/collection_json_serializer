@@ -21,7 +21,6 @@ module CollectionJsonSerializer
                 { name: "email", value: "hola@carlus.cat" }
               ],
               links: [
-                { name: "account", href: "/accounts/#{@account.id}" },
                 { name: "dashboard", href: "/my-dashboard" }
               ]
             }

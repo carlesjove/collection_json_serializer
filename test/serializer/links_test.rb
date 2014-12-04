@@ -9,7 +9,7 @@ module CollectionJsonSerializer
       end
 
       def test_item_links_attributes
-        assert_equal [:account, dashboard: { href: "/my-dashboard" }], @user_serializer.class.links
+        assert_equal [dashboard: { href: "/my-dashboard" }], @user_serializer.class.links
       end
 
       def test_item_links_attributes_can_take_unlimited_properties
