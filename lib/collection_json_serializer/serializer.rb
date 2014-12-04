@@ -14,8 +14,8 @@ module CollectionJsonSerializer
       base.links = []
     end
 
-    def self.href(*url)
-      @href.concat url
+    def self.href(*attrs)
+      @href.concat attrs
     end
 
     def self.attributes(*attrs)
@@ -50,6 +50,18 @@ module CollectionJsonSerializer
 
     def links
       self.class.links
+    end
+
+    def invalid?
+      Validator.new(self).invalid?
+    end
+
+    def valid?
+      Validator.new(self).valid?
+    end
+
+    def errors
+      Validator.new(self).errors
     end
   end
 end
