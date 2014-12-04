@@ -16,10 +16,10 @@ module CollectionJsonSerializer
           expected = {
             collection: {
               version: "1.0",
-              href: "/users",
+              href: "http://example.com/users",
               items: [
                 {
-                  href: "/users/1",
+                  href: "http://example.com/users/1",
                   data: [
                     { name: "name", value: "Carles Jove" },
                     { name: "email", value: "hola@carlus.cat" }
@@ -59,6 +59,15 @@ module CollectionJsonSerializer
           }
 
           assert_equal expected.to_json, builder.to_json
+        end
+
+        def test_that_an_invalid_serializer_raises_an_error
+          invalid_serializer = InvalidSerializer.new(@user)
+          builder = Builder.new(invalid_serializer)
+
+          assert_raises Exception do
+            builder.pack
+          end
         end
       end
     end

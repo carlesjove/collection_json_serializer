@@ -7,8 +7,14 @@ module CollectionJsonSerializer
       end
 
       def pack
-        build
-        { collection: @collection }
+        unless @serializer.errors.any?
+          build
+          { collection: @collection }
+        else
+          error = "The #{@serializer.class} has errors: "
+          error << "#{@serializer.errors.join(', ')}"
+          raise Exception, error
+        end
       end
 
       def to_json
