@@ -17,10 +17,10 @@ module CollectionJsonSerializer
         true if @errors.any?
       end
 
-      private 
+      private
 
       def validate
-        [:href, :links].each { |m| self.send("validate_#{m}") }
+        [:href, :links].each { |m| send("validate_#{m}") }
       end
 
       def validate_href
@@ -37,7 +37,8 @@ module CollectionJsonSerializer
             url = CollectionJsonSerializer::Serializer::Validator::Url.new(value)
             unless url.valid?
               @errors[:href] = [] unless @errors.key? :href
-              @errors[:href] << "#{@serializer.class} href:#{key} is an invalid URL"
+              e = "#{@serializer.class} href:#{key} is an invalid URL"
+              @errors[:href] << e
             end
           end
         end
@@ -48,7 +49,8 @@ module CollectionJsonSerializer
           url = CollectionJsonSerializer::Serializer::Validator::Url.new(link[:href])
           unless url.valid?
             @errors[:links] = [] unless @errors.key? :links
-            @errors[:links] << "#{@serializer.class} links:#{key}:href is an invalid URL"
+            e = "#{@serializer.class} links:#{key}:href is an invalid URL"
+            @errors[:links] << e
           end
         end if @serializer.links.present?
       end

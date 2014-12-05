@@ -9,7 +9,10 @@ module CollectionJsonSerializer
       end
 
       def test_href_object
-        expected = [{ self: "http://example.com/users/1", collection: "http://example.com/users" }]
+        expected = [{
+          self: "http://example.com/users/1",
+          collection: "http://example.com/users"
+        }]
         assert_equal expected, @user_serializer.class.href
       end
 

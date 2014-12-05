@@ -9,8 +9,8 @@ module CollectionJsonSerializer
             invalid = %w(
               /hello
               http:hello
-              )
-            
+            )
+
             invalid.each do |url|
               value = Url.new(url)
               refute value.valid?

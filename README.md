@@ -29,10 +29,15 @@ As this gem user, you will be mainly writing/generating and mantaining serialize
 
 ```ruby
 class UserSerializer < CollectionJsonSerializer::Serializer
-  href "http://example.com/users"
-  attributes :id, :name, :email
+  href self: "http://example.com/users/1",
+       collection: "http://example.com/users"
+
+  attributes :id, name: { prompt: "Your full name" }, :email
+
   template :name, email: { prompt: "My email" }
-  links :profile, dashboard: { href: "/my-dashboard" }
+
+  # Please note that links can only be passed as hashes
+  links dashboard: { href: "http://example.com/my-dashboard" }
 end
 ```
 
@@ -47,11 +52,10 @@ This will generate this Collection+JSON response:
       "href": "http://example.com/users/1",
       "data": [
         { "name": "id", "value": "1" },
-        { "name": "name", "value": "Carles Jove" },
+        { "name": "name", "value": "Carles Jove", "prompt": "Your full name" },
         { "name": "email", "value": "email@example.com" },
       ],
       "links": [
-        { "name": "profile", "href": "http://example.com/profile" },
         { "name": "dashboard", "href": "http://example.com/my-dashboard" }
       ]
     }],

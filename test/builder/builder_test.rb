@@ -21,18 +21,34 @@ module CollectionJsonSerializer
                 {
                   href: "http://example.com/users/1",
                   data: [
-                    { name: "name", value: "Carles Jove" },
-                    { name: "email", value: "hola@carlus.cat" }
+                    {
+                      name: "name",
+                      value: "Carles Jove"
+                    },
+                    {
+                      name: "email",
+                      value: "hola@carlus.cat"
+                    }
                   ],
                   links: [
-                    { name: "dashboard", href: "http://example.com/my-dashboard" }
+                    {
+                      name: "dashboard",
+                      href: "http://example.com/my-dashboard"
+                    }
                   ]
                 }
               ],
               template: {
                 data: [
-                  { name: "name", value: "" },
-                  { name: "email", value: "", prompt: "My email" }
+                  {
+                    name: "name",
+                    value: ""
+                  },
+                  {
+                    name: "email",
+                    value: "",
+                    prompt: "My email"
+                  }
                 ]
               }
             }

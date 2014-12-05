@@ -5,8 +5,15 @@ module CollectionJsonSerializer
     class Validator
       class TestValid < Minitest::Test
         def setup
-          @user = User.new(name: "Carles Jove", email: "hola@carlus.cat")
-          @account = Account.new(id: 1, name: "My Account", created_at: Time.now)
+          @user = User.new(
+            name: "Carles Jove",
+            email: "hola@carlus.cat"
+          )
+          @account = Account.new(
+            id: 1,
+            name: "My Account",
+            created_at: Time.now
+          )
           @user.account = @account
           @valid_serializer = ValidSerializer.new(@user)
           @resource = Validator.new @valid_serializer
