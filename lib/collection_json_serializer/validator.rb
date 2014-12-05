@@ -43,15 +43,17 @@ module CollectionJsonSerializer
           value = CollectionJsonSerializer::Serializer::Validator::Value.new(value)
           unless value.valid?
             @errors[:attributes] = [] unless @errors.key? :attributes
-            e = "#{@serializer.class} attributes:#{name} is an invalid value"
+            e = "#{@serializer.class} attributes:#{name}"
+            e << " is an invalid value"
             @errors[:attributes] << e
           end
 
-          properties.each do |key, value|
-            value = CollectionJsonSerializer::Serializer::Validator::Value.new(value)
-            unless value.valid?
+          properties.each do |k, v|
+            v = CollectionJsonSerializer::Serializer::Validator::Value.new(v)
+            unless v.valid?
               @errors[:attributes] = [] unless @errors.key? :attributes
-              e = "#{@serializer.class} attributes:#{name}:#{key} is an invalid value"
+              e = "#{@serializer.class} attributes:#{name}:#{k}"
+              e << " is an invalid value"
               @errors[:attributes] << e
             end
           end if properties
