@@ -20,7 +20,12 @@ module CollectionJsonSerializer
       private
 
       def validate
-        [:attributes, :href, :links].each { |m| send("validate_#{m}") }
+        [
+          :attributes,
+          :href,
+          :links,
+          :template
+        ].each { |m| send("validate_#{m}") }
       end
 
       def validate_attributes
@@ -104,6 +109,30 @@ module CollectionJsonSerializer
             end
           end
         end if @serializer.links.present?
+      end
+
+      def validate_template
+        @serializer.template.each do |attr|
+
+          case attr
+          when Hash
+            name = attr.keys.first
+            properties = attr[name]
+          else
+            name = attr
+          end
+
+          properties.each do |k, v|
+            v = CollectionJsonSerializer::Serializer::Validator::Value.new(v)
+            unless v.valid?
+              @errors[:template] = [] unless @errors.key? :template
+              e = "#{@serializer.class} template:#{name}:#{k}"
+              e << " is an invalid value"
+              @errors[:template] << e
+            end
+          end if properties
+
+        end if @serializer.template.any?
       end
     end
   end

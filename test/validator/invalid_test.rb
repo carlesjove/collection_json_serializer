@@ -76,9 +76,26 @@ module CollectionJsonSerializer
               }
             ]
 
-            assert @invalid.invalid?, 
+            assert @invalid.invalid?,
               "#{invalidate} should be invalid"
-            assert @invalid.errors.include?(:attributes), 
+            assert @invalid.errors.include?(:attributes),
+              "#{invalidate} should be invalid"
+          end
+        end
+
+        # template
+        def test_that_template_values_validate
+          @invalid_value_types.each do |invalidate|
+            @invalid.class.template = [
+              name: {
+                prompt: invalidate,
+                name: invalidate
+              }
+            ]
+
+            assert @invalid.invalid?,
+              "#{invalidate} should be invalid"
+            assert @invalid.errors.include?(:template),
               "#{invalidate} should be invalid"
           end
         end
