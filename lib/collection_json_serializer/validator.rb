@@ -88,7 +88,7 @@ module CollectionJsonSerializer
       end
 
       def validate_links
-        @serializer.links.first.each do |key, link|
+        @serializer.links.first.each_value do |link|
           link.each do |key, value|
             case key
             when :href
@@ -122,11 +122,11 @@ module CollectionJsonSerializer
             name = attr
           end
 
-          properties.each do |k, v|
-            v = CollectionJsonSerializer::Serializer::Validator::Value.new(v)
+          properties.each do |key, value|
+            v = CollectionJsonSerializer::Serializer::Validator::Value.new(value)
             unless v.valid?
               @errors[:template] = [] unless @errors.key? :template
-              e = "#{@serializer.class} template:#{name}:#{k}"
+              e = "#{@serializer.class} template:#{name}:#{key}"
               e << " is an invalid value"
               @errors[:template] << e
             end
