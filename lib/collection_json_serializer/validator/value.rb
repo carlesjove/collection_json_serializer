@@ -17,11 +17,11 @@ module CollectionJsonSerializer
         end
 
         def valid?
-          true if VALID.include? @value.class.to_s
+          VALID.include? @value.class.to_s
         end
 
         def invalid?
-          true unless valid?
+          !valid?
         end
       end
     end

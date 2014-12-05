@@ -11,7 +11,7 @@ module CollectionJsonSerializer
               {},
               []
             ]
-            
+
             valid = [
               "string",
               :symbol,

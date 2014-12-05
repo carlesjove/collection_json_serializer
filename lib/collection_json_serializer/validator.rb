@@ -10,11 +10,11 @@ module CollectionJsonSerializer
       end
 
       def valid?
-        true unless @errors.any?
+        !invalid?
       end
 
       def invalid?
-        true if @errors.any?
+        @errors.any?
       end
 
       private
