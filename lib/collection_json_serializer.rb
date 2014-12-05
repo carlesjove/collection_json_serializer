@@ -6,6 +6,7 @@ require "collection_json_serializer/builder"
 
 require "collection_json_serializer/validator"
 require "collection_json_serializer/validator/url"
+require "collection_json_serializer/validator/value"
 
 require "collection_json_serializer/objects/item"
 
