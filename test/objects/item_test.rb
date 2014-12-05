@@ -15,14 +15,13 @@ module CollectionJsonSerializer
 
           def test_that_an_item_can_be_build
             expected = {
-              href: "/users/1",
+              href: "http://example.com/users/1",
               data: [
                 { name: "name", value: "Carles Jove" },
                 { name: "email", value: "hola@carlus.cat" }
               ],
               links: [
-                { name: "account", href: "/accounts/#{@account.id}" },
-                { name: "dashboard", href: "/my-dashboard" }
+                { name: "dashboard", href: "http://example.com/my-dashboard" }
               ]
             }
 

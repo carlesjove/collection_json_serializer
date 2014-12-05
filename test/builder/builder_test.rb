@@ -16,24 +16,39 @@ module CollectionJsonSerializer
           expected = {
             collection: {
               version: "1.0",
-              href: "/users",
+              href: "http://example.com/users",
               items: [
                 {
-                  href: "/users/1",
+                  href: "http://example.com/users/1",
                   data: [
-                    { name: "name", value: "Carles Jove" },
-                    { name: "email", value: "hola@carlus.cat" }
+                    {
+                      name: "name",
+                      value: "Carles Jove"
+                    },
+                    {
+                      name: "email",
+                      value: "hola@carlus.cat"
+                    }
                   ],
                   links: [
-                    { name: "account", href: "/accounts/#{@account.id}" },
-                    { name: "dashboard", href: "/my-dashboard" }
+                    {
+                      name: "dashboard",
+                      href: "http://example.com/my-dashboard"
+                    }
                   ]
                 }
               ],
               template: {
                 data: [
-                  { name: "name", value: "" },
-                  { name: "email", value: "", prompt: "My email" }
+                  {
+                    name: "name",
+                    value: ""
+                  },
+                  {
+                    name: "email",
+                    value: "",
+                    prompt: "My email"
+                  }
                 ]
               }
             }
@@ -59,6 +74,15 @@ module CollectionJsonSerializer
           }
 
           assert_equal expected.to_json, builder.to_json
+        end
+
+        def test_that_an_invalid_serializer_raises_an_error
+          invalid_serializer = InvalidSerializer.new(@user)
+          builder = Builder.new(invalid_serializer)
+
+          assert_raises Exception do
+            builder.pack
+          end
         end
       end
     end
