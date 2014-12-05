@@ -16,3 +16,17 @@ class Symbol
     params
   end
 end
+
+module CollectionJsonSerializer
+  module Support
+    def extract_value_from(serializer, method)
+      begin
+        value = serializer.resource.send(method)
+      rescue NoMethodError
+        # ignore unknown attributes
+      end
+
+      value if value
+    end
+  end
+end

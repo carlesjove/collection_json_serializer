@@ -1,6 +1,8 @@
 module CollectionJsonSerializer
   class Serializer
     class Validator
+      include CollectionJsonSerializer::Support
+
       attr_accessor :errors
 
       def initialize(serializer)
@@ -31,15 +33,10 @@ module CollectionJsonSerializer
       def validate_attributes
         @serializer.attributes.each do |attr|
           params = attr.extract_params
+          value = extract_value_from(@serializer, params[:name])
 
-          begin
-            value = @serializer.resource.send(params[:name])
-          rescue NoMethodError
-            # ignore unknown attributes
-          end
-
-          value = CollectionJsonSerializer::Serializer::Validator::Value.new(value)
-          unless value.valid?
+          v = CollectionJsonSerializer::Serializer::Validator::Value.new(value)
+          unless v.valid?
             @errors[:attributes] = [] unless @errors.key? :attributes
             e = "#{@serializer.class} attributes:#{params[:name]}"
             e << " is an invalid value"

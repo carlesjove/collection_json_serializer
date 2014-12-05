@@ -2,6 +2,8 @@ module CollectionJsonSerializer
   class Serializer
     class Objects
       class Item
+        include CollectionJsonSerializer::Support
+
         def initialize(serializer)
           @serializer = serializer
           @item = Hash.new
@@ -27,12 +29,7 @@ module CollectionJsonSerializer
           # add item data
           @serializer.attributes.each do |attr|
             params = attr.extract_params
-
-            begin
-              value = @serializer.resource.send(params[:name])
-            rescue NoMethodError
-              # ignore unknown attributes
-            end
+            value = extract_value_from(@serializer, params[:name])
 
             c = { name: params[:name], value: value } if value
 
