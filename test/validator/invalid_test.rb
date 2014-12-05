@@ -60,10 +60,10 @@ module CollectionJsonSerializer
 
           @invalid_value_types.each do |invalidate|
             @user.name = invalidate
-            assert @invalid.invalid?, 
-              "#{invalidate} should be invalid"
-            assert @invalid.errors.include?(:attributes), 
-              "#{invalidate} should be invalid"
+            assert @invalid.invalid?,
+                   "#{invalidate} should be invalid"
+            assert @invalid.errors.include?(:attributes),
+                   "#{invalidate} should be invalid"
           end
         end
 
@@ -77,9 +77,9 @@ module CollectionJsonSerializer
             ]
 
             assert @invalid.invalid?,
-              "#{invalidate} should be invalid"
+                   "#{invalidate} should be invalid"
             assert @invalid.errors.include?(:attributes),
-              "#{invalidate} should be invalid"
+                   "#{invalidate} should be invalid"
           end
         end
 
@@ -94,9 +94,9 @@ module CollectionJsonSerializer
             ]
 
             assert @invalid.invalid?,
-              "#{invalidate} should be invalid"
+                   "#{invalidate} should be invalid"
             assert @invalid.errors.include?(:template),
-              "#{invalidate} should be invalid"
+                   "#{invalidate} should be invalid"
           end
         end
       end
