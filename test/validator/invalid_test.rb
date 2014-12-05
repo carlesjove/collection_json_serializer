@@ -5,37 +5,25 @@ module CollectionJsonSerializer
     class Validator
       class TestInvalid < Minitest::Test
         def setup
-          @user = User.new(
-            name: "Carles Jove",
-            email: "hola@carlus.cat"
-          )
-          @account = Account.new(
-            id: 1,
-            name: "My Account",
-            created_at: Time.now
-          )
-          @user.account = @account
-          @invalid_serializer = InvalidSerializer.new(@user)
-          @resource = Validator.new @invalid_serializer
+          @invalid = CollectionJsonSerializer::Serializer.new(@user)
+          @invalid.class.attributes = []
+          @invalid.class.href = []
+          @invalid.class.links = []
+          @invalid.class.template = []
         end
 
-        def test_that_it_is_invalid
-          refute @resource.valid?
-          refute @invalid_serializer.valid?
+        def test_that_href_generates_errors
+          @invalid.class.href = [self: "/users/1", collection: "www.users.com"]
 
-          assert @resource.invalid?
-          assert @invalid_serializer.invalid?
+          assert @invalid.invalid?
+          assert @invalid.errors.include? :href
         end
 
-        def test_that_there_is_an_errors_array
-          assert @resource.errors.any?
-          assert @invalid_serializer.errors.any?
-          assert_equal @resource.errors, @invalid_serializer.errors
-        end
+        def test_that_links_generates_errors
+          @invalid.class.links = [dashboard: { href: "/my-dashboard" }]
 
-        def test_that_the_following_errors_exist
-          assert @resource.errors.include? :href
-          assert @resource.errors.include? :links
+          assert @invalid.invalid?
+          assert @invalid.errors.include? :links
         end
       end
     end
