@@ -84,11 +84,24 @@ module CollectionJsonSerializer
 
       def validate_links
         @serializer.links.first.each do |key, link|
-          url = CollectionJsonSerializer::Serializer::Validator::Url.new(link[:href])
-          unless url.valid?
-            @errors[:links] = [] unless @errors.key? :links
-            e = "#{@serializer.class} links:#{key}:href is an invalid URL"
-            @errors[:links] << e
+          link.each do |key, value|
+            case key
+            when :href
+              url = CollectionJsonSerializer::Serializer::Validator::Url.new(link[:href])
+              unless url.valid?
+                @errors[:links] = [] unless @errors.key? :links
+                e = "#{@serializer.class} links:#{key}:href is an invalid URL"
+                @errors[:links] << e
+              end
+            else
+              v = CollectionJsonSerializer::Serializer::Validator::Value.new(value)
+              unless v.valid?
+                @errors[:links] = [] unless @errors.key? :links
+                e = "#{@serializer.class} links:#{key}"
+                e << " is an invalid value"
+                @errors[:links] << e
+              end
+            end
           end
         end if @serializer.links.present?
       end

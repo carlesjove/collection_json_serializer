@@ -30,6 +30,7 @@ module CollectionJsonSerializer
           @invalid.class.template = []
         end
 
+        # href
         def test_that_href_generates_errors
           @invalid.class.href = [self: "/users/1", collection: "www.users.com"]
 
@@ -37,13 +38,23 @@ module CollectionJsonSerializer
           assert @invalid.errors.include? :href
         end
 
+        # links
         def test_that_links_generates_errors
           @invalid.class.links = [dashboard: { href: "/my-dashboard" }]
+          assert @invalid.invalid?
+          assert @invalid.errors.include? :links
 
+          @invalid.class.links = [
+            dashboard: {
+              href: "http://valid.url.com",
+              prompt: /invalid/
+            }
+          ]
           assert @invalid.invalid?
           assert @invalid.errors.include? :links
         end
 
+        # attributes
         def test_that_invalid_attributes_return_values_generate_errors
           @invalid.class.attributes = [:name]
 
