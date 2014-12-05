@@ -4,7 +4,6 @@ module CollectionJsonSerializer
       class Value
         VALID = %w(
           String
-          Symbol
           Fixnum
           Float
           TrueClass

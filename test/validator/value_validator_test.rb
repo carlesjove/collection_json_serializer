@@ -8,13 +8,13 @@ module CollectionJsonSerializer
           def test_that_values_validate
             invalid = [
               /regex/,
+              :symbol,
               {},
               []
             ]
 
             valid = [
               "string",
-              :symbol,
               1,
               1.5,
               -1,
