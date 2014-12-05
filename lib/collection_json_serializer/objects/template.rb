@@ -9,17 +9,14 @@ module CollectionJsonSerializer
 
         def create
           @serializer.template.each do |attr|
-            case attr
-            when Hash
-              name = attr.keys.first
-              properties = attr[name]
-            else
-              name = attr
-            end
+            params = attr.extract_params
 
-            c = Hash.new
-            c = { name: name, value: nil.to_s }
-            properties.each { |k, v| c.store k, v } if properties
+            c = { name: params[:name], value: nil.to_s }
+
+            params[:properties].each do |k, v|
+              c.store k, v
+            end if params[:properties]
+
             @data << c
           end
 

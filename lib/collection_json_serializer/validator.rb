@@ -30,17 +30,10 @@ module CollectionJsonSerializer
 
       def validate_attributes
         @serializer.attributes.each do |attr|
-
-          case attr
-          when Hash
-            name = attr.keys.first
-            properties = attr[name]
-          else
-            name = attr
-          end
+          params = attr.extract_params
 
           begin
-            value = @serializer.resource.send(name)
+            value = @serializer.resource.send(params[:name])
           rescue NoMethodError
             # ignore unknown attributes
           end
@@ -48,20 +41,20 @@ module CollectionJsonSerializer
           value = CollectionJsonSerializer::Serializer::Validator::Value.new(value)
           unless value.valid?
             @errors[:attributes] = [] unless @errors.key? :attributes
-            e = "#{@serializer.class} attributes:#{name}"
+            e = "#{@serializer.class} attributes:#{params[:name]}"
             e << " is an invalid value"
             @errors[:attributes] << e
           end
 
-          properties.each do |k, v|
+          params[:properties].each do |k, v|
             v = CollectionJsonSerializer::Serializer::Validator::Value.new(v)
             unless v.valid?
               @errors[:attributes] = [] unless @errors.key? :attributes
-              e = "#{@serializer.class} attributes:#{name}:#{k}"
+              e = "#{@serializer.class} attributes:#{params[:name]}:#{k}"
               e << " is an invalid value"
               @errors[:attributes] << e
             end
-          end if properties
+          end if params[:properties]
 
         end if @serializer.attributes.any?
       end
@@ -113,24 +106,17 @@ module CollectionJsonSerializer
 
       def validate_template
         @serializer.template.each do |attr|
+          params = attr.extract_params
 
-          case attr
-          when Hash
-            name = attr.keys.first
-            properties = attr[name]
-          else
-            name = attr
-          end
-
-          properties.each do |key, value|
+          params[:properties].each do |key, value|
             v = CollectionJsonSerializer::Serializer::Validator::Value.new(value)
             unless v.valid?
               @errors[:template] = [] unless @errors.key? :template
-              e = "#{@serializer.class} template:#{name}:#{key}"
+              e = "#{@serializer.class} template:#{params[:name]}:#{key}"
               e << " is an invalid value"
               @errors[:template] << e
             end
-          end if properties
+          end if params[:properties]
 
         end if @serializer.template.any?
       end

@@ -26,22 +26,20 @@ module CollectionJsonSerializer
 
           # add item data
           @serializer.attributes.each do |attr|
-            case attr
-            when Hash
-              name = attr.keys.first
-              properties = attr[name]
-            else
-              name = attr
-            end
+            params = attr.extract_params
 
             begin
-              value = @serializer.resource.send(name)
+              value = @serializer.resource.send(params[:name])
             rescue NoMethodError
               # ignore unknown attributes
             end
 
-            c = { name: name, value: value } if value
-            properties.each { |k, v| c.store k, v } if properties
+            c = { name: params[:name], value: value } if value
+
+            params[:properties].each do |k, v|
+              c.store k, v
+            end if params[:properties]
+
             @item[:data] << c
           end
         end
@@ -50,15 +48,16 @@ module CollectionJsonSerializer
           @item.store(:links, Array.new)
 
           @serializer.links.each do |attr|
-            case attr
-            when Hash
-              name = attr.keys.first
-              url = attr[name][:href]
-              properties = attr[name]
-            end
+            params = attr.extract_params
+            c = {
+              name: params[:name].to_s,
+              href: params[:properties][:href]
+            }
 
-            c = { name: name.to_s, href: url.to_s }
-            properties.each { |k, v| c.store k, v } if properties
+            params[:properties].each do |k, v|
+              c.store k, v
+            end if params[:properties]
+
             @item[:links] << c
           end
         end
