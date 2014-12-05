@@ -20,7 +20,43 @@ module CollectionJsonSerializer
       private
 
       def validate
-        [:href, :links].each { |m| send("validate_#{m}") }
+        [:attributes, :href, :links].each { |m| send("validate_#{m}") }
+      end
+
+      def validate_attributes
+        @serializer.attributes.each do |attr|
+
+          case attr
+          when Hash
+            name = attr.keys.first
+            properties = attr[name]
+          else
+            name = attr
+          end
+
+          begin
+            value = @serializer.resource.send(name)
+          rescue NoMethodError
+            # ignore unknown attributes
+          end
+
+          value = CollectionJsonSerializer::Serializer::Validator::Value.new(value)
+          unless value.valid?
+            @errors[:attributes] = [] unless @errors.key? :attributes
+            e = "#{@serializer.class} attributes:#{name} is an invalid value"
+            @errors[:attributes] << e
+          end
+
+          properties.each do |key, value|
+            value = CollectionJsonSerializer::Serializer::Validator::Value.new(value)
+            unless value.valid?
+              @errors[:attributes] = [] unless @errors.key? :attributes
+              e = "#{@serializer.class} attributes:#{name}:#{key} is an invalid value"
+              @errors[:attributes] << e
+            end
+          end if properties
+
+        end if @serializer.attributes.any?
       end
 
       def validate_href
