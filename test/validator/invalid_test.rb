@@ -28,6 +28,7 @@ module CollectionJsonSerializer
 
         def test_that_the_following_errors_exist
           assert @resource.errors.include? :href
+          assert @resource.errors.include? :links
         end
       end
     end
