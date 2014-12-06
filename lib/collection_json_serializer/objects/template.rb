@@ -12,10 +12,7 @@ module CollectionJsonSerializer
             params = attr.extract_params
 
             c = { name: params[:name], value: nil.to_s }
-
-            params[:properties].each do |k, v|
-              c.store k, v
-            end if params[:properties]
+            c.merge!(params[:properties]) if params[:properties]
 
             @data << c
           end

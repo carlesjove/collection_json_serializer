@@ -32,10 +32,7 @@ module CollectionJsonSerializer
             value = extract_value_from(@serializer, params[:name])
 
             c = { name: params[:name], value: value } if value
-
-            params[:properties].each do |k, v|
-              c.store k, v
-            end if params[:properties]
+            c.merge!(params[:properties]) if params[:properties]
 
             @item[:data] << c
           end
@@ -51,9 +48,7 @@ module CollectionJsonSerializer
               href: params[:properties][:href]
             }
 
-            params[:properties].each do |k, v|
-              c.store k, v
-            end if params[:properties]
+            c.merge!(params[:properties]) if params[:properties]
 
             @item[:links] << c
           end
