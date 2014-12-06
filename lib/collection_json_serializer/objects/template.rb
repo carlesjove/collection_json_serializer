@@ -15,7 +15,7 @@ module CollectionJsonSerializer
             c.merge!(params[:properties]) if params[:properties]
 
             @data << c
-          end
+          end if @serializer.template.present?
 
           @data
         end
