@@ -54,6 +54,12 @@ module CollectionJsonSerializer
           assert @invalid.errors.include? :links
         end
 
+        def test_that_links_missing_href_generates_error
+          @invalid.class.links = [dashboard: {}]
+          assert @invalid.invalid?
+          assert @invalid.errors.include? :links
+        end
+
         # attributes
         def test_that_invalid_attributes_return_values_generate_errors
           @invalid.class.attributes = [:name]

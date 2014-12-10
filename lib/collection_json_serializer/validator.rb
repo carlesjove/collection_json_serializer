@@ -78,7 +78,15 @@ module CollectionJsonSerializer
       end
 
       def validate_links
-        @serializer.links.first.each_value do |link|
+        @serializer.links.first.each do |k, link|
+          unless link.key? :href
+            @errors[:links] = [] unless @errors.key? :links
+            e = "#{@serializer.class} links:#{k}:href is missing"
+            @errors[:links] << e
+
+            next
+          end
+
           link.each do |key, value|
             case key
             when :href
