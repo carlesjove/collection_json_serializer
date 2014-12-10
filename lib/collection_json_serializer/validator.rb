@@ -33,24 +33,15 @@ module CollectionJsonSerializer
       def validate_attributes
         @serializer.attributes.each do |attr|
           params = attr.extract_params
-          value = extract_value_from(@serializer, params[:name])
 
-          v = CollectionJsonSerializer::Serializer::Validator::Value.new(value)
-          unless v.valid?
-            @errors[:attributes] = [] unless @errors.key? :attributes
-            e = "#{@serializer.class} attributes:#{params[:name]}"
-            e << " is an invalid value"
-            @errors[:attributes] << e
-          end
+          value_error(
+            extract_value_from(@serializer, params[:name]),
+            root: :attributes,
+            path: [params[:name]]
+          )
 
-          params[:properties].each do |k, v|
-            v = CollectionJsonSerializer::Serializer::Validator::Value.new(v)
-            unless v.valid?
-              @errors[:attributes] = [] unless @errors.key? :attributes
-              e = "#{@serializer.class} attributes:#{params[:name]}:#{k}"
-              e << " is an invalid value"
-              @errors[:attributes] << e
-            end
+          params[:properties].each do |key, value|
+            value_error value, root: :attributes, path: [params[:name], key]
           end if params[:properties]
 
         end if @serializer.attributes.any?
@@ -97,13 +88,7 @@ module CollectionJsonSerializer
                 @errors[:links] << e
               end
             else
-              v = CollectionJsonSerializer::Serializer::Validator::Value.new(value)
-              unless v.valid?
-                @errors[:links] = [] unless @errors.key? :links
-                e = "#{@serializer.class} links:#{key}"
-                e << " is an invalid value"
-                @errors[:links] << e
-              end
+              value_error value, root: :links, path: [k, key]
             end
           end
         end if @serializer.links.present?
@@ -114,16 +99,22 @@ module CollectionJsonSerializer
           params = attr.extract_params
 
           params[:properties].each do |key, value|
-            v = CollectionJsonSerializer::Serializer::Validator::Value.new(value)
-            unless v.valid?
-              @errors[:template] = [] unless @errors.key? :template
-              e = "#{@serializer.class} template:#{params[:name]}:#{key}"
-              e << " is an invalid value"
-              @errors[:template] << e
-            end
+            value_error value, root: :template, path: [params[:name], key]
           end if params[:properties]
 
         end if @serializer.template.any?
+      end
+
+      # Checks if a given value is invalid
+      # and sets an error if it is
+      def value_error(value, root:, path:)
+        v = CollectionJsonSerializer::Serializer::Validator::Value.new(value)
+        unless v.valid?
+          @errors[root] = [] unless @errors.key? root
+          e = "#{@serializer.class} #{root}:#{path.join(':')}"
+          e << " is an invalid value"
+          @errors[root] << e
+        end
       end
     end
   end

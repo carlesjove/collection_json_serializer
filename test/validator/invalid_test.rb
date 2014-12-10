@@ -52,6 +52,8 @@ module CollectionJsonSerializer
           ]
           assert @invalid.invalid?
           assert @invalid.errors.include? :links
+          assert @invalid.errors[:links].first.
+                  include? 'links:dashboard:prompt is an invalid value'
         end
 
         def test_that_links_missing_href_generates_error
@@ -70,6 +72,8 @@ module CollectionJsonSerializer
                    "#{invalidate} should be invalid"
             assert @invalid.errors.include?(:attributes),
                    "#{invalidate} should be invalid"
+            assert @invalid.errors[:attributes].
+                    first.include? 'attributes:name is an invalid value'
           end
         end
 
@@ -86,6 +90,10 @@ module CollectionJsonSerializer
                    "#{invalidate} should be invalid"
             assert @invalid.errors.include?(:attributes),
                    "#{invalidate} should be invalid"
+            assert @invalid.errors[:attributes][0].
+                    include? 'attributes:name:prompt is an invalid value'
+            assert @invalid.errors[:attributes][1].
+                    include? 'attributes:name:test is an invalid value'
           end
         end
 
@@ -103,6 +111,10 @@ module CollectionJsonSerializer
                    "#{invalidate} should be invalid"
             assert @invalid.errors.include?(:template),
                    "#{invalidate} should be invalid"
+            assert @invalid.errors[:template][0].
+                    include? 'template:name:prompt is an invalid value'
+            assert @invalid.errors[:template][1].
+                    include? 'template:name:name is an invalid value'
           end
         end
       end
