@@ -51,19 +51,10 @@ module CollectionJsonSerializer
         href = @serializer.href
         case href
         when String
-          url = CollectionJsonSerializer::Serializer::Validator::Url.new(href)
-          unless url.valid?
-            @errors[:href] = [] unless @errors.key? :href
-            @errors[:href] << "#{@serializer.class} href is an invalid URL"
-          end
+          url_error href, root: :href
         when Hash
           href.each do |key, value|
-            url = CollectionJsonSerializer::Serializer::Validator::Url.new(value)
-            unless url.valid?
-              @errors[:href] = [] unless @errors.key? :href
-              e = "#{@serializer.class} href:#{key} is an invalid URL"
-              @errors[:href] << e
-            end
+            url_error value, root: :href, path: [key]
           end
         end
       end
@@ -81,12 +72,7 @@ module CollectionJsonSerializer
           link.each do |key, value|
             case key
             when :href
-              url = CollectionJsonSerializer::Serializer::Validator::Url.new(link[:href])
-              unless url.valid?
-                @errors[:links] = [] unless @errors.key? :links
-                e = "#{@serializer.class} links:#{key}:href is an invalid URL"
-                @errors[:links] << e
-              end
+              url_error link[:href], root: :links, path: [k, key]
             else
               value_error value, root: :links, path: [k, key]
             end
@@ -113,6 +99,17 @@ module CollectionJsonSerializer
           @errors[root] = [] unless @errors.key? root
           e = "#{@serializer.class} #{root}:#{path.join(':')}"
           e << " is an invalid value"
+          @errors[root] << e
+        end
+      end
+
+      def url_error(value, root:, path: [])
+        url = CollectionJsonSerializer::Serializer::Validator::Url.new(value)
+        unless url.valid?
+          @errors[root] = [] unless @errors.key? root
+          e = "#{@serializer.class} #{root}"
+          e << ":" + path.join(':') if path.any?
+          e << " is an invalid URL"
           @errors[root] << e
         end
       end

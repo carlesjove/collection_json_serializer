@@ -36,6 +36,17 @@ module CollectionJsonSerializer
 
           assert @invalid.invalid?
           assert @invalid.errors.include? :href
+          assert @invalid.errors[:href][0].
+                  include? 'href:self is an invalid URL'
+          assert @invalid.errors[:href][1].
+                  include? 'href:collection is an invalid URL'
+
+          @invalid.class.href = ["/users/1"]
+
+          assert @invalid.invalid?
+          assert @invalid.errors.include? :href
+          assert @invalid.errors[:href][0].
+                  include? 'href is an invalid URL'
         end
 
         # links
@@ -43,6 +54,8 @@ module CollectionJsonSerializer
           @invalid.class.links = [dashboard: { href: "/my-dashboard" }]
           assert @invalid.invalid?
           assert @invalid.errors.include? :links
+          assert @invalid.errors[:links].first.
+                  include? 'links:dashboard:href is an invalid URL'
 
           @invalid.class.links = [
             dashboard: {
