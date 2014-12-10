@@ -27,31 +27,30 @@ module CollectionJsonSerializer
 
         def add_data
           @serializer.attributes.each do |attr|
-            start_object :data, Array.new
-
             params = attr.extract_params
             value = extract_value_from(@serializer, params[:name])
 
-            c = { name: params[:name], value: value } if value
+            next unless value
+
+            c = { name: params[:name], value: value }
             c.merge!(params[:properties]) if params[:properties]
 
+            start_object :data, Array.new
             @item[:data] << c
           end if @serializer.attributes.present?
         end
 
         def add_links
           @serializer.links.each do |attr|
-            start_object :links, Array.new
-
             params = attr.extract_params
-            c = {
+
+            next unless params.key? :properties
+
+            start_object :links, Array.new
+            @item[:links] << {
               name: params[:name].to_s,
               href: params[:properties][:href]
-            }
-
-            c.merge!(params[:properties]) if params[:properties]
-
-            @item[:links] << c
+            }.merge!(params[:properties])
           end if @serializer.links.present?
         end
 
