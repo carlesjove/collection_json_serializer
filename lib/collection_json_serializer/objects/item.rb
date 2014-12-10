@@ -27,7 +27,7 @@ module CollectionJsonSerializer
 
         def add_data
           @serializer.attributes.each do |attr|
-            @item.store(:data, Array.new) unless @item.key? :data
+            start_object :data, Array.new
 
             params = attr.extract_params
             value = extract_value_from(@serializer, params[:name])
@@ -40,9 +40,9 @@ module CollectionJsonSerializer
         end
 
         def add_links
-          @item.store(:links, Array.new)
-
           @serializer.links.each do |attr|
+            start_object :links, Array.new
+
             params = attr.extract_params
             c = {
               name: params[:name].to_s,
@@ -53,6 +53,10 @@ module CollectionJsonSerializer
 
             @item[:links] << c
           end if @serializer.links.present?
+        end
+
+        def start_object(name, type)
+          @item.store(name.to_sym, type) unless @item.key? name.to_sym
         end
       end
     end
