@@ -1,5 +1,7 @@
 # CollectionJson::Serializer
 
+[![Build Status](https://travis-ci.org/carlesjove/collection_json_serializer.svg?branch=master)](https://travis-ci.org/carlesjove/collection_json_serializer)
+
 | :warning: ** This is _not finished_ yet, so you better do not use it ** |
 ---------------------------------------------------------------------------
 
