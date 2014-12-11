@@ -1,7 +1,7 @@
-module CollectionJsonSerializer
+module CollectionJson
   class Serializer
     class Validator
-      include CollectionJsonSerializer::Support
+      include CollectionJson::Serializer::Support
 
       attr_accessor :errors
 
@@ -96,12 +96,12 @@ module CollectionJsonSerializer
       end
 
       def value_is_invalid?(value)
-        v = CollectionJsonSerializer::Serializer::Validator::Value.new(value)
+        v = CollectionJson::Serializer::Validator::Value.new(value)
         v.invalid?
       end
 
       def url_is_invalid?(value)
-        v = CollectionJsonSerializer::Serializer::Validator::Url.new(value)
+        v = CollectionJson::Serializer::Validator::Url.new(value)
         v.invalid?
       end
 

@@ -1,3 +1,5 @@
-module CollectionJsonSerializer
-  VERSION = "0.0.1"
+module CollectionJson
+  class Serializer
+    VERSION = "0.0.1"
+  end
 end

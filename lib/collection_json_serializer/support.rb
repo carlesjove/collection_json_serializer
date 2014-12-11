@@ -17,16 +17,18 @@ class Symbol
   end
 end
 
-module CollectionJsonSerializer
-  module Support
-    def extract_value_from(serializer, method)
-      begin
-        value = serializer.resource.send(method)
-      rescue NoMethodError
-        # ignore unknown attributes
-      end
+module CollectionJson
+  class Serializer
+    module Support
+      def extract_value_from(serializer, method)
+        begin
+          value = serializer.resource.send(method)
+        rescue NoMethodError
+          # ignore unknown attributes
+        end
 
-      value if value
+        value if value
+      end
     end
   end
 end
