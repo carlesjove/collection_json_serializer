@@ -1,6 +1,6 @@
 require "minitest_helper"
 
-module CollectionJsonSerializer
+module CollectionJson
   class Serializer
     class Validator
       class TestInvalid < Minitest::Test
@@ -23,7 +23,7 @@ module CollectionJsonSerializer
             []
           ]
 
-          @invalid = CollectionJsonSerializer::Serializer.new(@user)
+          @invalid = CollectionJson::Serializer.new(@user)
           @invalid.class.attributes = []
           @invalid.class.href = []
           @invalid.class.links = []

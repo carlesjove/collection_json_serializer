@@ -1,6 +1,6 @@
 require "minitest_helper"
 
-module CollectionJsonSerializer
+module CollectionJson
   class Serializer
     class TestData < Minitest::Test
       def setup

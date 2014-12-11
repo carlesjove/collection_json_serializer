@@ -1,11 +1,11 @@
-# CollectionJsonSerializer
+# CollectionJson::Serializer
 
 | :warning: ** This is _not finished_ yet, so you better do not use it ** |
 ---------------------------------------------------------------------------
 
 A Ruby gem to respond with Collection+JSON.
 
-CollectionJsonSerializer formats JSON responses following the Collection+JSON media type by Mike Amudsen. It also handles input data templates.
+CollectionJson::Serializer formats JSON responses following the Collection+JSON media type by Mike Amudsen. It also handles input data templates.
 
 ## Installation
 
@@ -28,7 +28,7 @@ Or install it yourself as:
 As this gem user, you will be mainly writing/generating and mantaining serializers for your models. A serializer goes like:
 
 ```ruby
-class UserSerializer < CollectionJsonSerializer::Serializer
+class UserSerializer < CollectionJson::Serializer
   href self: "http://example.com/users/1",
        collection: "http://example.com/users"
 
@@ -74,7 +74,7 @@ This will generate this Collection+JSON response:
 Collection+JSON serializer has an __open attributes policy__, which means that objects' attributes can be extended at will. That is good if you want to use many of the [extensions available](https://github.com/collection-json/extensions), and also if you need to add custom extensions to suit your particular needs. Be aware that, [as the specs say](https://github.com/collection-json/spec#7-extensibility), you must only extend attributes in a way that won't break clients that are not aware of them.
 
 ```ruby
-class UserSerializer < CollectionJsonSerializer::Serializer
+class UserSerializer < CollectionJson::Serializer
   attributes :id, name: { css_class: "people" }
 
   template name: { regex: "/\A[a-zA-Z0-9_]*\z/" }

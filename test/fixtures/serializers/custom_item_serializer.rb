@@ -1,3 +1,3 @@
-class CustomItemSerializer < CollectionJsonSerializer::Serializer
+class CustomItemSerializer < CollectionJson::Serializer
   attributes name: { anything: "at all", whatever: "really" }
 end

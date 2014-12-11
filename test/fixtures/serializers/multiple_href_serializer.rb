@@ -1,3 +1,3 @@
-class MultipleHrefSerializer < CollectionJsonSerializer::Serializer
+class MultipleHrefSerializer < CollectionJson::Serializer
   href "/a", "/b", "/c"
 end

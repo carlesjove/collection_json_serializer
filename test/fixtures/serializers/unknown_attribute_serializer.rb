@@ -1,3 +1,3 @@
-class UnknownAttributeSerializer < CollectionJsonSerializer::Serializer
+class UnknownAttributeSerializer < CollectionJson::Serializer
   attributes :unknown
 end

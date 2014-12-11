@@ -1,8 +1,8 @@
-module CollectionJsonSerializer
+module CollectionJson
   class Serializer
     class Objects
       class Item
-        include CollectionJsonSerializer::Support
+        include CollectionJson::Serializer::Support
 
         def initialize(serializer)
           @serializer = serializer

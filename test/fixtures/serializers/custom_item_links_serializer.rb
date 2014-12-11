@@ -1,4 +1,4 @@
-class CustomItemLinksSerializer < CollectionJsonSerializer::Serializer
+class CustomItemLinksSerializer < CollectionJson::Serializer
   links dashboard: {
     href: "/my-dashboard",
     anything: "at all",

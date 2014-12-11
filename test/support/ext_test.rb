@@ -1,6 +1,6 @@
 require "minitest_helper"
 
-module CollectionJsonSerializer
+module CollectionJson
   class Serializer
     class TestExtractParams < Minitest::Test
       def test_extract_params_for_hash

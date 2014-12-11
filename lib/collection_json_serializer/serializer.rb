@@ -1,4 +1,4 @@
-module CollectionJsonSerializer
+module CollectionJson
   class Serializer
     class << self
       attr_accessor :href
