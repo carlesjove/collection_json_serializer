@@ -34,14 +34,14 @@ module CollectionJsonSerializer
         @serializer.attributes.each do |attr|
           params = attr.extract_params
 
-          value_error(
-            extract_value_from(@serializer, params[:name]),
-            root: :attributes,
-            path: [params[:name]]
-          )
+          if value_is_invalid? extract_value_from(@serializer, params[:name])
+            error_for :value, root: :attributes, path: [params[:name]]
+          end
 
           params[:properties].each do |key, value|
-            value_error value, root: :attributes, path: [params[:name], key]
+            if value_is_invalid? value
+              error_for :value, root: :attributes, path: [params[:name], key]
+            end
           end if params[:properties]
 
         end if @serializer.attributes.any?
@@ -51,10 +51,10 @@ module CollectionJsonSerializer
         href = @serializer.href
         case href
         when String
-          url_error href, root: :href
+          error_for :url, root: :href if url_is_invalid? href
         when Hash
           href.each do |key, value|
-            url_error value, root: :href, path: [key]
+            error_for :url, root: :href, path: [key] if url_is_invalid? value
           end
         end
       end
@@ -62,9 +62,7 @@ module CollectionJsonSerializer
       def validate_links
         @serializer.links.first.each do |k, link|
           unless link.key? :href
-            @errors[:links] = [] unless @errors.key? :links
-            e = "#{@serializer.class} links:#{k}:href is missing"
-            @errors[:links] << e
+            error_for :missing_attribute, root: :links, path: [k, :href]
 
             next
           end
@@ -72,9 +70,13 @@ module CollectionJsonSerializer
           link.each do |key, value|
             case key
             when :href
-              url_error link[:href], root: :links, path: [k, key]
+              if url_is_invalid? link[:href]
+                error_for :url, root: :links, path: [k, key]
+              end
             else
-              value_error value, root: :links, path: [k, key]
+              if value_is_invalid? value
+                error_for :value, root: :links, path: [k, key]
+              end
             end
           end
         end if @serializer.links.present?
@@ -85,33 +87,41 @@ module CollectionJsonSerializer
           params = attr.extract_params
 
           params[:properties].each do |key, value|
-            value_error value, root: :template, path: [params[:name], key]
+            if value_is_invalid? value
+              error_for :value, root: :template, path: [params[:name], key]
+            end
           end if params[:properties]
 
         end if @serializer.template.any?
       end
 
-      # Checks if a given value is invalid
-      # and sets an error if it is
-      def value_error(value, root:, path:)
+      def value_is_invalid?(value)
         v = CollectionJsonSerializer::Serializer::Validator::Value.new(value)
-        unless v.valid?
-          @errors[root] = [] unless @errors.key? root
-          e = "#{@serializer.class} #{root}:#{path.join(':')}"
-          e << " is an invalid value"
-          @errors[root] << e
-        end
+        v.invalid?
       end
 
-      def url_error(value, root:, path: [])
-        url = CollectionJsonSerializer::Serializer::Validator::Url.new(value)
-        unless url.valid?
-          @errors[root] = [] unless @errors.key? root
-          e = "#{@serializer.class} #{root}"
-          e << ":" + path.join(':') if path.any?
-          e << " is an invalid URL"
-          @errors[root] << e
+      def url_is_invalid?(value)
+        v = CollectionJsonSerializer::Serializer::Validator::Url.new(value)
+        v.invalid?
+      end
+
+      def error_for(kind, root:, path: [])
+        case kind.to_sym
+        when :url
+          ending = " is an invalid URL"
+        when :value
+          ending = " is an invalid value"
+        when :missing_attribute
+          ending = " is missing"
+        else
+          ending = " is an invalid value"
         end
+
+        @errors[root] = [] unless @errors.key? root
+        e = "#{@serializer.class} #{root}"
+        e << ":" + path.join(":") if path.any?
+        e << ending
+        @errors[root] << e
       end
     end
   end

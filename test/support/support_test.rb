@@ -1,4 +1,4 @@
-require 'minitest_helper'
+require "minitest_helper"
 
 module CollectionJsonSerializer
   module Support

@@ -1,4 +1,4 @@
-require 'minitest_helper'
+require "minitest_helper"
 
 module CollectionJsonSerializer
   class Serializer
@@ -37,16 +37,16 @@ module CollectionJsonSerializer
           assert @invalid.invalid?
           assert @invalid.errors.include? :href
           assert @invalid.errors[:href][0].
-                  include? 'href:self is an invalid URL'
+                  include? "href:self is an invalid URL"
           assert @invalid.errors[:href][1].
-                  include? 'href:collection is an invalid URL'
+                  include? "href:collection is an invalid URL"
 
           @invalid.class.href = ["/users/1"]
 
           assert @invalid.invalid?
           assert @invalid.errors.include? :href
           assert @invalid.errors[:href][0].
-                  include? 'href is an invalid URL'
+                  include? "href is an invalid URL"
         end
 
         # links
@@ -55,7 +55,7 @@ module CollectionJsonSerializer
           assert @invalid.invalid?
           assert @invalid.errors.include? :links
           assert @invalid.errors[:links].first.
-                  include? 'links:dashboard:href is an invalid URL'
+                  include? "links:dashboard:href is an invalid URL"
 
           @invalid.class.links = [
             dashboard: {
@@ -66,13 +66,15 @@ module CollectionJsonSerializer
           assert @invalid.invalid?
           assert @invalid.errors.include? :links
           assert @invalid.errors[:links].first.
-                  include? 'links:dashboard:prompt is an invalid value'
+                  include? "links:dashboard:prompt is an invalid value"
         end
 
         def test_that_links_missing_href_generates_error
           @invalid.class.links = [dashboard: {}]
           assert @invalid.invalid?
           assert @invalid.errors.include? :links
+          assert @invalid.errors[:links].first.
+                  include? "links:dashboard:href is missing"
         end
 
         # attributes
@@ -86,7 +88,7 @@ module CollectionJsonSerializer
             assert @invalid.errors.include?(:attributes),
                    "#{invalidate} should be invalid"
             assert @invalid.errors[:attributes].
-                    first.include? 'attributes:name is an invalid value'
+                    first.include? "attributes:name is an invalid value"
           end
         end
 
@@ -104,9 +106,9 @@ module CollectionJsonSerializer
             assert @invalid.errors.include?(:attributes),
                    "#{invalidate} should be invalid"
             assert @invalid.errors[:attributes][0].
-                    include? 'attributes:name:prompt is an invalid value'
+                    include? "attributes:name:prompt is an invalid value"
             assert @invalid.errors[:attributes][1].
-                    include? 'attributes:name:test is an invalid value'
+                    include? "attributes:name:test is an invalid value"
           end
         end
 
@@ -125,9 +127,9 @@ module CollectionJsonSerializer
             assert @invalid.errors.include?(:template),
                    "#{invalidate} should be invalid"
             assert @invalid.errors[:template][0].
-                    include? 'template:name:prompt is an invalid value'
+                    include? "template:name:prompt is an invalid value"
             assert @invalid.errors[:template][1].
-                    include? 'template:name:name is an invalid value'
+                    include? "template:name:name is an invalid value"
           end
         end
       end

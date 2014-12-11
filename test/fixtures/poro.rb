@@ -11,7 +11,7 @@ class Model
   end
 
   def id
-    @attributes[:id] || @attributes['id'] || object_id
+    @attributes[:id] || @attributes["id"] || object_id
   end
 
   def method_missing(method, *args)
