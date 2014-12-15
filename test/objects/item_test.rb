@@ -6,16 +6,15 @@ module CollectionJson
       class Item
         class TestItem < Minitest::Test
           def setup
-            @user = User.new(name: "Carles Jove", email: "hola@carlus.cat")
-            @account = Account.new(id: 1, name: "My Account", created_at: Time.now)
-            @user.account = @account
-            @user_serializer = UserSerializer.new(@user)
+            @user1 = User.new(name: "Carles Jove", email: "hola@carlus.cat")
+            @user2 = User.new(name: "Aina Jove", email: "hola@example.com")
+            @user_serializer = UserSerializer.new(@user1)
             @item = Item.new(@user_serializer)
           end
 
           def test_that_an_item_can_be_build
             expected = {
-              href: "http://example.com/users/1",
+              href: "http://example.com/users/#{@user1.id}",
               data: [
                 { name: "name", value: "Carles Jove" },
                 { name: "email", value: "hola@carlus.cat" }
@@ -28,8 +27,26 @@ module CollectionJson
             assert_equal expected.to_json, @item.create.to_json
           end
 
+          def test_that_an_item_can_be_built_passing_an_index
+            user_serializer = UserSerializer.new([@user1, @user2])
+            item = Item.new(user_serializer, item: 1)
+
+            expected = {
+              href: "http://example.com/users/#{@user2.id}",
+              data: [
+                { name: "name", value: "Aina Jove" },
+                { name: "email", value: "hola@example.com" }
+              ],
+              links: [
+                { name: "dashboard", href: "http://example.com/my-dashboard" }
+              ]
+            }
+
+            assert_equal expected.to_json, item.create.to_json
+          end
+
           def test_that_an_item_can_be_build_with_random_attributes
-            custom_serializer = CustomItemSerializer.new(@user)
+            custom_serializer = CustomItemSerializer.new(@user1)
             item = Item.new(custom_serializer)
 
             expected = {
@@ -41,7 +58,7 @@ module CollectionJson
           end
 
           def test_that_an_item_link_can_be_build_with_unlimited_attributes
-            custom_serializer = CustomItemLinksSerializer.new(@user)
+            custom_serializer = CustomItemLinksSerializer.new(@user1)
             item = Item.new(custom_serializer)
 
             expected = {
@@ -54,7 +71,7 @@ module CollectionJson
           end
 
           def test_that_unknown_attributes_are_silently_ignored
-            serializer_with_unknown_attr = UnknownAttributeSerializer.new(@user)
+            serializer_with_unknown_attr = UnknownAttributeSerializer.new(@user1)
             item = Item.new(serializer_with_unknown_attr)
             refute item.create.include?(:unknown)
           end

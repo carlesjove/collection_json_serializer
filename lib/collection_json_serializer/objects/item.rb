@@ -4,8 +4,10 @@ module CollectionJson
       class Item
         include CollectionJson::Serializer::Support
 
-        def initialize(serializer)
+        def initialize(serializer, item: 0)
           @serializer = serializer
+          @index = item >= 0 ? item : 0
+          @resource = @serializer.resources[@index]
           @item = Hash.new
         end
 
@@ -21,14 +23,14 @@ module CollectionJson
 
         def add_href
           if @serializer.href.present?
-            @item.store :href, @serializer.href[:self] || @serializer.href
+            @item.store :href, set_href
           end
         end
 
         def add_data
           @serializer.attributes.each do |attr|
             params = attr.extract_params
-            value = extract_value_from(@serializer, params[:name])
+            value = extract_value_from(@resource, params[:name])
 
             next unless value
 
@@ -56,6 +58,11 @@ module CollectionJson
 
         def start_object(name, type)
           @item.store(name.to_sym, type) unless @item.key? name.to_sym
+        end
+
+        def set_href
+          url = @serializer.href[:self] || @serializer.href
+          parse_url(url, @resource)
         end
       end
     end

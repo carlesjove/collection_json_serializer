@@ -43,6 +43,27 @@ class UserSerializer < CollectionJson::Serializer
 end
 ```
 
+Then, you pass your objects to the serializer:
+
+```ruby
+# Create your object as you wish
+@user = User.new(name: "Carles Jove", email: "hola@carlus.cat")
+
+# You can also pass an array of objects
+# user_serializer = UserSerializer.new([@user1, @user2, etc])
+
+# Pass it to the serializer
+user_serializer = UserSerializer.new(@user)
+
+# Pass the serializer to the builder, and pack it as a hash
+builder = Builder.new(user_serializer)
+builder.pack
+# => { collection: { version: "1.0" } }
+
+# Get it as JSON
+builder.to_json
+```
+
 This will generate this Collection+JSON response:
 
 ```javascript
@@ -69,6 +90,28 @@ This will generate this Collection+JSON response:
     }
   }
 }
+```
+
+#### URL placeholders
+
+URLs can be generated dinamically with placeholder. A placeholder is a URL segment wrapped in curly braces. A placeholder can be any method that can be called on the object that the serializer takes (i.e. `id`, `username`, etc.).
+
+```ruby
+class UserSerializer < CollectionJson::Serializer
+  href self: "http://example.com/users/{id}"
+end
+```
+
+All placeholders will be called, so you can use more than one if necessary, but you may use only one placeholer per segment.
+
+```ruby
+class UserSerializer < CollectionJson::Serializer
+  # This is ok
+  href self: "http://example.com/users/{id}/{username}"
+
+  # This is not ok
+  href self: "http://example.com/users/{id}-{username}"
+end
 ```
 
 #### Open Attributes Policy

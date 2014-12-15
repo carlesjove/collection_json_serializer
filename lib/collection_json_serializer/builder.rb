@@ -38,13 +38,17 @@ module CollectionJson
 
       def add_items
         @collection.store :items, Array.new
-        item = CollectionJson::Serializer::Objects::Item.new(@serializer)
-        @collection[:items] << item.create
+        @serializer.resources.each_index do |i|
+          item = CollectionJson::Serializer::Objects::Item.
+            new(@serializer, item: i)
+          @collection[:items] << item.create
+        end
       end
 
       def add_template
         @collection.store :template, Hash.new
-        template = CollectionJson::Serializer::Objects::Template.new(@serializer)
+        template = CollectionJson::Serializer::Objects::Template.
+          new(@serializer)
         @collection[:template].store :data, template.create
       end
     end
