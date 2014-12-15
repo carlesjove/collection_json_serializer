@@ -30,10 +30,14 @@ module CollectionJson
       @links.concat attrs
     end
 
-    attr_accessor :resource
+    attr_accessor :resources
 
     def initialize(resource)
-      @resource = resource
+      @resources = if resource.respond_to? :to_ary
+                    resource
+                  else
+                    [resource]
+                  end
     end
 
     def href

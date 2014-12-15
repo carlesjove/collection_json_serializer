@@ -13,7 +13,7 @@ module CollectionJson
         end
 
         def test_extract_value
-          actual = extract_value_from(@user_serializer.resource, :name)
+          actual = extract_value_from(@user_serializer.resources.first, :name)
           assert_equal "Carles Jove", actual
         end
       end

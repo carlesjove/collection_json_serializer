@@ -34,9 +34,11 @@ module CollectionJson
         @serializer.attributes.each do |attr|
           params = attr.extract_params
 
-          val = extract_value_from(@serializer.resource, params[:name])
-          if value_is_invalid? val
-            error_for :value, root: :attributes, path: [params[:name]]
+          @serializer.resources.each do |resource|
+            val = extract_value_from(resource, params[:name])
+            if value_is_invalid? val
+              error_for :value, root: :attributes, path: [params[:name]]
+            end
           end
 
           params[:properties].each do |key, value|

@@ -4,8 +4,10 @@ module CollectionJson
       class Item
         include CollectionJson::Serializer::Support
 
-        def initialize(serializer)
+        def initialize(serializer, item: 0)
           @serializer = serializer
+          @index = item >= 0 ? item : 0
+          @resource = @serializer.resources[@index]
           @item = Hash.new
         end
 
@@ -28,7 +30,7 @@ module CollectionJson
         def add_data
           @serializer.attributes.each do |attr|
             params = attr.extract_params
-            value = extract_value_from(@serializer.resource, params[:name])
+            value = extract_value_from(@resource, params[:name])
 
             next unless value
 

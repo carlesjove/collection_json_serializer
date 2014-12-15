@@ -43,6 +43,27 @@ class UserSerializer < CollectionJson::Serializer
 end
 ```
 
+Then, you pass your objects to the serializer:
+
+```ruby
+# Create your object as you wish
+@user = User.new(name: "Carles Jove", email: "hola@carlus.cat")
+
+# You can also pass an array of objects
+# user_serializer = UserSerializer.new([@user1, @user2, etc])
+
+# Pass it to the serializer
+user_serializer = UserSerializer.new(@user)
+
+# Pass the serializer to the builder, and pack it as a hash
+builder = Builder.new(user_serializer)
+builder.pack
+# => { collection: { version: "1.0" } }
+
+# Get it as JSON
+builder.to_json
+```
+
 This will generate this Collection+JSON response:
 
 ```javascript
