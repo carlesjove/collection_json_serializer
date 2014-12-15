@@ -34,10 +34,10 @@ module CollectionJson
 
     def initialize(resource)
       @resources = if resource.respond_to? :to_ary
-                    resource
-                  else
-                    [resource]
-                  end
+                     resource
+                   else
+                     [resource]
+                   end
     end
 
     def href

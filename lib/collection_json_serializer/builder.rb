@@ -47,8 +47,8 @@ module CollectionJson
 
       def add_template
         @collection.store :template, Hash.new
-        template = CollectionJson::Serializer::Objects::Template
-          .new(@serializer)
+        template = CollectionJson::Serializer::Objects::Template.
+          new(@serializer)
         @collection[:template].store :data, template.create
       end
     end

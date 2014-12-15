@@ -20,7 +20,7 @@ module CollectionJson
               href: "http://example.com/users",
               items: [
                 {
-                  href: "http://example.com/users/1",
+                  href: "http://example.com/users/#{@user1.id}",
                   data: [
                     {
                       name: "name",
@@ -67,7 +67,7 @@ module CollectionJson
               href: "http://example.com/users",
               items: [
                 {
-                  href: "http://example.com/users/1",
+                  href: "http://example.com/users/#{@user1.id}",
                   data: [
                     {
                       name: "name",
@@ -86,8 +86,7 @@ module CollectionJson
                   ]
                 },
                 {
-                  # TODO: this href is wrong!
-                  href: "http://example.com/users/1",
+                  href: "http://example.com/users/#{@user2.id}",
                   data: [
                     {
                       name: "name",

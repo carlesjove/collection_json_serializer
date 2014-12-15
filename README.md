@@ -92,6 +92,28 @@ This will generate this Collection+JSON response:
 }
 ```
 
+#### URL placeholders
+
+URLs can be generated dinamically with placeholder. A placeholder is a URL segment wrapped in curly braces. A placeholder can be any method that can be called on the object that the serializer takes (i.e. `id`, `username`, etc.).
+
+```ruby
+class UserSerializer < CollectionJson::Serializer
+  href self: "http://example.com/users/{id}"
+end
+```
+
+All placeholders will be called, so you can use more than one if necessary, but you may use only one placeholer per segment.
+
+```ruby
+class UserSerializer < CollectionJson::Serializer
+  # This is ok
+  href self: "http://example.com/users/{id}/{username}"
+
+  # This is not ok
+  href self: "http://example.com/users/{id}-{username}"
+end
+```
+
 #### Open Attributes Policy
 
 Collection+JSON serializer has an __open attributes policy__, which means that objects' attributes can be extended at will. That is good if you want to use many of the [extensions available](https://github.com/collection-json/extensions), and also if you need to add custom extensions to suit your particular needs. Be aware that, [as the specs say](https://github.com/collection-json/spec#7-extensibility), you must only extend attributes in a way that won't break clients that are not aware of them.

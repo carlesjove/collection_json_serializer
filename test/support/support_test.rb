@@ -16,6 +16,13 @@ module CollectionJson
           actual = extract_value_from(@user_serializer.resources.first, :name)
           assert_equal "Carles Jove", actual
         end
+
+        def test_that_an_url_with_placeholder_can_be_parsed
+          url = "http://example.com/users/{id}"
+          expected = "http://example.com/users/#{@user.id}"
+
+          assert_equal expected, parse_url(url, @user)
+        end
       end
     end
   end

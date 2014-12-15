@@ -1,5 +1,5 @@
 class UserSerializer < CollectionJson::Serializer
-  href self: "http://example.com/users/1",
+  href self: "http://example.com/users/{id}",
        collection: "http://example.com/users"
   attributes :name, :email
   template :name, email: { prompt: "My email" }

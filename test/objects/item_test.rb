@@ -14,7 +14,7 @@ module CollectionJson
 
           def test_that_an_item_can_be_build
             expected = {
-              href: "http://example.com/users/1",
+              href: "http://example.com/users/#{@user1.id}",
               data: [
                 { name: "name", value: "Carles Jove" },
                 { name: "email", value: "hola@carlus.cat" }
@@ -32,7 +32,7 @@ module CollectionJson
             item = Item.new(user_serializer, item: 1)
 
             expected = {
-              href: "http://example.com/users/1",
+              href: "http://example.com/users/#{@user2.id}",
               data: [
                 { name: "name", value: "Aina Jove" },
                 { name: "email", value: "hola@example.com" }
