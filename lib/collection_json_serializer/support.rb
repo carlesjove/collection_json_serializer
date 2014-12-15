@@ -1,22 +1,3 @@
-class Hash
-  def extract_params
-    params = {}
-    params[:name] = keys.first
-    params[:properties] = self[keys.first]
-
-    params
-  end
-end
-
-class Symbol
-  def extract_params
-    params = {}
-    params[:name] = self
-
-    params
-  end
-end
-
 module CollectionJson
   class Serializer
     module Support
@@ -35,7 +16,7 @@ module CollectionJson
 
         segments.each_with_index do |segment, index|
           if has_placeholder?(segment)
-            action = segment.gsub(/[{}]/, '')
+            action = segment.gsub(/[{}]/, "")
             segments[index] = object.send(action)
           end
         end if segments_with_placeholder?(segments)
