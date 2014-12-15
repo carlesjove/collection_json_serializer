@@ -20,9 +20,9 @@ end
 module CollectionJson
   class Serializer
     module Support
-      def extract_value_from(serializer, method)
+      def extract_value_from(resource, method)
         begin
-          value = serializer.resource.send(method)
+          value = resource.send(method)
         rescue NoMethodError
           # ignore unknown attributes
         end

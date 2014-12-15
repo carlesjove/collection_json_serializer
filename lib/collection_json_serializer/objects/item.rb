@@ -28,7 +28,7 @@ module CollectionJson
         def add_data
           @serializer.attributes.each do |attr|
             params = attr.extract_params
-            value = extract_value_from(@serializer, params[:name])
+            value = extract_value_from(@serializer.resource, params[:name])
 
             next unless value
 
