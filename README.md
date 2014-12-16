@@ -2,12 +2,14 @@
 
 [![Build Status](https://travis-ci.org/carlesjove/collection_json_serializer.svg?branch=master)](https://travis-ci.org/carlesjove/collection_json_serializer)
 
-| :warning: ** This is _not finished_ yet, so you better do not use it ** |
----------------------------------------------------------------------------
+| :warning: This is _not finished_ yet, so use it at your own risk. |
+--------------------------------------------------------------------
 
 A Ruby gem to respond with Collection+JSON.
 
-CollectionJson::Serializer formats JSON responses following the Collection+JSON media type by Mike Amudsen. It also handles input data templates.
+CollectionJson::Serializer formats JSON responses following the Collection+JSON media type by Mike Amudsen.
+
+Please note that CollectionJson::Serializer only serializes data. You still need to set the proper Headers or media-types in your app.
 
 ## Installation
 
@@ -46,22 +48,21 @@ end
 Then, you pass your objects to the serializer:
 
 ```ruby
-# Create your object as you wish
 @user = User.new(name: "Carles Jove", email: "hola@carlus.cat")
-
-# You can also pass an array of objects
-# user_serializer = UserSerializer.new([@user1, @user2, etc])
 
 # Pass it to the serializer
 user_serializer = UserSerializer.new(@user)
 
-# Pass the serializer to the builder, and pack it as a hash
-builder = Builder.new(user_serializer)
-builder.pack
-# => { collection: { version: "1.0" } }
+# You can also pass an array of objects
+# user_serializer = UserSerializer.new([@user1, @user2, etc])
 
-# Get it as JSON
-builder.to_json
+# Pass the serializer to the builder
+collection = CollectionJson::Serializer::Builder.new(user_serializer)
+collection.to_json
+
+# You can get the collection as a hash, too
+collection.pack
+# => { collection: { version: "1.0" } }
 ```
 
 This will generate this Collection+JSON response:
