@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Carles Jove i Buxeda"]
   spec.email         = ["hola@carlus.cat"]
   spec.summary       = %q{Serialize objects as Collection+JSON.}
-  spec.description   = %q{CollectionJson::Serializer lets you have models' serializers to format JSON responses following the Collection+JSON media type by Mike Amudsen.}
+  spec.description   = %q{CollectionJson::Serializer makes it easy to serialize objects into the Collection+JSON hypermedia type.}
   spec.homepage      = "https://github.com/carlesjove/collection_json_serializer"
   spec.license       = "MIT"
 
