@@ -108,7 +108,7 @@ module CollectionJson
         v.invalid?
       end
 
-      def error_for(kind, root:, path: [])
+      def error_for(kind, root: root, path: [])
         case kind.to_sym
         when :url
           ending = " is an invalid URL"
