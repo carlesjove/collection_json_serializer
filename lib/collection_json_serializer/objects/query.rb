@@ -11,10 +11,23 @@ module CollectionJson
         end
 
         def create
-          @query.store :rel, @key
-          @query.store :href, @resource[:href]
+          @query[:rel]  = @resource[:rel] || @key
+          @query[:href] = @resource[:href]
+
+          # Optional fields
+          @query[:name] = extract_name if name?
 
           @query
+        end
+
+        private
+
+        def extract_name
+          @resource[:name].present? ? @resource[:name] : @key
+        end
+
+        def name?
+          @resource[:name] != false
         end
       end
     end

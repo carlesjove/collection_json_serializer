@@ -11,7 +11,8 @@ module CollectionJson
       def test_template_attributes
         expected = [
           search: { 
-            href: "http://example.com/search"
+            href: "http://example.com/search",
+            name: false
           }
         ]
 

@@ -8,16 +8,16 @@ module CollectionJson
           def setup
             @user = User.new(name: "Carles Jove", email: "hola@carlus.cat")
             @user_serializer = UserSerializer.new(@user)
-            @query = Query.new(@user_serializer)
           end
 
           def test_that_a_query_can_be_build
-            expected = { 
+            query = Query.new(@user_serializer, item: 0)
+            expected = {
               rel: "search",
               href: "http://example.com/search"
             }
 
-            assert_equal expected.to_json, @query.create.to_json
+            assert_equal expected.to_json, query.create.to_json
           end
         end
       end
