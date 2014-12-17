@@ -26,7 +26,8 @@ module CollectionJson
           :attributes,
           :href,
           :links,
-          :template
+          :template,
+          :queries
         ].each { |m| send("validate_#{m}") }
       end
 
@@ -96,6 +97,22 @@ module CollectionJson
           end if params[:properties]
 
         end if @serializer.template.any?
+      end
+
+      def validate_queries
+        @serializer.queries.each do |query|
+          query.each do |key, hash|
+            unless hash.key? :href
+              error_for :missing_attribute, root: :queries, path: [key, "href"]
+
+              next
+            end
+
+            if url_is_invalid? hash[:href]
+              error_for :url, root: :queries, path: [key, "href"]
+            end
+          end
+        end if @serializer.queries.present?
       end
 
       def value_is_invalid?(value)
