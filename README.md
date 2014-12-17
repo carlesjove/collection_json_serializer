@@ -42,6 +42,18 @@ class UserSerializer < CollectionJson::Serializer
 
   # Please note that links can only be passed as hashes
   links dashboard: { href: "http://example.com/my-dashboard" }
+
+  queries search: {
+    href: "http://example.com/search",
+    name: false # Don't automatically include the name attribute
+  }, pagination: {
+    rel: "page",
+    href: "http://example.com/page",
+    prompt: "Select a page number",
+    data: [
+      { name: "page" }
+    ]
+  }
 end
 ```
 
@@ -88,7 +100,19 @@ This will generate this Collection+JSON response:
         { "name": "name", "value": "" },
         { "name": "email", "value": "", "prompt": "My email" }
       ]
-    }
+    },
+    "queries": [{
+      "rel": "search",
+      "href": "http://example.com/search"
+    },{
+      "rel": "page",
+      "href": "http://example.com/page",
+      "name": "pagination",
+      "prompt": "Select a page number",
+      "data": [
+        { "name": "page", "value": "" }
+      ]
+    }]
   }
 }
 ```

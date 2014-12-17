@@ -10,7 +10,7 @@ module CollectionJson
 
       def test_template_attributes
         expected = [
-          search: { 
+          search: {
             href: "http://example.com/search",
             name: false
           },
