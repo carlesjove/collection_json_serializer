@@ -5,11 +5,24 @@ module CollectionJson
     class Objects
       class Item
         class TestItem < Minitest::Test
+          include TestHelper
+
           def setup
             @user1 = User.new(name: "Carles Jove", email: "hola@carlus.cat")
             @user2 = User.new(name: "Aina Jove", email: "hola@example.com")
             @user_serializer = UserSerializer.new(@user1)
             @item = Item.new(@user_serializer)
+          end
+
+          def test_that_rel_will_beadded_from_the_name_when_missing
+            serializer = empty_serializer_for(@user1)
+            serializer.class.attributes = [:name]
+            serializer.class.links = [dashboard: { href: "http://example.com" }]
+            item = Item.new(serializer)
+            actual = item.create[:links].first
+
+            assert actual.include? :rel
+            assert_equal "dashboard", actual[:rel]
           end
 
           def test_that_an_item_can_be_build
@@ -20,7 +33,11 @@ module CollectionJson
                 { name: "email", value: "hola@carlus.cat" }
               ],
               links: [
-                { name: "dashboard", href: "http://example.com/my-dashboard" }
+                {
+                  rel: "dashboard",
+                  href: "http://example.com/my-dashboard",
+                  name: "dashboard"
+                }
               ]
             }
 
@@ -38,7 +55,11 @@ module CollectionJson
                 { name: "email", value: "hola@example.com" }
               ],
               links: [
-                { name: "dashboard", href: "http://example.com/my-dashboard" }
+                {
+                  rel: "dashboard",
+                  href: "http://example.com/my-dashboard",
+                  name: "dashboard"
+                }
               ]
             }
 
@@ -50,9 +71,12 @@ module CollectionJson
             item = Item.new(custom_serializer)
 
             expected = {
-              data: [
-                { name: "name", value: "Carles Jove", anything: "at all", whatever: "really" },
-              ]
+              data: [{
+                name: "name",
+                value: "Carles Jove",
+                anything: "at all",
+                whatever: "really"
+              }]
             }
             assert_equal expected.to_json, item.create.to_json
           end
@@ -62,9 +86,13 @@ module CollectionJson
             item = Item.new(custom_serializer)
 
             expected = {
-              links: [
-                { name: "dashboard", href: "/my-dashboard", anything: "at all", whatever: "really" }
-              ]
+              links: [{
+                rel: "dashboard",
+                name: "dashboard",
+                href: "/my-dashboard",
+                anything: "at all",
+                whatever: "really"
+              }]
             }
 
             assert_equal expected[:links], item.create[:links]

@@ -50,8 +50,9 @@ module CollectionJson
 
             start_object :links, Array.new
             @item[:links] << {
-              name: params[:name].to_s,
-              href: params[:properties][:href]
+              rel: set_rel(params),
+              href: params[:properties][:href],
+              name: params[:name].to_s
             }.merge!(params[:properties])
           end if @serializer.links.present?
         end
@@ -63,6 +64,14 @@ module CollectionJson
         def set_href
           url = @serializer.href[:self] || @serializer.href
           parse_url(url, @resource)
+        end
+
+        def set_rel(params)
+          if params[:properties].key? :rel
+            params[:properties][:rel].to_s
+          else
+            params[:name].to_s
+          end
         end
       end
     end

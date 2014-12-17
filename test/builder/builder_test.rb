@@ -33,8 +33,9 @@ module CollectionJson
                   ],
                   links: [
                     {
-                      name: "dashboard",
-                      href: "http://example.com/my-dashboard"
+                      rel: "dashboard",
+                      href: "http://example.com/my-dashboard",
+                      name: "dashboard"
                     }
                   ]
                 }
@@ -86,8 +87,9 @@ module CollectionJson
                   ],
                   links: [
                     {
-                      name: "dashboard",
-                      href: "http://example.com/my-dashboard"
+                      rel: "dashboard",
+                      href: "http://example.com/my-dashboard",
+                      name: "dashboard"
                     }
                   ]
                 },
@@ -105,8 +107,9 @@ module CollectionJson
                   ],
                   links: [
                     {
-                      name: "dashboard",
-                      href: "http://example.com/my-dashboard"
+                      rel: "dashboard",
+                      href: "http://example.com/my-dashboard",
+                      name: "dashboard"
                     }
                   ]
                 }
