@@ -5,22 +5,16 @@ module CollectionJson
         def initialize(serializer, item: 0)
           @serializer = serializer
           @index = item >= 0 ? item : 0
-          @resource = @serializer.queries[@index]
-          @key = @serializer.queries[@index].keys.first
+          @key = @serializer.queries.first.keys[@index]
+          @resource = @serializer.queries.first[@key]
           @query = Hash.new
         end
 
         def create
           @query.store :rel, @key
-          @query.store :href, extract_href
+          @query.store :href, @resource[:href]
 
           @query
-        end
-
-        private
-
-        def extract_href
-          @resource[@key][:href]
         end
       end
     end
