@@ -138,7 +138,7 @@ module CollectionJson
         def test_that_queries_validate_href_format
           @invalid.class.queries = [
             search: {
-              href: 'not-valid'
+              href: "not-valid"
             }
           ]
 
@@ -153,7 +153,7 @@ module CollectionJson
         def test_that_queries_href_is_required
           @invalid.class.queries = [
             search: {
-              name: 'missing href'
+              name: "missing href"
             }
           ]
 
@@ -162,6 +162,32 @@ module CollectionJson
                  "should include queries errors"
           assert @invalid.errors[:queries][0].
                   include? "queries:search:href is missing"
+        end
+
+        def test_that_queries_values_are_validated
+          @invalid_value_types.each do |invalidate|
+            @invalid.class.queries = [
+              search: {
+                href: "http://example.com/",
+                name: invalidate,
+                rel: invalidate,
+                data: [
+                  name: invalidate
+                ]
+              }
+            ]
+
+            assert @invalid.invalid?,
+                    "#{invalidate} should be invalid"
+            assert @invalid.errors.include?(:queries),
+                   "should include errors for queries"
+            assert @invalid.errors[:queries][0].
+                    include? "queries:search:name is an invalid value"
+            assert @invalid.errors[:queries][1].
+                    include? "queries:search:rel is an invalid value"
+            assert @invalid.errors[:queries][2].
+                    include? "queries:search:data:name is an invalid value"
+          end
         end
       end
     end

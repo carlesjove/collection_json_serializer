@@ -15,7 +15,9 @@ module CollectionJson
           @query[:href] = @resource[:href]
 
           # Optional fields
-          @query[:name] = extract_name if name?
+          @query[:name]   = extract_name if name?
+          @query[:prompt] = @resource[:prompt] if @resource[:prompt]
+          @query[:data]   = add_data if @resource[:data]
 
           @query
         end
@@ -24,6 +26,12 @@ module CollectionJson
 
         def extract_name
           @resource[:name].present? ? @resource[:name] : @key
+        end
+
+        def add_data
+          @resource[:data].each_with_object([]) do |attr, data|
+            data << { name: attr[:name], value: nil.to_s }
+          end
         end
 
         def name?

@@ -13,6 +13,14 @@ module CollectionJson
           search: { 
             href: "http://example.com/search",
             name: false
+          },
+          pagination: {
+            rel: "page",
+            href: "http://example.com/page",
+            prompt: "Select a page number",
+            data: [
+              { name: "page" }
+            ]
           }
         ]
 

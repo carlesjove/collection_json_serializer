@@ -101,15 +101,35 @@ module CollectionJson
 
       def validate_queries
         @serializer.queries.each do |query|
-          query.each do |key, hash|
-            unless hash.key? :href
-              error_for :missing_attribute, root: :queries, path: [key, "href"]
+          params = query.extract_params
 
-              next
+          unless params[:properties].key? :href
+            error_for :missing_attribute,
+                      root: :queries,
+                      path: [params[:name], "href"]
+
+            next
+          end
+
+          if url_is_invalid? params[:properties][:href]
+            error_for :url, root: :queries, path: [params[:name], "href"]
+          end
+
+          params[:properties].each do |key, value|
+            next if key == :data || key == :href
+
+            if value_is_invalid?(value)
+              error_for :value, root: :queries, path: [params[:name], key]
             end
+          end
 
-            if url_is_invalid? hash[:href]
-              error_for :url, root: :queries, path: [key, "href"]
+          if params[:properties].key?(:data)
+            params[:properties][:data].each do |hash|
+              if value_is_invalid?(hash[:name])
+                error_for :value,
+                          root: :queries,
+                          path: [params[:name], "data", "name"]
+              end
             end
           end
         end if @serializer.queries.present?
