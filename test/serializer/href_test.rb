@@ -27,6 +27,7 @@ module CollectionJson
         user_serializer.class.attributes = [:name]
         user_serializer.class.links = []
         user_serializer.class.template = []
+        user_serializer.class.queries = []
         user_serializer.class.href = [self: "http://example.com/users/{id}"]
         builder = Builder.new(user_serializer)
 

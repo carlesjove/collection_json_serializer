@@ -28,9 +28,10 @@ module CollectionJson
           @invalid.class.href = []
           @invalid.class.links = []
           @invalid.class.template = []
+          @invalid.class.queries = []
         end
 
-        # href
+        # Href
         def test_that_href_generates_errors
           @invalid.class.href = [self: "/users/1", collection: "www.users.com"]
 
@@ -49,7 +50,7 @@ module CollectionJson
                   include? "href is an invalid URL"
         end
 
-        # links
+        # Links
         def test_that_links_generates_errors
           @invalid.class.links = [dashboard: { href: "/my-dashboard" }]
           assert @invalid.invalid?
@@ -77,7 +78,7 @@ module CollectionJson
                   include? "links:dashboard:href is missing"
         end
 
-        # attributes
+        # Attributes
         def test_that_invalid_attributes_return_values_generate_errors
           @invalid.class.attributes = [:name]
 
@@ -112,7 +113,7 @@ module CollectionJson
           end
         end
 
-        # template
+        # Template
         def test_that_template_values_validate
           @invalid_value_types.each do |invalidate|
             @invalid.class.template = [
@@ -130,6 +131,62 @@ module CollectionJson
                     include? "template:name:prompt is an invalid value"
             assert @invalid.errors[:template][1].
                     include? "template:name:name is an invalid value"
+          end
+        end
+
+        # Queries
+        def test_that_queries_validate_href_format
+          @invalid.class.queries = [
+            search: {
+              href: "not-valid"
+            }
+          ]
+
+          assert @invalid.invalid?,
+                 "not-valid should be invalid"
+          assert @invalid.errors.include?(:queries),
+                 "not-valid should be invalid"
+          assert @invalid.errors[:queries][0].
+                  include? "queries:search:href is an invalid URL"
+        end
+
+        def test_that_queries_href_is_required
+          @invalid.class.queries = [
+            search: {
+              name: "missing href"
+            }
+          ]
+
+          assert @invalid.invalid?
+          assert @invalid.errors.include?(:queries),
+                 "should include queries errors"
+          assert @invalid.errors[:queries][0].
+                  include? "queries:search:href is missing"
+        end
+
+        def test_that_queries_values_are_validated
+          @invalid_value_types.each do |invalidate|
+            @invalid.class.queries = [
+              search: {
+                href: "http://example.com/",
+                name: invalidate,
+                rel: invalidate,
+                data: [
+                  name: invalidate
+                ]
+              }
+            ]
+
+            assert @invalid.invalid?,
+                    "#{invalidate} should be invalid"
+            assert @invalid.errors.include?(:queries),
+                   "should include errors for queries"
+            assert @invalid.errors[:queries][0].
+                    include? "queries:search:name is an invalid value"
+            assert @invalid.errors[:queries][1].
+                    include? "queries:search:rel is an invalid value"
+            assert @invalid.errors[:queries][2].
+                    include? "queries:search:data:name is an invalid value"
           end
         end
       end

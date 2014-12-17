@@ -51,7 +51,13 @@ module CollectionJson
                     prompt: "My email"
                   }
                 ]
-              }
+              },
+              queries: [
+                {
+                  rel: "search",
+                  href: "http://example.com/search"
+                }
+              ]
             }
           }
 
@@ -117,7 +123,13 @@ module CollectionJson
                     prompt: "My email"
                   }
                 ]
-              }
+              },
+              queries: [
+                {
+                  rel: "search",
+                  href: "http://example.com/search"
+                }
+              ]
             }
           }
 

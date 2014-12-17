@@ -14,5 +14,5 @@ require "collection_json_serializer/validator/url"
 require "collection_json_serializer/validator/value"
 
 require "collection_json_serializer/objects/item"
-
 require "collection_json_serializer/objects/template"
+require "collection_json_serializer/objects/query"
