@@ -9,3 +9,16 @@ Dir.glob(File.dirname(__FILE__) + "/fixtures/serializers/**/*.rb") { |file| requ
 
 require "active_support/json"
 require "active_support/inflector"
+
+module TestHelper
+  def empty_serializer_for(object)
+    serializer = CollectionJson::Serializer.new(object)
+    serializer.class.attributes = []
+    serializer.class.href = []
+    serializer.class.links = []
+    serializer.class.template = []
+    serializer.class.queries = []
+
+    serializer
+  end
+end

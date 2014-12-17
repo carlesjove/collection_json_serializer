@@ -3,6 +3,8 @@ require "minitest_helper"
 module CollectionJson
   class Serializer
     class TestHref < Minitest::Test
+      include TestHelper
+
       def setup
         @user = User.new(name: "Carles Jove", email: "hola@carlus.cat")
         @user_serializer = UserSerializer.new(@user)
@@ -23,11 +25,8 @@ module CollectionJson
       end
 
       def test_that_a_placeholder_can_be_used_for_urls
-        user_serializer = CollectionJson::Serializer.new(@user)
+        user_serializer = empty_serializer_for(@user)
         user_serializer.class.attributes = [:name]
-        user_serializer.class.links = []
-        user_serializer.class.template = []
-        user_serializer.class.queries = []
         user_serializer.class.href = [self: "http://example.com/users/{id}"]
         builder = Builder.new(user_serializer)
 

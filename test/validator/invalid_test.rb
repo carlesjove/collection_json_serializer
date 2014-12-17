@@ -4,6 +4,8 @@ module CollectionJson
   class Serializer
     class Validator
       class TestInvalid < Minitest::Test
+        include TestHelper
+
         def setup
           @user = User.new(
             name: "Carles Jove",
@@ -23,12 +25,7 @@ module CollectionJson
             []
           ]
 
-          @invalid = CollectionJson::Serializer.new(@user)
-          @invalid.class.attributes = []
-          @invalid.class.href = []
-          @invalid.class.links = []
-          @invalid.class.template = []
-          @invalid.class.queries = []
+          @invalid = empty_serializer_for(@user)
         end
 
         # Href
