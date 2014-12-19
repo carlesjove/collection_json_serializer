@@ -5,6 +5,7 @@ module CollectionJson
       attr_accessor :attributes
       attr_accessor :template
       attr_accessor :links
+      attr_accessor :queries
     end
 
     def self.inherited(base)
@@ -12,6 +13,7 @@ module CollectionJson
       base.attributes = []
       base.template = []
       base.links = []
+      base.queries = []
     end
 
     def self.href(*attrs)
@@ -28,6 +30,10 @@ module CollectionJson
 
     def self.links(*attrs)
       @links.concat attrs
+    end
+
+    def self.queries(*attrs)
+      @queries.concat attrs
     end
 
     attr_accessor :resources
@@ -54,6 +60,10 @@ module CollectionJson
 
     def links
       self.class.links
+    end
+
+    def queries
+      self.class.queries
     end
 
     def invalid?

@@ -26,7 +26,8 @@ module CollectionJson
           :attributes,
           :href,
           :links,
-          :template
+          :template,
+          :queries
         ].each { |m| send("validate_#{m}") }
       end
 
@@ -98,6 +99,42 @@ module CollectionJson
         end if @serializer.template.any?
       end
 
+      def validate_queries
+        @serializer.queries.each do |query|
+          params = query.extract_params
+
+          unless params[:properties].key? :href
+            error_for :missing_attribute,
+                      root: :queries,
+                      path: [params[:name], "href"]
+
+            next
+          end
+
+          if url_is_invalid? params[:properties][:href]
+            error_for :url, root: :queries, path: [params[:name], "href"]
+          end
+
+          params[:properties].each do |key, value|
+            next if key == :data || key == :href
+
+            if value_is_invalid?(value)
+              error_for :value, root: :queries, path: [params[:name], key]
+            end
+          end
+
+          if params[:properties].key?(:data)
+            params[:properties][:data].each do |hash|
+              if value_is_invalid?(hash[:name])
+                error_for :value,
+                          root: :queries,
+                          path: [params[:name], "data", "name"]
+              end
+            end
+          end
+        end if @serializer.queries.present?
+      end
+
       def value_is_invalid?(value)
         v = CollectionJson::Serializer::Validator::Value.new(value)
         v.invalid?
@@ -108,7 +145,7 @@ module CollectionJson
         v.invalid?
       end
 
-      def error_for(kind, root:, path: [])
+      def error_for(kind, root: root, path: [])
         case kind.to_sym
         when :url
           ending = " is an invalid URL"

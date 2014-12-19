@@ -12,3 +12,7 @@
 *.o
 *.a
 mkmf.log
+
+Gemfile.lock
+.ruby-version
+.ruby-gemset

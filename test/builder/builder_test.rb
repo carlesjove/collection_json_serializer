@@ -33,8 +33,9 @@ module CollectionJson
                   ],
                   links: [
                     {
-                      name: "dashboard",
-                      href: "http://example.com/my-dashboard"
+                      rel: "dashboard",
+                      href: "http://example.com/my-dashboard",
+                      name: "dashboard"
                     }
                   ]
                 }
@@ -51,7 +52,13 @@ module CollectionJson
                     prompt: "My email"
                   }
                 ]
-              }
+              },
+              queries: [
+                {
+                  rel: "search",
+                  href: "http://example.com/search"
+                }
+              ]
             }
           }
 
@@ -80,8 +87,9 @@ module CollectionJson
                   ],
                   links: [
                     {
-                      name: "dashboard",
-                      href: "http://example.com/my-dashboard"
+                      rel: "dashboard",
+                      href: "http://example.com/my-dashboard",
+                      name: "dashboard"
                     }
                   ]
                 },
@@ -99,8 +107,9 @@ module CollectionJson
                   ],
                   links: [
                     {
-                      name: "dashboard",
-                      href: "http://example.com/my-dashboard"
+                      rel: "dashboard",
+                      href: "http://example.com/my-dashboard",
+                      name: "dashboard"
                     }
                   ]
                 }
@@ -117,7 +126,13 @@ module CollectionJson
                     prompt: "My email"
                   }
                 ]
-              }
+              },
+              queries: [
+                {
+                  rel: "search",
+                  href: "http://example.com/search"
+                }
+              ]
             }
           }
 

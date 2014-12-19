@@ -28,6 +28,7 @@ module CollectionJson
         add_href if @serializer.href.respond_to? :key
         add_items if @serializer.attributes.present?
         add_template if @serializer.template.present?
+        add_queries if @serializer.queries.present?
       end
 
       def add_href
@@ -50,6 +51,15 @@ module CollectionJson
         template = CollectionJson::Serializer::Objects::Template.
           new(@serializer)
         @collection[:template].store :data, template.create
+      end
+
+      def add_queries
+        @collection.store :queries, Array.new
+        @serializer.queries.each_index do |i|
+          query = CollectionJson::Serializer::Objects::Query.
+            new(@serializer, item: i)
+          @collection[:queries] << query.create
+        end
       end
     end
   end
