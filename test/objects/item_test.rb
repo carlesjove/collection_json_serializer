@@ -14,9 +14,9 @@ module CollectionJson
             @item = Item.new(@user_serializer)
           end
 
-          def test_that_rel_will_beadded_from_the_name_when_missing
+          def test_that_rel_will_be_added_from_the_name_when_missing
             serializer = empty_serializer_for(@user1)
-            serializer.class.attributes = [:name]
+            serializer.items.attributes = [:name]
             serializer.class.links = [dashboard: { href: "http://example.com" }]
             item = Item.new(serializer)
             actual = item.create[:links].first

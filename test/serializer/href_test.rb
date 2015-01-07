@@ -26,7 +26,7 @@ module CollectionJson
 
       def test_that_a_placeholder_can_be_used_for_urls
         user_serializer = empty_serializer_for(@user)
-        user_serializer.class.attributes = [:name]
+        user_serializer.items.attributes = [:name]
         user_serializer.class.href = [self: "http://example.com/users/{id}"]
         builder = Builder.new(user_serializer)
 

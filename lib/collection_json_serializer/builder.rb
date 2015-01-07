@@ -26,7 +26,7 @@ module CollectionJson
       def build
         # There might be a more elegant way to do it, yes
         add_href if @serializer.href.respond_to? :key
-        add_items if @serializer.attributes.present?
+        add_items if @serializer.items && @serializer.items.attributes.present?
         add_template if @serializer.template.present?
         add_queries if @serializer.queries.present?
       end

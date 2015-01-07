@@ -2,15 +2,14 @@ module CollectionJson
   class Serializer
     class << self
       attr_accessor :href
-      attr_accessor :attributes
       attr_accessor :template
       attr_accessor :links
       attr_accessor :queries
+      attr_accessor :_items
     end
 
     def self.inherited(base)
       base.href = []
-      base.attributes = []
       base.template = []
       base.links = []
       base.queries = []
@@ -18,10 +17,6 @@ module CollectionJson
 
     def self.href(*attrs)
       @href.concat attrs
-    end
-
-    def self.attributes(*attrs)
-      @attributes.concat attrs
     end
 
     def self.template(*attrs)
@@ -34,6 +29,11 @@ module CollectionJson
 
     def self.queries(*attrs)
       @queries.concat attrs
+    end
+
+    def self.items(&block)
+      @_items = Items.new
+      @_items.instance_eval(&block)
     end
 
     attr_accessor :resources
@@ -50,10 +50,6 @@ module CollectionJson
       self.class.href.first
     end
 
-    def attributes
-      self.class.attributes
-    end
-
     def template
       self.class.template
     end
@@ -64,6 +60,10 @@ module CollectionJson
 
     def queries
       self.class.queries
+    end
+
+    def items
+      self.class._items
     end
 
     def invalid?

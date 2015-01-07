@@ -1,3 +1,5 @@
 class UnknownAttributeSerializer < CollectionJson::Serializer
-  attributes :unknown
+  items do
+    attributes :unknown
+  end
 end

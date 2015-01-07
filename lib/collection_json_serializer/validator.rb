@@ -32,7 +32,7 @@ module CollectionJson
       end
 
       def validate_attributes
-        @serializer.attributes.each do |attr|
+        @serializer.items.attributes.each do |attr|
           params = attr.extract_params
 
           @serializer.resources.each do |resource|
@@ -48,7 +48,7 @@ module CollectionJson
             end
           end if params[:properties]
 
-        end if @serializer.attributes.any?
+        end if @serializer.items && @serializer.items.attributes.any?
       end
 
       def validate_href

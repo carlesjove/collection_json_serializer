@@ -77,7 +77,7 @@ module CollectionJson
 
         # Attributes
         def test_that_invalid_attributes_return_values_generate_errors
-          @invalid.class.attributes = [:name]
+          @invalid.items.attributes = [:name]
 
           @invalid_value_types.each do |invalidate|
             @user.name = invalidate
@@ -92,7 +92,7 @@ module CollectionJson
 
         def test_that_invalid_attributes_properties_values_generate_errors
           @invalid_value_types.each do |invalidate|
-            @invalid.class.attributes = [
+            @invalid.items.attributes = [
               name: {
                 prompt: invalidate,
                 test: invalidate
