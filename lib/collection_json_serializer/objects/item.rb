@@ -13,7 +13,7 @@ module CollectionJson
 
         def create
           add_href  if @serializer.href.present?
-          add_data  if @serializer.items && @serializer.items.attributes.present?
+          add_data  if items? && attributes?
           add_links if @serializer.links.present?
 
           @item
@@ -72,6 +72,14 @@ module CollectionJson
           else
             params[:name].to_s
           end
+        end
+
+        def items?
+          !@serializer.items.nil?
+        end
+
+        def attributes?
+          @serializer.items.attributes.present?
         end
       end
     end
