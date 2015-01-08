@@ -12,9 +12,9 @@ module CollectionJson
         end
 
         def create
-          add_href  if @serializer.href.present?
-          add_data  if @serializer.items && @serializer.items.attributes.present?
-          add_links if @serializer.links.present?
+          add_href  if href?
+          add_data  if items? && attributes?
+          add_links if links?
 
           @item
         end
@@ -28,7 +28,7 @@ module CollectionJson
         end
 
         def add_data
-          @serializer.items.attributes.each do |attr|
+          attributes.each do |attr|
             params = attr.extract_params
             value = extract_value_from(@resource, params[:name])
 
@@ -39,7 +39,7 @@ module CollectionJson
 
             start_object :data, Array.new
             @item[:data] << c
-          end if @serializer.items.attributes.present?
+          end if attributes?
         end
 
         def add_links
@@ -72,6 +72,26 @@ module CollectionJson
           else
             params[:name].to_s
           end
+        end
+
+        def href?
+          @serializer.href.present?
+        end
+
+        def links?
+          @serializer.links.present?
+        end
+
+        def items?
+          !@serializer.items.nil?
+        end
+
+        def attributes?
+          @serializer.items.attributes.present?
+        end
+
+        def attributes
+          @serializer.items.attributes if attributes?
         end
       end
     end
