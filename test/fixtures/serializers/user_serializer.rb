@@ -17,5 +17,6 @@ class UserSerializer < CollectionJson::Serializer
 
   items do
     attributes :name, :email
+    links avatar: { href: "http://assets.example.com/avatar.jpg" }
   end
 end

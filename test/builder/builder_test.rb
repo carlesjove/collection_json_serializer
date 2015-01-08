@@ -33,11 +33,18 @@ module CollectionJson
                   ],
                   links: [
                     {
-                      rel: "dashboard",
-                      href: "http://example.com/my-dashboard",
-                      name: "dashboard"
+                      rel: "avatar",
+                      href: "http://assets.example.com/avatar.jpg",
+                      name: "avatar"
                     }
                   ]
+                }
+              ],
+              links: [
+                {
+                  rel: "dashboard",
+                  href: "http://example.com/my-dashboard",
+                   name: "dashboard"
                 }
               ],
               template: {
@@ -87,9 +94,9 @@ module CollectionJson
                   ],
                   links: [
                     {
-                      rel: "dashboard",
-                      href: "http://example.com/my-dashboard",
-                      name: "dashboard"
+                      rel: "avatar",
+                      href: "http://assets.example.com/avatar.jpg",
+                      name: "avatar"
                     }
                   ]
                 },
@@ -107,11 +114,18 @@ module CollectionJson
                   ],
                   links: [
                     {
-                      rel: "dashboard",
-                      href: "http://example.com/my-dashboard",
-                      name: "dashboard"
+                      rel: "avatar",
+                      href: "http://assets.example.com/avatar.jpg",
+                      name: "avatar"
                     }
                   ]
+                }
+              ],
+              links: [
+                {
+                  rel: "dashboard",
+                  href: "http://example.com/my-dashboard",
+                   name: "dashboard"
                 }
               ],
               template: {

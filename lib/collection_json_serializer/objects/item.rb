@@ -43,7 +43,7 @@ module CollectionJson
         end
 
         def add_links
-          @serializer.links.each do |attr|
+          @serializer.items.links.each do |attr|
             params = attr.extract_params
 
             next unless params.key? :properties
@@ -54,7 +54,7 @@ module CollectionJson
               href: params[:properties][:href],
               name: params[:name].to_s
             }.merge!(params[:properties])
-          end if @serializer.links.present?
+          end if @serializer.items.links.present?
         end
 
         def start_object(name, type)
@@ -79,7 +79,7 @@ module CollectionJson
         end
 
         def links?
-          @serializer.links.present?
+          @serializer.items.links.present?
         end
 
         def items?

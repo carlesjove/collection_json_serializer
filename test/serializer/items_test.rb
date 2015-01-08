@@ -15,6 +15,10 @@ module CollectionJson
       def test_that_items_has_an_attributes_dsl
         assert @user_serializer.items.respond_to?(:attributes)
       end
+
+      def test_that_items_has_a_links_dsl
+        assert @user_serializer.items.respond_to?(:links)
+      end
     end
   end
 end
