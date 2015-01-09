@@ -44,7 +44,7 @@ module CollectionJson
                 {
                   rel: "dashboard",
                   href: "http://example.com/my-dashboard",
-                   name: "dashboard"
+                  name: "dashboard"
                 }
               ],
               template: {
@@ -125,7 +125,7 @@ module CollectionJson
                 {
                   rel: "dashboard",
                   href: "http://example.com/my-dashboard",
-                   name: "dashboard"
+                  name: "dashboard"
                 }
               ],
               template: {

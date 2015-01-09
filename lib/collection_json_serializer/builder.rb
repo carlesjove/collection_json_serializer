@@ -1,6 +1,8 @@
 module CollectionJson
   class Serializer
     class Builder
+      include Support
+
       def initialize(serializer)
         @serializer = serializer
         @collection = { version: "1.0" }
@@ -26,10 +28,10 @@ module CollectionJson
       def build
         # There might be a more elegant way to do it, yes
         add_href      if @serializer.href.respond_to? :key
-        add_items     if @serializer.items && @serializer.items.attributes.present?
-        add_links     if @serializer.links.present?
-        add_template  if @serializer.template.present?
-        add_queries   if @serializer.queries.present?
+        add_items     if @serializer.items? && @serializer.items.attributes?
+        add_links     if @serializer.links?
+        add_template  if @serializer.template?
+        add_queries   if @serializer.queries?
       end
 
       def add_href
@@ -76,14 +78,6 @@ module CollectionJson
             href: params[:properties][:href],
             name: params[:name].to_s
           }.merge!(params[:properties])
-        end
-      end
-
-      def set_rel(params)
-        if params[:properties].key? :rel
-          params[:properties][:rel].to_s
-        else
-          params[:name].to_s
         end
       end
     end

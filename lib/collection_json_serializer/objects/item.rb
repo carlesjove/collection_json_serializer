@@ -2,7 +2,7 @@ module CollectionJson
   class Serializer
     class Objects
       class Item
-        include CollectionJson::Serializer::Support
+        include Support
 
         def initialize(serializer, item: 0)
           @serializer = serializer
@@ -13,8 +13,8 @@ module CollectionJson
 
         def create
           add_href  if href?
-          add_data  if items? && attributes?
-          add_links if links?
+          add_data  if @serializer.items? && @serializer.items.attributes?
+          add_links if @serializer.items.links?
 
           @item
         end
@@ -39,7 +39,7 @@ module CollectionJson
 
             start_object :data, Array.new
             @item[:data] << c
-          end if attributes?
+          end if @serializer.items.attributes?
         end
 
         def add_links
@@ -66,32 +66,16 @@ module CollectionJson
           parse_url(url, @resource)
         end
 
-        def set_rel(params)
-          if params[:properties].key? :rel
-            params[:properties][:rel].to_s
-          else
-            params[:name].to_s
-          end
-        end
-
         def href?
           @serializer.href.present?
-        end
-
-        def links?
-          @serializer.items.links.present?
         end
 
         def items?
           !@serializer.items.nil?
         end
 
-        def attributes?
-          @serializer.items.attributes.present?
-        end
-
         def attributes
-          @serializer.items.attributes if attributes?
+          @serializer.items.attributes if @serializer.items.attributes?
         end
       end
     end

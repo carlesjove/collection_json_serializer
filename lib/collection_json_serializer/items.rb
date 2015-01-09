@@ -11,6 +11,14 @@ module CollectionJson
       def links(*args)
         @links ||= args
       end
+
+      def attributes?
+        @attributes.present?
+      end
+
+      def links?
+        @links.present?
+      end
     end
   end
 end

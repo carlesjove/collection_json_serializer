@@ -54,16 +54,32 @@ module CollectionJson
       self.class.template
     end
 
+    def template?
+      self.template.present?
+    end
+
     def links
       self.class.links
+    end
+
+    def links?
+      self.links.present?
     end
 
     def queries
       self.class.queries
     end
 
+    def queries?
+      self.queries.present?
+    end
+
     def items
       self.class._items
+    end
+
+    def items?
+      self.items.present?
     end
 
     def invalid?
