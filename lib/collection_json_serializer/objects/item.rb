@@ -12,7 +12,7 @@ module CollectionJson
         end
 
         def create
-          add_href  if href?
+          add_href  if @serializer.items.href?
           add_data  if @serializer.items? && @serializer.items.attributes?
           add_links if @serializer.items.links?
 
@@ -22,9 +22,7 @@ module CollectionJson
         private
 
         def add_href
-          if @serializer.href.present?
-            @item.store :href, set_href
-          end
+          @item.store(:href, set_href) if @serializer.items.href?
         end
 
         def add_data
@@ -62,7 +60,7 @@ module CollectionJson
         end
 
         def set_href
-          url = @serializer.href[:self] || @serializer.href
+          url = @serializer.items.href || @serializer.href
           parse_url(url, @resource)
         end
 

@@ -1,6 +1,5 @@
 class UserSerializer < CollectionJson::Serializer
-  href self: "http://example.com/users/{id}",
-       collection: "http://example.com/users"
+  href "http://example.com/users"
   template :name, email: { prompt: "My email" }
   links dashboard: { href: "http://example.com/my-dashboard" }
   queries search: {
@@ -16,6 +15,7 @@ class UserSerializer < CollectionJson::Serializer
   }
 
   items do
+    href "http://example.com/users/{id}"
     attributes :name, :email
     links avatar: { href: "http://assets.example.com/avatar.jpg" }
   end
