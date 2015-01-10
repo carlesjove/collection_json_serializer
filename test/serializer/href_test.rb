@@ -15,9 +15,11 @@ module CollectionJson
       end
 
       def test_that_only_one_href_value_is_passed_to_builder
-        multiple_href_serializer = MultipleHrefSerializer.new(@user)
-        assert_equal %w(/a /b /c), multiple_href_serializer.class.href
-        assert_equal "/a", multiple_href_serializer.href
+        serializer = empty_serializer_for(@user)
+        serializer.class.href = %w(/a /b /c)
+
+        assert_equal %w(/a /b /c), serializer.class.href
+        assert_equal "/a", serializer.href
       end
     end
   end

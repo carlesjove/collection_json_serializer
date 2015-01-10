@@ -101,8 +101,10 @@ module CollectionJson
           end
 
           def test_that_unknown_attributes_are_silently_ignored
-            serializer_with_unknown_attr = UnknownAttributeSerializer.new(@user1)
-            item = Item.new(serializer_with_unknown_attr)
+            serializer = empty_serializer_for(@user1)
+            serializer.items.attributes(:unknown)
+            item = Item.new(serializer)
+
             refute item.create.include?(:unknown)
           end
         end
