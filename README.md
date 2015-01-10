@@ -5,11 +5,9 @@
 | :warning: This is _not finished_ yet, so use it at your own risk. |
 --------------------------------------------------------------------
 
-A Ruby gem to respond with Collection+JSON.
+CollectionJson::Serializer serializes Ruby objects to Collection+JSON, the hypermedia type by Mike Amudsen.
 
-CollectionJson::Serializer formats JSON responses following the Collection+JSON media type by Mike Amudsen.
-
-Please note that CollectionJson::Serializer only serializes data. You still need to set the proper Headers or media-types in your app.
+Please note that CollectionJson::Serializer _only serializes data_. You still need to set the proper Headers or media-types in your app.
 
 ## Installation
 
@@ -23,9 +21,6 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install collection_json_serializer
 
 ## Usage
 
@@ -55,6 +50,7 @@ class UserSerializer < CollectionJson::Serializer
   item do
     attributes :id, name: { prompt: "Your full name" }, :email
     href "http://example.com/users/{id}"
+    links avatar: { href: "http://assets.example.com/avatar.jpg", render: "image" }
   end
 end
 ```
@@ -86,6 +82,9 @@ This will generate this Collection+JSON response:
   {
     "version" : "1.0",
     "href" : "http://example.com/users",
+    "links": [
+      { "name": "dashboard", "href": "http://example.com/my-dashboard" }
+    ],
     "items" : [{
       "href": "http://example.com/users/1",
       "data": [
@@ -94,7 +93,8 @@ This will generate this Collection+JSON response:
         { "name": "email", "value": "email@example.com" },
       ],
       "links": [
-        { "name": "dashboard", "href": "http://example.com/my-dashboard" }
+        { "name": "avatar", "href": "http://assets.example.com/avatar.jpg",
+        "render": "image" }
       ]
     }],
     "template" : {
@@ -121,11 +121,13 @@ This will generate this Collection+JSON response:
 
 #### URL placeholders
 
-URLs can be generated dinamically with placeholder. A placeholder is a URL segment wrapped in curly braces. A placeholder can be any method that can be called on the object that the serializer takes (i.e. `id`, `username`, etc.).
+Items' URLs can be generated dinamically with a placeholder. A placeholder is a URL segment wrapped in curly braces. A placeholder can be any method that can be called on the object that the serializer takes (i.e. `id`, `username`, etc.).
 
 ```ruby
 class UserSerializer < CollectionJson::Serializer
-  href self: "http://example.com/users/{id}"
+  items do
+    href "http://example.com/users/{id}"
+  end
 end
 ```
 
@@ -133,13 +135,17 @@ All placeholders will be called, so you can use more than one if necessary, but 
 
 ```ruby
 class UserSerializer < CollectionJson::Serializer
-  # This is ok
-  href self: "http://example.com/users/{id}/{username}"
+  items do
+    # This is ok
+    href "http://example.com/users/{id}/{username}"
 
-  # This is not ok
-  href self: "http://example.com/users/{id}-{username}"
+    # This is wrong
+    href "http://example.com/users/{id}-{username}"
+  end
 end
 ```
+
+Please, notice that placeholders can _only_ be used within the `items` block.
 
 #### Open Attributes Policy
 
@@ -147,7 +153,9 @@ Collection+JSON serializer has an __open attributes policy__, which means that o
 
 ```ruby
 class UserSerializer < CollectionJson::Serializer
-  attributes :id, name: { css_class: "people" }
+  items do
+    attributes :id, name: { css_class: "people" }
+  end
 
   template name: { regex: "/\A[a-zA-Z0-9_]*\z/" }
 
