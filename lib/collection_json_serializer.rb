@@ -6,6 +6,7 @@ require "collection_json_serializer/core_ext/symbol"
 require "collection_json_serializer/support"
 
 require "collection_json_serializer/serializer"
+require "collection_json_serializer/items"
 
 require "collection_json_serializer/builder"
 
