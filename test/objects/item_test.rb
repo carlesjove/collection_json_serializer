@@ -14,15 +14,17 @@ module CollectionJson
             @item = Item.new(@user_serializer)
           end
 
-          def test_that_rel_will_beadded_from_the_name_when_missing
+          def test_that_rel_will_be_added_from_the_name_when_missing
             serializer = empty_serializer_for(@user1)
-            serializer.class.attributes = [:name]
-            serializer.class.links = [dashboard: { href: "http://example.com" }]
+            serializer.items.attributes = [:name]
+            serializer.items.links = [avatar: {
+              href: "http://assets.example.com/avatar.jpg"
+            }]
             item = Item.new(serializer)
             actual = item.create[:links].first
 
             assert actual.include? :rel
-            assert_equal "dashboard", actual[:rel]
+            assert_equal "avatar", actual[:rel]
           end
 
           def test_that_an_item_can_be_build
@@ -34,9 +36,9 @@ module CollectionJson
               ],
               links: [
                 {
-                  rel: "dashboard",
-                  href: "http://example.com/my-dashboard",
-                  name: "dashboard"
+                  rel: "avatar",
+                  href: "http://assets.example.com/avatar.jpg",
+                  name: "avatar"
                 }
               ]
             }
@@ -56,9 +58,9 @@ module CollectionJson
               ],
               links: [
                 {
-                  rel: "dashboard",
-                  href: "http://example.com/my-dashboard",
-                  name: "dashboard"
+                  rel: "avatar",
+                  href: "http://assets.example.com/avatar.jpg",
+                  name: "avatar"
                 }
               ]
             }
@@ -99,8 +101,10 @@ module CollectionJson
           end
 
           def test_that_unknown_attributes_are_silently_ignored
-            serializer_with_unknown_attr = UnknownAttributeSerializer.new(@user1)
-            item = Item.new(serializer_with_unknown_attr)
+            serializer = empty_serializer_for(@user1)
+            serializer.items.attributes(:unknown)
+            item = Item.new(serializer)
+
             refute item.create.include?(:unknown)
           end
         end

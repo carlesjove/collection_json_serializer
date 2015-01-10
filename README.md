@@ -33,10 +33,7 @@ As this gem user, you will be mainly writing/generating and mantaining serialize
 
 ```ruby
 class UserSerializer < CollectionJson::Serializer
-  href self: "http://example.com/users/1",
-       collection: "http://example.com/users"
-
-  attributes :id, name: { prompt: "Your full name" }, :email
+  href "http://example.com/users",
 
   template :name, email: { prompt: "My email" }
 
@@ -54,6 +51,11 @@ class UserSerializer < CollectionJson::Serializer
       { name: "page" }
     ]
   }
+
+  item do
+    attributes :id, name: { prompt: "Your full name" }, :email
+    href "http://example.com/users/{id}"
+  end
 end
 ```
 

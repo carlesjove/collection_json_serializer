@@ -31,6 +31,14 @@ module CollectionJson
       def has_placeholder?(string)
         string.chars.first.eql?("{") && string.chars.last.eql?("}")
       end
+
+      def set_rel(params)
+        if params[:properties].key?(:rel)
+          params[:properties][:rel].to_s
+        else
+          params[:name].to_s
+        end
+      end
     end
   end
 end

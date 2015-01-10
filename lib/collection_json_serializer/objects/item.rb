@@ -2,7 +2,7 @@ module CollectionJson
   class Serializer
     class Objects
       class Item
-        include CollectionJson::Serializer::Support
+        include Support
 
         def initialize(serializer, item: 0)
           @serializer = serializer
@@ -12,9 +12,9 @@ module CollectionJson
         end
 
         def create
-          add_href  if @serializer.href.present?
-          add_data  if @serializer.attributes.present?
-          add_links if @serializer.links.present?
+          add_href  if @serializer.items.href?
+          add_data  if @serializer.items? && @serializer.items.attributes?
+          add_links if @serializer.items.links?
 
           @item
         end
@@ -22,13 +22,11 @@ module CollectionJson
         private
 
         def add_href
-          if @serializer.href.present?
-            @item.store :href, set_href
-          end
+          @item.store(:href, set_href) if @serializer.items.href?
         end
 
         def add_data
-          @serializer.attributes.each do |attr|
+          attributes.each do |attr|
             params = attr.extract_params
             value = extract_value_from(@resource, params[:name])
 
@@ -39,11 +37,11 @@ module CollectionJson
 
             start_object :data, Array.new
             @item[:data] << c
-          end if @serializer.attributes.present?
+          end if @serializer.items.attributes?
         end
 
         def add_links
-          @serializer.links.each do |attr|
+          @serializer.items.links.each do |attr|
             params = attr.extract_params
 
             next unless params.key? :properties
@@ -54,7 +52,7 @@ module CollectionJson
               href: params[:properties][:href],
               name: params[:name].to_s
             }.merge!(params[:properties])
-          end if @serializer.links.present?
+          end if @serializer.items.links.present?
         end
 
         def start_object(name, type)
@@ -62,16 +60,20 @@ module CollectionJson
         end
 
         def set_href
-          url = @serializer.href[:self] || @serializer.href
+          url = @serializer.items.href || @serializer.href
           parse_url(url, @resource)
         end
 
-        def set_rel(params)
-          if params[:properties].key? :rel
-            params[:properties][:rel].to_s
-          else
-            params[:name].to_s
-          end
+        def href?
+          @serializer.href.present?
+        end
+
+        def items?
+          !@serializer.items.nil?
+        end
+
+        def attributes
+          @serializer.items.attributes if @serializer.items.attributes?
         end
       end
     end
