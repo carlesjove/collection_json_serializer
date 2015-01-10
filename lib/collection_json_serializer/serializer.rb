@@ -55,7 +55,7 @@ module CollectionJson
     end
 
     def template?
-      self.template.present?
+      self.class.template.present?
     end
 
     def links
@@ -63,7 +63,7 @@ module CollectionJson
     end
 
     def links?
-      self.links.present?
+      self.class.links.present?
     end
 
     def queries
@@ -71,7 +71,7 @@ module CollectionJson
     end
 
     def queries?
-      self.queries.present?
+      self.class.queries.present?
     end
 
     def items
@@ -79,7 +79,7 @@ module CollectionJson
     end
 
     def items?
-      self.items.present?
+      self.class._items.present?
     end
 
     def invalid?
