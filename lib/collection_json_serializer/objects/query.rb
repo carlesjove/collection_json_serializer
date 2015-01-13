@@ -19,6 +19,10 @@ module CollectionJson
           @query[:prompt] = @resource[:prompt] if @resource[:prompt]
           @query[:data]   = add_data if @resource[:data]
 
+          if @serializer.uses?(:open_attrs)
+            @resource.each { |k, v| @query[k] = v unless @query.key?(k) }
+          end
+
           @query
         end
 
@@ -30,7 +34,10 @@ module CollectionJson
 
         def add_data
           @resource[:data].each_with_object([]) do |attr, data|
-            data << { name: attr[:name], value: nil.to_s }
+            h = Hash.new
+            attr.keys.each { |k| h[k] = attr[k] }
+            h[:value] = nil.to_s unless h[:value]
+            data << h
           end
         end
 

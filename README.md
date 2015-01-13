@@ -149,17 +149,23 @@ Please, notice that placeholders can _only_ be used within the `items` block.
 
 #### Open Attributes Policy
 
-Collection+JSON serializer has an __open attributes policy__, which means that objects' attributes can be extended at will. That is good if you want to use many of the [extensions available](https://github.com/collection-json/extensions), and also if you need to add custom extensions to suit your particular needs. Be aware that, [as the specs say](https://github.com/collection-json/spec#7-extensibility), you must only extend attributes in a way that won't break clients that are not aware of them.
+Collection+JSON Serializer introduces an __open attributes policy__, which means that objects' attributes can be extended at will. This makes it easy to add custom extensions to suit your particular needs. Be aware that, [as the specs say](https://github.com/collection-json/spec#7-extensibility), you must only extend attributes in a way that won't break clients that are not aware of them.
+
+In order to use the Open Attributes policy, it must be declared as an extension.
 
 ```ruby
 class UserSerializer < CollectionJson::Serializer
+  # Add Open Attrs as an extension
+  extensions :open_attrs
+
+  # Now you can use your crazy properties everywhere
   items do
     attributes :id, name: { css_class: "people" }
   end
 
   template name: { regex: "/\A[a-zA-Z0-9_]*\z/" }
 
-  links profile: { css_class: "button" }
+  links profile: { on_click: "reboot_universe" }
 end
 ```
 

@@ -23,7 +23,7 @@ module CollectionJson
 
       def validate
         [
-          :attributes,
+          :items,
           :href,
           :links,
           :template,
@@ -31,24 +31,58 @@ module CollectionJson
         ].each { |m| send("validate_#{m}") }
       end
 
-      def validate_attributes
+      def validate_items
+        validate_items_attributes   if @serializer.items? && @serializer.items.attributes?
+        validate_items_links  if @serializer.items? && @serializer.items.links?
+      end
+
+      def validate_items_attributes
         @serializer.items.attributes.each do |attr|
           params = attr.extract_params
+          validate_attributes_values(@serializer.resources, params)
+          validate_attributes_properties(params) if params[:properties]
+        end if @serializer.items? && @serializer.items.attributes?
+      end
 
-          @serializer.resources.each do |resource|
-            val = extract_value_from(resource, params[:name])
-            if value_is_invalid? val
-              error_for :value, root: :attributes, path: [params[:name]]
-            end
+      def validate_attributes_values(resources, params)
+        resources.each do |resource|
+          val = extract_value_from(resource, params[:name])
+          if value_is_invalid?(val)
+            error_for :value, root: :attributes, path: [params[:name]]
           end
+        end
+      end
 
-          params[:properties].each do |key, value|
-            if value_is_invalid? value
-              error_for :value, root: :attributes, path: [params[:name], key]
-            end
-          end if params[:properties]
+      def validate_attributes_properties(params)
+        params[:properties].each do |key, value|
+          unless definition[:items][:data].keys.include?(key.to_sym)
+            error_for(
+              :unknown_attribute,
+              root: :attributes,
+              path: [params[:name], key]
+            )
+            next
+          end unless @serializer.uses?(:open_attrs)
 
-        end if @serializer.items && @serializer.items.attributes.any?
+          if value_is_invalid?(value)
+            error_for :value, root: :attributes, path: [params[:name], key]
+          end
+        end
+      end
+
+      def validate_items_links
+        @serializer.items.links.each do |attr|
+          params = attr.extract_params
+          params[:properties].keys.each do |key|
+            unless definition[:items][:links].keys.include?(key.to_sym)
+              error_for(
+                :unknown_attribute,
+                root: :items,
+                path: [:links, params[:name], key]
+              )
+            end unless @serializer.uses?(:open_attrs)
+          end
+        end
       end
 
       def validate_href
@@ -72,6 +106,11 @@ module CollectionJson
           end
 
           link.each do |key, value|
+            unless definition[:links].keys.include?(key.to_sym)
+              error_for :unknown_attribute, root: :links, path: [key]
+              next
+            end unless @serializer.uses?(:open_attrs)
+
             case key
             when :href
               if url_is_invalid? link[:href]
@@ -91,7 +130,16 @@ module CollectionJson
           params = attr.extract_params
 
           params[:properties].each do |key, value|
-            if value_is_invalid? value
+            unless definition[:template].keys.include?(key.to_sym)
+              error_for(
+                :unknown_attribute,
+                root: :template,
+                path: [params[:name], key]
+              )
+              next
+            end unless @serializer.uses?(:open_attrs)
+
+            if value_is_invalid?(value)
               error_for :value, root: :template, path: [params[:name], key]
             end
           end if params[:properties]
@@ -103,7 +151,7 @@ module CollectionJson
         @serializer.queries.each do |query|
           params = query.extract_params
 
-          unless params[:properties].key? :href
+          unless params[:properties].key?(:href)
             error_for :missing_attribute,
                       root: :queries,
                       path: [params[:name], "href"]
@@ -111,12 +159,19 @@ module CollectionJson
             next
           end
 
-          if url_is_invalid? params[:properties][:href]
+          if url_is_invalid?(params[:properties][:href])
             error_for :url, root: :queries, path: [params[:name], "href"]
           end
 
           params[:properties].each do |key, value|
             next if key == :data || key == :href
+            unless definition[:queries].keys.include?(key.to_sym)
+              error_for(
+                :unknown_attribute,
+                root: :queries,
+                path: [params[:name], key]
+              )
+            end unless @serializer.uses?(:open_attrs)
 
             if value_is_invalid?(value)
               error_for :value, root: :queries, path: [params[:name], key]
@@ -125,6 +180,16 @@ module CollectionJson
 
           if params[:properties].key?(:data)
             params[:properties][:data].each do |hash|
+              hash.keys.each do |key|
+                unless definition[:queries][:data].keys.include?(key)
+                  error_for(
+                    :unknown_attribute,
+                    root: :queries,
+                    path: [params[:name], :data, key]
+                  )
+                end unless @serializer.uses?(:open_attrs)
+              end
+
               if value_is_invalid?(hash[:name])
                 error_for :value,
                           root: :queries,
@@ -153,6 +218,8 @@ module CollectionJson
           ending = " is an invalid value"
         when :missing_attribute
           ending = " is missing"
+        when :unknown_attribute
+          ending = " is an unknown attribute"
         else
           ending = " is an invalid value"
         end
@@ -162,6 +229,10 @@ module CollectionJson
         e << ":" + path.join(":") if path.any?
         e << ending
         @errors[root] << e
+      end
+
+      def definition
+        CollectionJson::Spec::DEFINITION
       end
     end
   end

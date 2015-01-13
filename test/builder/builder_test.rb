@@ -153,25 +153,6 @@ module CollectionJson
           assert_equal expected.to_json, builder.to_json
         end
 
-        def test_that_any_attributes_can_be_passed_to_template
-          custom_serializer = CustomTemplateSerializer.new(@user1)
-          builder = Builder.new(custom_serializer)
-
-          expected = {
-            collection: {
-              version: "1.0",
-              template: {
-                data: [
-                  { name: "name", value: "" },
-                  { name: "email", value: "", prompt: "My email", anything: "at all", whatever: "really" }
-                ]
-              }
-            }
-          }
-
-          assert_equal expected.to_json, builder.to_json
-        end
-
         def test_that_an_invalid_serializer_raises_an_error
           invalid_serializer = InvalidSerializer.new(@user1)
           builder = Builder.new(invalid_serializer)

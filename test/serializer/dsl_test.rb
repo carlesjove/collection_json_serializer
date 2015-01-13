@@ -14,6 +14,7 @@ module CollectionJson
         assert @serializer.respond_to?(:template)
         assert @serializer.respond_to?(:queries)
         assert @serializer.respond_to?(:items)
+        assert @serializer.respond_to?(:extensions)
       end
 
       def test_items_dsl
