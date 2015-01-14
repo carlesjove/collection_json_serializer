@@ -30,18 +30,18 @@ module CollectionJson
         ]
 
         assert serializer.invalid?,
-          "#{serializer.inspect} should be invalid"
+               "#{serializer.inspect} should be invalid"
 
         # Items attributes
         assert serializer.errors.key?(:attributes),
-          "#{serializer.errors.inspect} should have key attributes"
+               "#{serializer.errors.inspect} should have key attributes"
         assert serializer.errors[:attributes][0].
           include?("attributes:name:unknown is an unknown attribute"),
           "#{serializer.errors[:attributes]} should include 'unknown attribute'"
 
         # Items links
         assert serializer.errors.key?(:items),
-          "#{serializer.errors.inspect} should have key attributes"
+               "#{serializer.errors.inspect} should have key attributes"
         assert serializer.errors[:items][0].
           include?("items:links:dashboard:unknown is an unknown attribute")
 
@@ -52,13 +52,13 @@ module CollectionJson
 
         # Template
         assert serializer.errors.key?(:template),
-          "should have error for 'template'"
+               "should have error for 'template'"
         assert serializer.errors[:template][0].
           include?("template:name:whatever is an unknown attribute")
 
         # Queries
         assert serializer.errors.key?(:queries),
-          "should have error for 'queries'"
+               "should have error for 'queries'"
         assert serializer.errors[:queries][0].
           include?("queries:name:whatever is an unknown attribute")
         assert serializer.errors[:queries][1].

@@ -32,8 +32,8 @@ module CollectionJson
       end
 
       def validate_items
-        validate_items_attributes   if @serializer.items? && @serializer.items.attributes?
-        validate_items_links  if @serializer.items? && @serializer.items.links?
+        validate_items_attributes   if attributes?
+        validate_items_links        if links?
       end
 
       def validate_items_attributes
@@ -233,6 +233,14 @@ module CollectionJson
 
       def definition
         CollectionJson::Spec::DEFINITION
+      end
+
+      def attributes?
+        @serializer.items? && @serializer.items.attributes?
+      end
+
+      def links?
+        @serializer.items? && @serializer.items.links?
       end
     end
   end

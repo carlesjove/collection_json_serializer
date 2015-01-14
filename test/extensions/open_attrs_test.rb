@@ -10,7 +10,7 @@ module CollectionJson
         @serializer = empty_serializer_for(@user)
         @serializer.class.extensions = [:open_attrs]
         @serializer.class.template = [
-           email: {
+          email: {
             prompt: "My email",
             anything: "at all"
           }
