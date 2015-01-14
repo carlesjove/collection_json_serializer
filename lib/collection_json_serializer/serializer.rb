@@ -1,6 +1,7 @@
 module CollectionJson
   class Serializer
     class << self
+      attr_accessor :extensions
       attr_accessor :href
       attr_accessor :template
       attr_accessor :links
@@ -9,10 +10,15 @@ module CollectionJson
     end
 
     def self.inherited(base)
+      base.extensions = []
       base.href = []
       base.template = []
       base.links = []
       base.queries = []
+    end
+
+    def self.extensions(*attrs)
+      @extensions.concat attrs
     end
 
     def self.href(*attrs)
@@ -44,6 +50,10 @@ module CollectionJson
                    else
                      [resource]
                    end
+    end
+
+    def extensions
+      self.class.extensions
     end
 
     def href
@@ -80,6 +90,10 @@ module CollectionJson
 
     def items?
       self.class._items.present?
+    end
+
+    def uses?(extension)
+      extensions.include?(extension)
     end
 
     def invalid?

@@ -13,6 +13,7 @@ require "active_support/inflector"
 module TestHelper
   def empty_serializer_for(object)
     serializer = CollectionJson::Serializer.new(object)
+    serializer.class.extensions = []
     serializer.class.href = []
     serializer.class.links = []
     serializer.class.template = []
