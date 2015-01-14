@@ -7,7 +7,7 @@ require "collection_json_serializer/support"
 
 require "collection_json_serializer/serializer"
 require "collection_json_serializer/items"
-
+require "collection_json_serializer/spec"
 require "collection_json_serializer/builder"
 
 require "collection_json_serializer/validator"

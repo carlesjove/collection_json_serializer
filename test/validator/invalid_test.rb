@@ -94,8 +94,7 @@ module CollectionJson
           @invalid_value_types.each do |invalidate|
             @invalid.items.attributes = [
               name: {
-                prompt: invalidate,
-                test: invalidate
+                prompt: invalidate
               }
             ]
 
@@ -105,8 +104,6 @@ module CollectionJson
                    "#{invalidate} should be invalid"
             assert @invalid.errors[:attributes][0].
                     include? "attributes:name:prompt is an invalid value"
-            assert @invalid.errors[:attributes][1].
-                    include? "attributes:name:test is an invalid value"
           end
         end
 
