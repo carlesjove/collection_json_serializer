@@ -37,7 +37,7 @@ module CollectionJson
                "#{serializer.errors.inspect} should have key attributes"
         assert serializer.errors[:attributes][0].
           include?("attributes:name:unknown is an unknown attribute"),
-          "#{serializer.errors[:attributes]} should include 'unknown attribute'"
+               "#{serializer.errors[:attributes]} should include 'unknown attribute'"
 
         # Items links
         assert serializer.errors.key?(:items),
