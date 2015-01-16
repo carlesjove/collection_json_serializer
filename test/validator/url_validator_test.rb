@@ -5,13 +5,10 @@ module CollectionJson
     class Validator
       class Url
         class TestUrl < Minitest::Test
-          def test_that_urls_validate
-            invalid = %w(
-              /hello
-              http:hello
-            )
+          include TestHelper
 
-            invalid.each do |url|
+          def test_that_urls_validate
+            urls_for_test(:invalid).each do |url|
               value = Url.new(url)
               refute value.valid?
               assert value.invalid?
