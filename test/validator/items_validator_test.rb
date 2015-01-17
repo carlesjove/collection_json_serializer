@@ -17,9 +17,13 @@ module CollectionJson
               serializer = empty_serializer_for(@user)
               serializer.items.attributes = [:name]
 
-              validator = ItemsValidator.new(serializer)
+              items_validator = ItemsValidator.new(serializer)
 
-              assert validator.errors.any?, "should have errors"
+              assert items_validator.errors.any?, "should have errors"
+              assert items_validator.errors.key?(:attributes),
+                     "should have key attributes"
+              assert items_validator.errors[:attributes][0].
+                include?("attributes:name is an invalid value")
             end
           end
         end
