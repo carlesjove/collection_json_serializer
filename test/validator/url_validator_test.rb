@@ -14,6 +14,15 @@ module CollectionJson
               assert value.invalid?
             end
           end
+
+          def test_that_different_data_types_generate_error
+            skip
+            values_for_test(:invalid).each do |url|
+              value = Url.new(url)
+              refute value.valid?
+              assert value.invalid?
+            end
+          end
         end
       end
     end

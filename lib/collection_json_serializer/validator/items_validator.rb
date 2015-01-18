@@ -12,7 +12,6 @@ module CollectionJson
         private
 
         def validate
-          #[:attributes].each { |m| send("validate_#{m}") }
           validate_attributes   if attributes?
           validate_links        if links?
         end
@@ -27,15 +26,41 @@ module CollectionJson
 
         def validate_links
           @serializer.items.links.each do |attr|
-            params = attr.extract_params
-            params[:properties].keys.each do |key|
+            link = attr.extract_params
+
+            href_or_error(
+              link[:properties],
+              root: :items,
+              path: [link[:name]]
+            )
+
+            link[:properties].each do |key, value|
               unless definition[:items][:links].keys.include?(key.to_sym)
                 error_for(
                   :unknown_attribute,
                   root: :items,
-                  path: [:links, params[:name], key]
+                  path: [:links, link[:name], key]
                 )
               end unless @serializer.uses?(:open_attrs)
+
+              case key
+              when :href
+                if url_is_invalid?(value)
+                  error_for(
+                    :url,
+                    root: :items,
+                    path: [:links, link[:name], key]
+                  )
+                end
+              else
+                if value_is_invalid?(value)
+                  error_for(
+                    :value,
+                    root: :items,
+                    path: [:links, link[:name], key]
+                  )
+                end
+              end
             end
           end
         end

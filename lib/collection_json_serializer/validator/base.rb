@@ -15,6 +15,22 @@ module CollectionJson
           CollectionJson::Spec::DEFINITION
         end
 
+        def value_is_invalid?(value)
+          v = CollectionJson::Serializer::Validator::Value.new(value)
+          v.invalid?
+        end
+
+        def url_is_invalid?(value)
+          v = CollectionJson::Serializer::Validator::Url.new(value)
+          v.invalid?
+        end
+
+        def href_or_error(object, root: root, path: path)
+          unless object.key?(:href)
+            error_for :missing_attribute, root: root, path: path
+          end
+        end
+
         def error_for(kind, root: root, path: [])
           case kind.to_sym
           when :url
