@@ -16,7 +16,6 @@ module CollectionJson
           end
 
           def test_that_different_data_types_generate_error
-            skip
             values_for_test(:invalid).each do |url|
               value = Url.new(url)
               refute value.valid?
