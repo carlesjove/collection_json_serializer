@@ -1,13 +1,8 @@
 module CollectionJson
   class Serializer
     class Validator
-      class ItemsValidator < Validator::Base
+      class ItemsValidator < Validation
         include CollectionJson::Serializer::Support
-
-        def initialize(serializer)
-          super
-          validate
-        end
 
         private
 
@@ -72,11 +67,6 @@ module CollectionJson
               error_for :value, root: :attributes, path: [params[:name]]
             end
           end
-        end
-
-        def value_is_invalid?(value)
-          v = CollectionJson::Serializer::Validator::Value.new(value)
-          v.invalid?
         end
 
         def validate_attributes_properties(params)

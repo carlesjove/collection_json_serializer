@@ -1,23 +1,7 @@
 module CollectionJson
   class Serializer
-    class Validator
+    class Validator < Validation
       include CollectionJson::Serializer::Support
-
-      attr_accessor :errors
-
-      def initialize(serializer)
-        @serializer = serializer
-        @errors = {}
-        validate
-      end
-
-      def valid?
-        !invalid?
-      end
-
-      def invalid?
-        @errors.any?
-      end
 
       private
 
@@ -149,41 +133,6 @@ module CollectionJson
             end
           end
         end if @serializer.queries.present?
-      end
-
-      def value_is_invalid?(value)
-        v = CollectionJson::Serializer::Validator::Value.new(value)
-        v.invalid?
-      end
-
-      def url_is_invalid?(value)
-        v = CollectionJson::Serializer::Validator::Url.new(value)
-        v.invalid?
-      end
-
-      def error_for(kind, root: root, path: [])
-        case kind.to_sym
-        when :url
-          ending = " is an invalid URL"
-        when :value
-          ending = " is an invalid value"
-        when :missing_attribute
-          ending = " is missing"
-        when :unknown_attribute
-          ending = " is an unknown attribute"
-        else
-          ending = " is an invalid value"
-        end
-
-        @errors[root] = [] unless @errors.key? root
-        e = "#{@serializer.class} #{root}"
-        e << ":" + path.join(":") if path.any?
-        e << ending
-        @errors[root] << e
-      end
-
-      def definition
-        CollectionJson::Spec::DEFINITION
       end
     end
   end

@@ -2,7 +2,7 @@ require "minitest_helper"
 
 module CollectionJson
   class Serializer
-    class Validator
+    class Validation
       class Url
         class TestUrl < Minitest::Test
           include TestHelper
