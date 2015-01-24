@@ -18,6 +18,8 @@ module CollectionJson
               1,
               1.5,
               -1,
+              BigDecimal.new(1),
+              (22/7.0).to_r,
               true,
               false,
               nil
