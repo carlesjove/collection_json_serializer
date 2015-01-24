@@ -6,6 +6,8 @@ module CollectionJson
           String
           Fixnum
           Float
+          BigDecimal
+          Rational
           TrueClass
           FalseClass
           NilClass
