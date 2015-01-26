@@ -57,6 +57,10 @@ module CollectionJson
                     name: "email",
                     value: "",
                     prompt: "My email"
+                  },
+                  {
+                    name: "password",
+                    value: ""
                   }
                 ]
               },
@@ -138,6 +142,10 @@ module CollectionJson
                     name: "email",
                     value: "",
                     prompt: "My email"
+                  },
+                  {
+                    name: "password",
+                    value: ""
                   }
                 ]
               },
