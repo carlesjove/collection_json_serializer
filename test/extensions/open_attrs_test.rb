@@ -23,9 +23,7 @@ module CollectionJson
         ]
         @serializer.items.links = [
           dashboard: {
-            # TODO
-            # This URL shouldn't validate!
-            href: "/my-dashboard",
+            href: "http://example.com/my-dashboard",
             anything: "at all"
           }
         ]
@@ -69,7 +67,7 @@ module CollectionJson
                 links: [
                   {
                     rel: "dashboard",
-                    href: "/my-dashboard",
+                    href: "http://example.com/my-dashboard",
                     name: "dashboard",
                     anything: "at all",
                   }

@@ -30,7 +30,10 @@ As this gem user, you will be mainly writing/generating and mantaining serialize
 class UserSerializer < CollectionJson::Serializer
   href "http://example.com/users",
 
-  template :name, email: { prompt: "My email" }
+  template :name
+  template email: { prompt: "My email" }
+  # This could be written in a single line, too, wrapping the hash:
+  # template :name, { email: { ... } }
 
   # Please note that links can only be passed as hashes
   links dashboard: { href: "http://example.com/my-dashboard" }
