@@ -16,7 +16,8 @@ module CollectionJson
           def test_that_a_template_can_be_build
             expected = [
               { name: "name", value: "" },
-              { name: "email", value: "", prompt: "My email" }
+              { name: "email", value: "", prompt: "My email" },
+              { name: "password", value: "" }
             ]
 
             assert_equal expected.to_json, @template.create.to_json

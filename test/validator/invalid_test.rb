@@ -18,13 +18,6 @@ module CollectionJson
           )
           @user.account = @account
 
-          @invalid_value_types = [
-            /regex/,
-            :symbol,
-            {},
-            []
-          ]
-
           @invalid = empty_serializer_for(@user)
         end
 
@@ -79,7 +72,7 @@ module CollectionJson
         def test_that_invalid_attributes_return_values_generate_errors
           @invalid.items.attributes = [:name]
 
-          @invalid_value_types.each do |invalidate|
+          values_for_test(:invalid).each do |invalidate|
             @user.name = invalidate
             assert @invalid.invalid?,
                    "#{invalidate} should be invalid"
@@ -91,7 +84,7 @@ module CollectionJson
         end
 
         def test_that_invalid_attributes_properties_values_generate_errors
-          @invalid_value_types.each do |invalidate|
+          values_for_test(:invalid).each do |invalidate|
             @invalid.items.attributes = [
               name: {
                 prompt: invalidate
@@ -109,7 +102,7 @@ module CollectionJson
 
         # Template
         def test_that_template_values_validate
-          @invalid_value_types.each do |invalidate|
+          values_for_test(:invalid).each do |invalidate|
             @invalid.class.template = [
               name: {
                 prompt: invalidate,
@@ -159,7 +152,7 @@ module CollectionJson
         end
 
         def test_that_queries_values_are_validated
-          @invalid_value_types.each do |invalidate|
+          values_for_test(:invalid).each do |invalidate|
             @invalid.class.queries = [
               search: {
                 href: "http://example.com/",

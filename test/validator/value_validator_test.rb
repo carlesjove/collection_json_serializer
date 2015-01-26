@@ -2,36 +2,19 @@ require "minitest_helper"
 
 module CollectionJson
   class Serializer
-    class Validator
+    class Validation
       class Value
         class TestValue < Minitest::Test
+          include TestHelper
+
           def test_that_values_validate
-            invalid = [
-              /regex/,
-              :symbol,
-              {},
-              []
-            ]
-
-            valid = [
-              "string",
-              1,
-              1.5,
-              -1,
-              BigDecimal.new(1),
-              (22/7.0).to_r,
-              true,
-              false,
-              nil
-            ]
-
-            invalid.each do |v|
+            values_for_test(:invalid).each do |v|
               value = Value.new(v)
               refute value.valid?, "#{v} should be invalid, but was valid"
               assert value.invalid?, "#{v} should be invalid, but was valid"
             end
 
-            valid.each do |v|
+            values_for_test(:valid) do |v|
               value = Value.new(v)
               assert value.valid?, "#{v} should be valid, but was invalid"
               refute value.invalid?, "#{v} should be valid, but was invalid"

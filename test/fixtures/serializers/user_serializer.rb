@@ -1,7 +1,12 @@
 class UserSerializer < CollectionJson::Serializer
   href "http://example.com/users"
-  template :name, email: { prompt: "My email" }
+
+  template :name
+  template email: { prompt: "My email" }
+  template :password
+
   links dashboard: { href: "http://example.com/my-dashboard" }
+
   queries search: {
     href: "http://example.com/search",
     name: false

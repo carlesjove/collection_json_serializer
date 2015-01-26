@@ -10,9 +10,11 @@ require "collection_json_serializer/items"
 require "collection_json_serializer/spec"
 require "collection_json_serializer/builder"
 
+require "collection_json_serializer/validator/base"
 require "collection_json_serializer/validator"
-require "collection_json_serializer/validator/url"
-require "collection_json_serializer/validator/value"
+require "collection_json_serializer/validator/items_validator"
+require "collection_json_serializer/validator/types/url"
+require "collection_json_serializer/validator/types/value"
 
 require "collection_json_serializer/objects/item"
 require "collection_json_serializer/objects/template"

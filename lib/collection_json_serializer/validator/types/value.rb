@@ -1,6 +1,6 @@
 module CollectionJson
   class Serializer
-    class Validator
+    class Validation
       class Value
         VALID = %w(
           String
