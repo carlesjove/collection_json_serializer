@@ -6,13 +6,10 @@ module CollectionJson
       private
 
       def validate
-        [
-          :items,
-          :href,
-          :links,
-          :template,
-          :queries
-        ].each { |m| send("validate_#{m}") }
+        definition.keys.each do |m|
+          method = "validate_#{m}"
+          send(method) if respond_to?(method, true)
+        end
       end
 
       def validate_items
