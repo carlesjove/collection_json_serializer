@@ -52,6 +52,11 @@ module CollectionJson
                   rel: "dashboard",
                   href: "http://example.com/my-dashboard",
                   name: "dashboard"
+                },
+                {
+                  rel: "avatar",
+                  href: "http://example.com/avatar.jpg",
+                  name: "avatar"
                 }
               ],
               template: {
@@ -156,6 +161,11 @@ module CollectionJson
                   rel: "dashboard",
                   href: "http://example.com/my-dashboard",
                   name: "dashboard"
+                },
+                {
+                  rel: "avatar",
+                  href: "http://example.com/avatar.jpg",
+                  name: "avatar"
                 }
               ],
               template: {

@@ -28,9 +28,8 @@ module CollectionJson
           assert @invalid.invalid?
           assert @invalid.errors.include? :href
           assert @invalid.errors[:href][0].
-                  include? "href:self is an invalid URL"
-          assert @invalid.errors[:href][1].
-                  include? "href:collection is an invalid URL"
+                  include? "href is an invalid URL"
+          assert @invalid.errors[:href].length == 1
 
           @invalid.class._href = ["/users/1"]
 

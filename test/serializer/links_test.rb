@@ -11,7 +11,11 @@ module CollectionJson
       end
 
       def test_item_links_attributes
-        expected = [dashboard: { href: "http://example.com/my-dashboard" }]
+        expected = [
+          { dashboard: { href: "http://example.com/my-dashboard" } },
+          { avatar: { :href=>"http://example.com/avatar.jpg" } }
+        ]
+
         assert_equal expected, @user_serializer.class._links
       end
     end
