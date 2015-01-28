@@ -21,3 +21,4 @@ module CollectionJson
     end
   end
 end
+
