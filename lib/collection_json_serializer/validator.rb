@@ -6,7 +6,15 @@ module CollectionJson
       private
 
       def validate
-        deep_validate
+        # This is what we'll want to keep
+        definition.keys.each do |key|
+          next unless @serializer.respond_to?(key, true)
+
+          value = @serializer.send(key)
+          attribute_validation(key, value, [key]) if key == :href
+        end
+
+        # This is what we want to get rid of
         definition.keys.each do |m|
           method = "validate_#{m}"
           send(method) if respond_to?(method, true)
@@ -22,11 +30,7 @@ module CollectionJson
         @serializer.links.each do |link|
           params = link.extract_params
 
-          unless params[:properties].key?(:href)
-            error_for :missing_attribute, root: :links, path: [params[:name], :href]
-
-            next
-          end
+          required_attribute_validation(:links, :href, params)
 
           params[:properties].each do |key, value|
             unless definition[:links].keys.include?(key.to_sym)
@@ -63,13 +67,7 @@ module CollectionJson
         @serializer.queries.each do |query|
           params = query.extract_params
 
-          unless params[:properties].key?(:href)
-            error_for :missing_attribute,
-                      root: :queries,
-                      path: [params[:name], "href"]
-
-            next
-          end
+          required_attribute_validation(:queries, :href, params)
 
           attribute_validation(:href, params[:properties][:href], [:queries, params[:name], "href"])
 
@@ -104,15 +102,6 @@ module CollectionJson
         end if @serializer.queries.present?
       end
 
-      def deep_validate
-        definition.keys.each do |key|
-          next unless @serializer.respond_to?(key, true)
-
-          value = @serializer.send(key)
-          attribute_validation(key, value, [key]) if key == :href
-        end
-      end
-
       def attribute_validation(key, value, path)
         case key
         when :href
@@ -126,6 +115,28 @@ module CollectionJson
         end
       end
 
+      def required_attribute_validation(root, key, params)
+        if required_attribute_missing?(root, key)
+          error_for :missing_attribute, root: root, path: [params[:name], key]
+        end
+      end
+
+      def is_required_attribute?(*path)
+        result = path.inject(0) do |result, key|
+          (key == path.first) ? definition.fetch(key) : result.fetch(key)
+        end
+
+        result.key?(:required) && result[:required] === true
+      end
+
+      def required_attribute_missing?(*path)
+        return false unless is_required_attribute?(*path)
+
+        @serializer.send(path.first).any? do |h|
+          params = h.extract_params
+          !params[:properties].key?(path.last)
+        end
+      end
     end
   end
 end
