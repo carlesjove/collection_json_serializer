@@ -25,9 +25,11 @@ module CollectionJson
         }
       },
       template: {
-        name: {},
-        value: {},
-        prompt: {}
+        data: {
+          name: {},
+          value: {},
+          prompt: {}
+        }
       },
       queries: {
         href: { required: true },

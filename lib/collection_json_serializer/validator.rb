@@ -48,7 +48,7 @@ module CollectionJson
           params = attr.extract_params
 
           params[:properties].each do |key, value|
-            unless definition[:template].keys.include?(key.to_sym)
+            unless definition[:template][:data].keys.include?(key.to_sym)
               error_for(
                 :unknown_attribute,
                 root: :template,
