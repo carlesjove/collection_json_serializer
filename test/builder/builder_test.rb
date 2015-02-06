@@ -36,6 +36,11 @@ module CollectionJson
                       rel: "avatar",
                       href: "http://assets.example.com/avatar.jpg",
                       name: "avatar"
+                    },
+                    {
+                      rel: "bio",
+                      href: "http://example.com/bio",
+                      name: "bio"
                     }
                   ]
                 }
@@ -101,6 +106,11 @@ module CollectionJson
                       rel: "avatar",
                       href: "http://assets.example.com/avatar.jpg",
                       name: "avatar"
+                    },
+                    {
+                      rel: "bio",
+                      href: "http://example.com/bio",
+                      name: "bio"
                     }
                   ]
                 },
@@ -121,6 +131,11 @@ module CollectionJson
                       rel: "avatar",
                       href: "http://assets.example.com/avatar.jpg",
                       name: "avatar"
+                    },
+                    {
+                      rel: "bio",
+                      href: "http://example.com/bio",
+                      name: "bio"
                     }
                   ]
                 }

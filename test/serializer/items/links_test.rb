@@ -9,11 +9,12 @@ module CollectionJson
       end
 
       def test_links_properties
-        expected = { avatar: {
-          href: "http://assets.example.com/avatar.jpg"
-        } }
+        expected = [
+          { avatar: { href: "http://assets.example.com/avatar.jpg" } },
+          { bio: { href: "http://example.com/bio" } }
+        ]
 
-        assert_equal [expected], @user_serializer.items.links
+        assert_equal expected, @user_serializer.items.links
       end
     end
   end
