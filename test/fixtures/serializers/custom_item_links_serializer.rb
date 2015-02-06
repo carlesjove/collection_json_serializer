@@ -1,6 +1,6 @@
 class CustomItemLinksSerializer < CollectionJson::Serializer
   items do
-    links dashboard: {
+    link dashboard: {
       href: "/my-dashboard",
       anything: "at all",
       whatever: "really"
