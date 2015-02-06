@@ -53,7 +53,7 @@ class UserSerializer < CollectionJson::Serializer
   item do
     attributes :id, name: { prompt: "Your full name" }, :email
     href "http://example.com/users/{id}"
-    links avatar: { href: "http://assets.example.com/avatar.jpg", render: "image" }
+    link avatar: { href: "http://assets.example.com/avatar.jpg", render: "image" }
   end
 end
 ```

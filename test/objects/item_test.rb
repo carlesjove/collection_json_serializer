@@ -14,19 +14,6 @@ module CollectionJson
             @item = Item.new(@user_serializer)
           end
 
-          def test_that_rel_will_be_added_from_the_name_when_missing
-            serializer = empty_serializer_for(@user1)
-            serializer.items.attributes = [:name]
-            serializer.items.links = [avatar: {
-              href: "http://assets.example.com/avatar.jpg"
-            }]
-            item = Item.new(serializer)
-            actual = item.create[:links].first
-
-            assert actual.include? :rel
-            assert_equal "avatar", actual[:rel]
-          end
-
           def test_that_an_item_can_be_build
             expected = {
               href: "http://example.com/users/#{@user1.id}",
@@ -39,6 +26,11 @@ module CollectionJson
                   rel: "avatar",
                   href: "http://assets.example.com/avatar.jpg",
                   name: "avatar"
+                },
+                {
+                  rel: "bio",
+                  href: "http://example.com/bio",
+                  name: "bio"
                 }
               ]
             }
@@ -61,6 +53,11 @@ module CollectionJson
                   rel: "avatar",
                   href: "http://assets.example.com/avatar.jpg",
                   name: "avatar"
+                },
+                {
+                  rel: "bio",
+                  href: "http://example.com/bio",
+                  name: "bio"
                 }
               ]
             }
