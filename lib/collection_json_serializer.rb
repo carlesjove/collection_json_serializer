@@ -1,4 +1,5 @@
 require "collection_json_serializer/version"
+require "collection_json_serializer/mime_type"
 
 require "collection_json_serializer/core_ext/hash"
 require "collection_json_serializer/core_ext/symbol"
