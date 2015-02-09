@@ -20,3 +20,6 @@ require "collection_json_serializer/validator/types/value"
 require "collection_json_serializer/objects/item"
 require "collection_json_serializer/objects/template"
 require "collection_json_serializer/objects/query"
+
+require "active_support/core_ext/object/blank"
+require "active_support/json"
