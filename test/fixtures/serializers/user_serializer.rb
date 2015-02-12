@@ -22,7 +22,7 @@ class UserSerializer < CollectionJson::Serializer
   items do
     href "http://example.com/users/{id}"
     attributes :name, :email
-    attribute date_created: { prompt: "Member since"}
+    attribute date_created: { prompt: "Member since" }
     link avatar: { href: "http://assets.example.com/avatar.jpg" }
     link bio: { href: "http://example.com/bio" }
   end
