@@ -8,8 +8,8 @@ module CollectionJson
           include TestHelper
 
           def setup
-            @user1 = User.new(name: "Carles Jove", email: "hola@carlus.cat")
-            @user2 = User.new(name: "Aina Jove", email: "hola@example.com")
+            @user1 = User.new(name: "Carles Jove", email: "hola@carlus.cat", date_created: "2015-02-01")
+            @user2 = User.new(name: "Aina Jove", email: "hola@example.com", date_created: "2015-02-02")
             @user_serializer = UserSerializer.new(@user1)
             @item = Item.new(@user_serializer)
           end
@@ -19,7 +19,8 @@ module CollectionJson
               href: "http://example.com/users/#{@user1.id}",
               data: [
                 { name: "name", value: "Carles Jove" },
-                { name: "email", value: "hola@carlus.cat" }
+                { name: "email", value: "hola@carlus.cat" },
+                { name: "date_created", value: "2015-02-01", prompt: "Member since" }
               ],
               links: [
                 {
@@ -46,7 +47,8 @@ module CollectionJson
               href: "http://example.com/users/#{@user2.id}",
               data: [
                 { name: "name", value: "Aina Jove" },
-                { name: "email", value: "hola@example.com" }
+                { name: "email", value: "hola@example.com" },
+                { name: "date_created", value: "2015-02-02", prompt: "Member since" }
               ],
               links: [
                 {
