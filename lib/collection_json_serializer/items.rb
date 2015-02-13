@@ -18,6 +18,11 @@ module CollectionJson
         @attributes ||= args
       end
 
+      def attribute(args)
+        @attributes = Array.new unless @attributes.is_a?(Array)
+        @attributes << args
+      end
+
       def link(args)
         @links = Array.new unless @links.is_a?(Array)
         @links << args

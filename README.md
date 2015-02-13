@@ -51,7 +51,9 @@ class UserSerializer < CollectionJson::Serializer
   }
 
   item do
-    attributes :id, name: { prompt: "Your full name" }, :email
+    attributes :id, {name: { prompt: "Your full name" }}, :email
+	# You can also add each attribute on a single line
+	attribute date_created: { prompt: "Member since"}
     href "http://example.com/users/{id}"
     link avatar: { href: "http://assets.example.com/avatar.jpg", render: "image" }
   end

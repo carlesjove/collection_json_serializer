@@ -4,7 +4,8 @@ module CollectionJson
   class Serializer
     class TestDSL < Minitest::Test
       def setup
-        @user = User.new(name: "Carles Jove", email: "hola@carlus.cat")
+        @user = User.new(name: "Carles Jove", email: "hola@carlus.cat",
+                         date_created: "2015-02-01")
         @serializer = Serializer.new(@user)
       end
 
