@@ -12,7 +12,7 @@ module CollectionJson
 
       def test_item_links_attributes
         expected = [dashboard: { href: "http://example.com/my-dashboard" }]
-        assert_equal expected, @user_serializer.class.links
+        assert_equal expected, @user_serializer.class._links
       end
     end
   end

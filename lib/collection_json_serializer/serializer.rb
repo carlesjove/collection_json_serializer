@@ -29,7 +29,14 @@ module CollectionJson
       @_template.concat attrs
     end
 
+    def self.link(*attrs)
+      @_links.concat attrs
+    end
+
+    # DEPRECATED
     def self.links(*attrs)
+      warn "links has been deprecated and will be removed soon. " <<
+           "Please, use `link` instead"
       @_links.concat attrs
     end
 
