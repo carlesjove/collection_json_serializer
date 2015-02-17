@@ -10,11 +10,11 @@ Dir.glob(File.dirname(__FILE__) + "/fixtures/serializers/**/*.rb") { |file| requ
 module TestHelper
   def empty_serializer_for(object)
     serializer = CollectionJson::Serializer.new(object)
-    serializer.class.extensions = []
-    serializer.class.href = []
-    serializer.class.links = []
-    serializer.class.template = []
-    serializer.class.queries = []
+    serializer.class._extensions = []
+    serializer.class._href = []
+    serializer.class._links = []
+    serializer.class._template = []
+    serializer.class._queries = []
     serializer.class.items {}
     serializer.items.attributes = []
     serializer

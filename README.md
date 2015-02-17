@@ -4,10 +4,15 @@
 
 | :warning: This is _not finished_ yet, so use it at your own risk. |
 --------------------------------------------------------------------
+| :warning: Until version 1.X breaking changes might happen |
+-------------------------------------------------------------
 
 CollectionJson::Serializer serializes Ruby objects to Collection+JSON, the hypermedia type by Mike Amudsen.
 
 Please note that CollectionJson::Serializer _only serializes data_. You still need to set the proper Headers or media-types in your app.
+
+If you're working on a Rails app, you might want to use [Collection+JSON
+Rails](https://github.com/carlesjove/collection_json_rails) instead.
 
 ## Installation
 
@@ -32,16 +37,14 @@ class UserSerializer < CollectionJson::Serializer
 
   template :name
   template email: { prompt: "My email" }
-  # This could be written in a single line, too, wrapping the hash:
-  # template :name, { email: { ... } }
 
-  # Please note that links can only be passed as hashes
-  links dashboard: { href: "http://example.com/my-dashboard" }
+  link dashboard: { href: "http://example.com/my-dashboard" }
 
-  queries search: {
+  query search: {
     href: "http://example.com/search",
     name: false # Don't automatically include the name attribute
-  }, pagination: {
+  }
+  query pagination: {
     rel: "page",
     href: "http://example.com/page",
     prompt: "Select a page number",
@@ -50,11 +53,13 @@ class UserSerializer < CollectionJson::Serializer
     ]
   }
 
-  item do
-    attributes :id, {name: { prompt: "Your full name" }}, :email
-	# You can also add each attribute on a single line
-	attribute date_created: { prompt: "Member since"}
+  items do
+    attribute :id
+    attribute name: { prompt: "Your full name" }}
+    attribute :email
+
     href "http://example.com/users/{id}"
+
     link avatar: { href: "http://assets.example.com/avatar.jpg", render: "image" }
   end
 end
@@ -69,7 +74,7 @@ Then, you pass your objects to the serializer:
 user_serializer = UserSerializer.new(@user)
 
 # You can also pass an array of objects
-# user_serializer = UserSerializer.new([@user1, @user2, etc])
+# user_serializer = UserSerializer.new([@user1, @user2])
 
 # Pass the serializer to the builder
 collection = CollectionJson::Serializer::Builder.new(user_serializer)
@@ -141,10 +146,10 @@ All placeholders will be called, so you can use more than one if necessary, but 
 ```ruby
 class UserSerializer < CollectionJson::Serializer
   items do
-    # This is ok
+    # This will work
     href "http://example.com/users/{id}/{username}"
 
-    # This is wrong
+    # This won't work
     href "http://example.com/users/{id}-{username}"
   end
 end
@@ -165,19 +170,16 @@ class UserSerializer < CollectionJson::Serializer
 
   # Now you can use your crazy properties everywhere
   items do
-    attributes :id, name: { css_class: "people" }
+    attribute name: { css_class: "people" }
   end
 
   template name: { regex: "/\A[a-zA-Z0-9_]*\z/" }
 
-  links profile: { on_click: "reboot_universe" }
+  link profile: { on_click: "reboot_universe" }
 end
 ```
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/collection_json_serializer/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+Please, all Pull Request should point to the `dev` branch. `master` is for the
+latest release only.

@@ -4,9 +4,9 @@ module CollectionJson
       class Query
         def initialize(serializer, item: 0)
           @serializer = serializer
-          @index = item >= 0 ? item : 0
-          @key = @serializer.queries.first.keys[@index]
-          @resource = @serializer.queries.first[@key]
+          index = item >= 0 ? item : 0
+          @key = @serializer.queries[index].keys.first
+          @resource = @serializer.queries[index].fetch(@key)
           @query = Hash.new
         end
 

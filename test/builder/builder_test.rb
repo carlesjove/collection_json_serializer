@@ -73,6 +73,15 @@ module CollectionJson
                 {
                   rel: "search",
                   href: "http://example.com/search"
+                },
+                {
+                  rel: "page",
+                  href: "http://example.com/page",
+                  name: "pagination",
+                  prompt: "Select a page number",
+                  data: [
+                    { name: "page", value: "" }
+                  ]
                 }
               ]
             }
@@ -168,6 +177,15 @@ module CollectionJson
                 {
                   rel: "search",
                   href: "http://example.com/search"
+                },
+                {
+                  rel: "page",
+                  href: "http://example.com/page",
+                  name: "pagination",
+                  prompt: "Select a page number",
+                  data: [
+                    { name: "page", value: "" }
+                  ]
                 }
               ]
             }

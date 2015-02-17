@@ -10,16 +10,16 @@ module CollectionJson
         serializer.items.attributes = [
           name: { unknown: "this should not be valid" }
         ]
-        serializer.items.links = serializer.class.links = [
+        serializer.items.links = serializer.class._links = [
           dashboard: {
             href: "http://example.com",
             unknown: "this should not be valid"
           }
         ]
-        serializer.class.template = [
+        serializer.class._template = [
           name: { whatever: "this should not be valid" }
         ]
-        serializer.class.queries = [
+        serializer.class._queries = [
           name: {
             href: "http://example.com",
             whatever: "this should be invalid",
