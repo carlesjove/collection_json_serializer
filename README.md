@@ -2,9 +2,10 @@
 
 [![Build Status](https://travis-ci.org/carlesjove/collection_json_serializer.svg?branch=master)](https://travis-ci.org/carlesjove/collection_json_serializer)
 
-| :warning: This is _not finished_ yet, so use it at your own risk. Until
-version 1.X breaking changes might happen |
+| :warning: This is _not finished_ yet, so use it at your own risk. |
 --------------------------------------------------------------------
+| :warning: Until version 1.X breaking changes might happen |
+-------------------------------------------------------------
 
 CollectionJson::Serializer serializes Ruby objects to Collection+JSON, the hypermedia type by Mike Amudsen.
 
@@ -56,7 +57,6 @@ class UserSerializer < CollectionJson::Serializer
     attribute :id
     attribute name: { prompt: "Your full name" }}
     attribute :email
-    attribute date_created: { prompt: "Member since"}
 
     href "http://example.com/users/{id}"
 
