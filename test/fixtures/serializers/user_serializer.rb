@@ -7,10 +7,11 @@ class UserSerializer < CollectionJson::Serializer
 
   link dashboard: { href: "http://example.com/my-dashboard" }
 
-  queries search: {
+  query search: {
     href: "http://example.com/search",
     name: false
-  }, pagination: {
+  }
+  query pagination: {
     rel: "page",
     href: "http://example.com/page",
     prompt: "Select a page number",

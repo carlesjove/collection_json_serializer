@@ -10,21 +10,23 @@ module CollectionJson
 
       def test_template_attributes
         expected = [
-          search: {
-            href: "http://example.com/search",
-            name: false
+          { search: {
+              href: "http://example.com/search",
+              name: false
+            }
           },
-          pagination: {
-            rel: "page",
-            href: "http://example.com/page",
-            prompt: "Select a page number",
-            data: [
-              { name: "page" }
-            ]
+          { pagination: {
+              rel: "page",
+              href: "http://example.com/page",
+              prompt: "Select a page number",
+              data: [
+                { name: "page" }
+              ]
+            }
           }
         ]
 
-        assert_equal expected, @user_serializer.class.queries
+        assert_equal expected, @user_serializer.class._queries
       end
     end
   end

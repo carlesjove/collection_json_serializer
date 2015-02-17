@@ -40,7 +40,13 @@ module CollectionJson
       @_links.concat attrs
     end
 
+    def self.query(*attrs)
+      @_queries.concat attrs
+    end
+
     def self.queries(*attrs)
+      warn "`queries` has been deprecated and will be removed soon. " <<
+           "Please, use `query` instead"
       @_queries.concat attrs
     end
 
