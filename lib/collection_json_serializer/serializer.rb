@@ -35,7 +35,8 @@ module CollectionJson
 
     # DEPRECATED
     def self.links(*attrs)
-      warn "links has been deprecated and will be removed soon. " <<
+      warn "Warning from collection_json_serializer\n" <<
+           "`links` has been deprecated and will be removed soon. " <<
            "Please, use `link` instead"
       @_links.concat attrs
     end
@@ -45,7 +46,8 @@ module CollectionJson
     end
 
     def self.queries(*attrs)
-      warn "`queries` has been deprecated and will be removed soon. " <<
+      warn "Warning from collection_json_serializer\n" <<
+           "`queries` has been deprecated and will be removed soon. " <<
            "Please, use `query` instead"
       @_queries.concat attrs
     end
