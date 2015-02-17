@@ -8,8 +8,8 @@ module CollectionJson
       def setup
         @user = User.new(name: "Carles Jove", email: "hola@carlus.cat")
         @serializer = empty_serializer_for(@user)
-        @serializer.class.extensions = [:open_attrs]
-        @serializer.class.template = [
+        @serializer.class._extensions = [:open_attrs]
+        @serializer.class._template = [
           email: {
             prompt: "My email",
             anything: "at all"
@@ -27,13 +27,13 @@ module CollectionJson
             anything: "at all"
           }
         ]
-        @serializer.class.links = [
+        @serializer.class._links = [
           dashboard: {
             href: "http://example.com/my-dashboard",
             anything: "at all"
           }
         ]
-        @serializer.class.queries = [
+        @serializer.class._queries = [
           search: {
             href: "http://example.com/search",
             rel: "search",

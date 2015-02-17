@@ -1,40 +1,40 @@
 module CollectionJson
   class Serializer
     class << self
-      attr_accessor :extensions
-      attr_accessor :href
-      attr_accessor :template
-      attr_accessor :links
-      attr_accessor :queries
+      attr_accessor :_extensions
+      attr_accessor :_href
+      attr_accessor :_template
+      attr_accessor :_links
+      attr_accessor :_queries
       attr_accessor :_items
     end
 
     def self.inherited(base)
-      base.extensions = []
-      base.href = []
-      base.template = []
-      base.links = []
-      base.queries = []
+      base._extensions = []
+      base._href = []
+      base._template = []
+      base._links = []
+      base._queries = []
     end
 
     def self.extensions(*attrs)
-      @extensions.concat attrs
+      @_extensions.concat attrs
     end
 
     def self.href(*attrs)
-      @href.concat attrs
+      @_href.concat attrs
     end
 
     def self.template(*attrs)
-      @template.concat attrs
+      @_template.concat attrs
     end
 
     def self.links(*attrs)
-      @links.concat attrs
+      @_links.concat attrs
     end
 
     def self.queries(*attrs)
-      @queries.concat attrs
+      @_queries.concat attrs
     end
 
     def self.items(&block)
@@ -53,35 +53,35 @@ module CollectionJson
     end
 
     def extensions
-      self.class.extensions
+      self.class._extensions
     end
 
     def href
-      self.class.href.first
+      self.class._href.first
     end
 
     def template
-      self.class.template
+      self.class._template
     end
 
     def template?
-      self.class.template.present?
+      self.class._template.present?
     end
 
     def links
-      self.class.links
+      self.class._links
     end
 
     def links?
-      self.class.links.present?
+      self.class._links.present?
     end
 
     def queries
-      self.class.queries
+      self.class._queries
     end
 
     def queries?
-      self.class.queries.present?
+      self.class._queries.present?
     end
 
     def items

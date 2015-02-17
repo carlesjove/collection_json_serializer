@@ -23,7 +23,7 @@ module CollectionJson
 
         # Href
         def test_that_href_generates_errors
-          @invalid.class.href = [self: "/users/1", collection: "www.users.com"]
+          @invalid.class._href = [self: "/users/1", collection: "www.users.com"]
 
           assert @invalid.invalid?
           assert @invalid.errors.include? :href
@@ -32,7 +32,7 @@ module CollectionJson
           assert @invalid.errors[:href][1].
                   include? "href:collection is an invalid URL"
 
-          @invalid.class.href = ["/users/1"]
+          @invalid.class._href = ["/users/1"]
 
           assert @invalid.invalid?
           assert @invalid.errors.include? :href
@@ -42,13 +42,13 @@ module CollectionJson
 
         # Links
         def test_that_links_generates_errors
-          @invalid.class.links = [dashboard: { href: "/my-dashboard" }]
+          @invalid.class._links = [dashboard: { href: "/my-dashboard" }]
           assert @invalid.invalid?
           assert @invalid.errors.include? :links
           assert @invalid.errors[:links].first.
                   include? "links:dashboard:href is an invalid URL"
 
-          @invalid.class.links = [
+          @invalid.class._links = [
             dashboard: {
               href: "http://valid.url.com",
               prompt: /invalid/
@@ -61,7 +61,7 @@ module CollectionJson
         end
 
         def test_that_links_missing_href_generates_error
-          @invalid.class.links = [dashboard: {}]
+          @invalid.class._links = [dashboard: {}]
           assert @invalid.invalid?
           assert @invalid.errors.include? :links
           assert @invalid.errors[:links].first.
@@ -103,7 +103,7 @@ module CollectionJson
         # Template
         def test_that_template_values_validate
           values_for_test(:invalid).each do |invalidate|
-            @invalid.class.template = [
+            @invalid.class._template = [
               name: {
                 prompt: invalidate,
                 name: invalidate
@@ -123,7 +123,7 @@ module CollectionJson
 
         # Queries
         def test_that_queries_validate_href_format
-          @invalid.class.queries = [
+          @invalid.class._queries = [
             search: {
               href: "not-valid"
             }
@@ -138,7 +138,7 @@ module CollectionJson
         end
 
         def test_that_queries_href_is_required
-          @invalid.class.queries = [
+          @invalid.class._queries = [
             search: {
               name: "missing href"
             }
@@ -153,7 +153,7 @@ module CollectionJson
 
         def test_that_queries_values_are_validated
           values_for_test(:invalid).each do |invalidate|
-            @invalid.class.queries = [
+            @invalid.class._queries = [
               search: {
                 href: "http://example.com/",
                 name: invalidate,
