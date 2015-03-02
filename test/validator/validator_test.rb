@@ -21,7 +21,7 @@ module CollectionJson
           @invalid_resource = Validator.new @invalid_serializer
 
           # Valid
-          @valid_serializer = ValidSerializer.new(@user)
+          @valid_serializer = UserSerializer.new(@user)
           @valid_resource = Validator.new @valid_serializer
         end
 
