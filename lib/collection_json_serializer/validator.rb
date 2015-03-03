@@ -6,13 +6,16 @@ module CollectionJson
       private
 
       def validate
-        [
-          :items,
-          :href,
-          :links,
-          :template,
-          :queries
-        ].each { |m| send("validate_#{m}") }
+        definition.keys.each do |m|
+          method = "validate_#{m}"
+          send(method) if respond_to?(method, true)
+        end
+      end
+
+      def validate_href
+        if @serializer.respond_to?(:href)
+          attribute_validation(:href, @serializer.href, [:href])
+        end
       end
 
       def validate_items
@@ -20,42 +23,19 @@ module CollectionJson
         @errors.merge!(items_validation.errors)
       end
 
-      def validate_href
-        href = @serializer.href
-        case href
-        when String
-          error_for :url, root: :href if url_is_invalid? href
-        when Hash
-          href.each do |key, value|
-            error_for :url, root: :href, path: [key] if url_is_invalid? value
-          end
-        end
-      end
-
       def validate_links
-        @serializer.links.first.each do |k, link|
-          unless link.key? :href
-            error_for :missing_attribute, root: :links, path: [k, :href]
+        @serializer.links.each do |link|
+          params = link.extract_params
 
-            next
-          end
+          required_attribute_validation(:links, :href, params)
 
-          link.each do |key, value|
+          params[:properties].each do |key, value|
             unless definition[:links].keys.include?(key.to_sym)
               error_for :unknown_attribute, root: :links, path: [key]
               next
             end unless @serializer.uses?(:open_attrs)
 
-            case key
-            when :href
-              if url_is_invalid? link[:href]
-                error_for :url, root: :links, path: [k, key]
-              end
-            else
-              if value_is_invalid? value
-                error_for :value, root: :links, path: [k, key]
-              end
-            end
+            attribute_validation(key, value, [:links, params[:name], key])
           end
         end if @serializer.links.present?
       end
@@ -65,7 +45,7 @@ module CollectionJson
           params = attr.extract_params
 
           params[:properties].each do |key, value|
-            unless definition[:template].keys.include?(key.to_sym)
+            unless definition[:template][:data].keys.include?(key.to_sym)
               error_for(
                 :unknown_attribute,
                 root: :template,
@@ -74,9 +54,7 @@ module CollectionJson
               next
             end unless @serializer.uses?(:open_attrs)
 
-            if value_is_invalid?(value)
-              error_for :value, root: :template, path: [params[:name], key]
-            end
+            attribute_validation(key, value, [:template, params[:name], key])
           end if params[:properties]
 
         end if @serializer.template.any?
@@ -86,17 +64,13 @@ module CollectionJson
         @serializer.queries.each do |query|
           params = query.extract_params
 
-          unless params[:properties].key?(:href)
-            error_for :missing_attribute,
-                      root: :queries,
-                      path: [params[:name], "href"]
+          required_attribute_validation(:queries, :href, params)
 
-            next
-          end
-
-          if url_is_invalid?(params[:properties][:href])
-            error_for :url, root: :queries, path: [params[:name], "href"]
-          end
+          attribute_validation(
+            :href,
+            params[:properties][:href],
+            [:queries, params[:name], "href"]
+          )
 
           params[:properties].each do |key, value|
             next if key == :data || key == :href
@@ -108,9 +82,7 @@ module CollectionJson
               )
             end unless @serializer.uses?(:open_attrs)
 
-            if value_is_invalid?(value)
-              error_for :value, root: :queries, path: [params[:name], key]
-            end
+            attribute_validation(key, value, [:queries, params[:name], key])
           end
 
           if params[:properties].key?(:data)
@@ -125,14 +97,37 @@ module CollectionJson
                 end unless @serializer.uses?(:open_attrs)
               end
 
-              if value_is_invalid?(hash[:name])
-                error_for :value,
-                          root: :queries,
-                          path: [params[:name], "data", "name"]
-              end
+              attribute_validation(
+                :data,
+                hash[:name],
+                [:queries, params[:name], "data", "name"]
+              )
             end
           end
         end if @serializer.queries.present?
+      end
+
+      def attribute_validation(key, value, path)
+        case key
+        when :href
+          if url_is_invalid?(value)
+            error_for :url, root: path.shift, path: path
+          end
+        else
+          if value_is_invalid?(value)
+            error_for :value, root: path.shift, path: path
+          end
+        end
+      end
+
+      def required_attribute_validation(root, key, params)
+        if required_attribute_missing?(key, params)
+          error_for :missing_attribute, root: root, path: [params[:name], key]
+        end
+      end
+
+      def required_attribute_missing?(key, params)
+        !params[:properties].key?(key)
       end
     end
   end

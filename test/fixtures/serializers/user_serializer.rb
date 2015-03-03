@@ -6,6 +6,7 @@ class UserSerializer < CollectionJson::Serializer
   template :password
 
   link dashboard: { href: "http://example.com/my-dashboard" }
+  link avatar: { href: "http://example.com/avatar.jpg" }
 
   query search: {
     href: "http://example.com/search",
