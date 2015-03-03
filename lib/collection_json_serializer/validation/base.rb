@@ -53,6 +53,8 @@ module CollectionJson
           ending = " is missing"
         when :unknown_attribute
           ending = " is an unknown attribute"
+        when :unknown_extension
+          ending = " is an unknown extension"
         else
           ending = " is an invalid value"
         end

@@ -6,9 +6,24 @@ module CollectionJson
       private
 
       def validate
+        validate_extensions if @serializer.extensions.any?
         definition.keys.each do |m|
           method = "validate_#{m}"
           send(method) if respond_to?(method, true)
+        end
+      end
+
+      def validate_extensions
+        @serializer.extensions.each do |ext|
+          # :open_attrs is not really an extension, but just a way of
+          # allowing any attribute in
+          next if ext === :open_attrs
+
+          begin
+            ext.to_constant
+          rescue NameError
+            error_for :unknown_extension, root: :extensions, path: [ext]
+          end
         end
       end
 
