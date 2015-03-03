@@ -37,6 +37,10 @@ module CollectionJson
         def test_that_an_extension_with_no_definition_raises_proper_error
           skip
         end
+
+        def test_that_an_extension_with_no_definition_raises_proper_error
+          skip
+        end
       end
     end
   end
