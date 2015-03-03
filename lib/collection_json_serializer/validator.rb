@@ -97,7 +97,11 @@ module CollectionJson
                 end unless @serializer.uses?(:open_attrs)
               end
 
-              attribute_validation(:data, hash[:name], [:queries, params[:name], "data", "name"])
+              attribute_validation(
+                :data,
+                hash[:name],
+                [:queries, params[:name], "data", "name"]
+              )
             end
           end
         end if @serializer.queries.present?
