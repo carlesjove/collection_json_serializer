@@ -69,7 +69,11 @@ module CollectionJson
 
           required_attribute_validation(:queries, :href, params)
 
-          attribute_validation(:href, params[:properties][:href], [:queries, params[:name], "href"])
+          attribute_validation(
+            :href,
+            params[:properties][:href],
+            [:queries, params[:name], "href"]
+          )
 
           params[:properties].each do |key, value|
             next if key == :data || key == :href
