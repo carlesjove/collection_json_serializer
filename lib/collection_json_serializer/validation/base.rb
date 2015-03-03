@@ -24,7 +24,14 @@ module CollectionJson
       end
 
       def definition
-        CollectionJson::Spec::DEFINITION
+        result = Hash.new
+        CollectionJson::Spec.constants.each do |const|
+          # Skip the actual Spec::DEFINITION
+          next if const === :DEFINITION
+
+          result.deep_merge!(Object.const_get("CollectionJson::Spec::#{const}")::DEFINITION)
+        end
+        result.deep_merge(CollectionJson::Spec::DEFINITION)
       end
 
       def value_is_invalid?(value)
