@@ -116,26 +116,13 @@ module CollectionJson
       end
 
       def required_attribute_validation(root, key, params)
-        if required_attribute_missing?(root, key)
+        if required_attribute_missing?(key, params)
           error_for :missing_attribute, root: root, path: [params[:name], key]
         end
       end
 
-      def is_required_attribute?(*path)
-        result = path.inject(0) do |result, key|
-          (key == path.first) ? definition.fetch(key) : result.fetch(key)
-        end
-
-        result.key?(:required) && result[:required] === true
-      end
-
-      def required_attribute_missing?(*path)
-        return false unless is_required_attribute?(*path)
-
-        @serializer.send(path.first).any? do |h|
-          params = h.extract_params
-          !params[:properties].key?(path.last)
-        end
+      def required_attribute_missing?(key, params)
+        !params[:properties].key?(key)
       end
     end
   end
