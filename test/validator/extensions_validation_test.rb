@@ -1,7 +1,9 @@
 require "minitest_helper"
 
-module ExistingExtension
-  extend CollectionJson::Spec
+module CollectionJson::Spec
+  module ExistingExtension
+    DEFINITION = {}
+  end
 end
 
 module CollectionJson
@@ -27,6 +29,10 @@ module CollectionJson
           @serializer.class._extensions = [:existing_extension]
 
           assert @serializer.valid?, "serializer should be valid"
+        end
+
+        def test_that_an_extension_with_no_definition_raises_proper_error
+          skip
         end
       end
     end
