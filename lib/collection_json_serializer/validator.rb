@@ -6,18 +6,15 @@ module CollectionJson
       private
 
       def validate
-        # This is what we'll want to keep
-        definition.keys.each do |key|
-          next unless @serializer.respond_to?(key, true)
-
-          value = @serializer.send(key)
-          attribute_validation(key, value, [key]) if key == :href
-        end
-
-        # This is what we want to get rid of
         definition.keys.each do |m|
           method = "validate_#{m}"
           send(method) if respond_to?(method, true)
+        end
+      end
+
+      def validate_href
+        if @serializer.respond_to?(:href)
+          attribute_validation(:href, @serializer.href, [:href])
         end
       end
 
