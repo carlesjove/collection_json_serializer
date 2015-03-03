@@ -3,7 +3,7 @@ module CollectionJson
     DEFINITION = {
       href: {},
       links: {
-        href: { required: true },
+        href: {},
         rel: {},
         name: {},
         prompt: {},
@@ -32,7 +32,7 @@ module CollectionJson
         }
       },
       queries: {
-        href: { required: true },
+        href: {},
         rel: {},
         name: {},
         prompt: {},
