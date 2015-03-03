@@ -20,7 +20,7 @@ module CollectionJson
           next if ext === :open_attrs
 
           begin
-            ext.to_constant
+            "CollectionJson::Spec::#{ext.to_s.camelize}".constantize
           rescue NameError
             error_for :unknown_extension, root: :extensions, path: [ext]
           end
