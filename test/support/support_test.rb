@@ -1,5 +1,7 @@
 require "minitest_helper"
 
+class MyConstant; end
+
 module CollectionJson
   class Serializer
     module Support
@@ -22,6 +24,10 @@ module CollectionJson
           expected = "http://example.com/users/#{@user.id}"
 
           assert_equal expected, parse_url(url, @user)
+        end
+
+        def test_that_constatize_symbol_works
+          assert_equal MyConstant, :my_constant.to_constant
         end
       end
     end
