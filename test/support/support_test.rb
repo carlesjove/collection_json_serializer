@@ -1,5 +1,7 @@
 require "minitest_helper"
 
+class MyConstant; end
+
 module CollectionJson
   class Serializer
     module Support

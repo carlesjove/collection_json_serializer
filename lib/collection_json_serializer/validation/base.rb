@@ -24,7 +24,14 @@ module CollectionJson
       end
 
       def definition
-        CollectionJson::Spec::DEFINITION
+        result = Hash.new
+        CollectionJson::Spec.constants.each do |extension|
+          # Skip the actual Spec::DEFINITION
+          next if extension === :DEFINITION
+
+          result.deep_merge!(definition_from(extension))
+        end
+        result.deep_merge(CollectionJson::Spec::DEFINITION)
       end
 
       def value_is_invalid?(value)
@@ -53,6 +60,8 @@ module CollectionJson
           ending = " is missing"
         when :unknown_attribute
           ending = " is an unknown attribute"
+        when :unknown_extension
+          ending = " is an unknown extension"
         else
           ending = " is an invalid value"
         end
@@ -62,6 +71,10 @@ module CollectionJson
         e << ":" + path.join(":") if path.any?
         e << ending
         @errors[root] << e
+      end
+
+      def definition_from(extension_name)
+        "CollectionJson::Spec::#{extension_name}".safe_constantize::DEFINITION
       end
     end
   end
