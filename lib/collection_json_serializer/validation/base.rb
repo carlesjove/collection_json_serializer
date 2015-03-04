@@ -25,11 +25,11 @@ module CollectionJson
 
       def definition
         result = Hash.new
-        CollectionJson::Spec.constants.each do |const|
+        CollectionJson::Spec.constants.each do |extension|
           # Skip the actual Spec::DEFINITION
-          next if const === :DEFINITION
+          next if extension === :DEFINITION
 
-          result.deep_merge!(Object.const_get("CollectionJson::Spec::#{const}")::DEFINITION)
+          result.deep_merge!(definition_from(extension))
         end
         result.deep_merge(CollectionJson::Spec::DEFINITION)
       end
@@ -71,6 +71,10 @@ module CollectionJson
         e << ":" + path.join(":") if path.any?
         e << ending
         @errors[root] << e
+      end
+
+      def definition_from(extension_name)
+        "CollectionJson::Spec::#{extension_name}".safe_constantize::DEFINITION
       end
     end
   end
