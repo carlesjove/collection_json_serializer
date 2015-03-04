@@ -165,9 +165,27 @@ end
 
 Please, notice that placeholders can _only_ be used within the `items` block.
 
+## Extensions
+
+Collection+JSON has a bunch of registered extensions that add functionality.
+Right now, some of them are ready for useage.
+
+#### Template Validation
+
+The [template
+validation](https://github.com/collection-json/extensions/blob/master/template-validation.md)
+extension introduces two additional properties to `template.data`, for passing
+validation rules to the client.
+
+```ruby
+extensions :template_validation
+
+template username: { regexp: "^[a-zA-Z0-9]*$", required: true }
+```
+
 #### Open Attributes Policy
 
-Collection+JSON Serializer introduces an __open attributes policy__, which means that objects' attributes can be extended at will. This makes it easy to add custom extensions to suit your particular needs. Be aware that, [as the specs say](https://github.com/collection-json/spec#7-extensibility), you must only extend attributes in a way that won't break clients that are not aware of them.
+This is not really a CJ extension, but a CJ::Serializer feature. Collection+JSON Serializer introduces an __open attributes policy__, which means that objects' attributes can be extended at will. This makes it easy to add custom extensions to suit your particular needs. Be aware that, [as the specs say](https://github.com/collection-json/spec#7-extensibility), you must only extend attributes in a way that won't break clients that are not aware of them.
 
 In order to use the Open Attributes policy, it must be declared as an extension.
 
