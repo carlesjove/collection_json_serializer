@@ -1,6 +1,5 @@
 module CollectionJson::Spec
   module TemplateValidation
-
     DEFINITION = {
       template: {
         data: {
@@ -11,4 +10,3 @@ module CollectionJson::Spec
     }
   end
 end
-

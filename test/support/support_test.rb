@@ -25,10 +25,6 @@ module CollectionJson
 
           assert_equal expected, parse_url(url, @user)
         end
-
-        def test_that_constatize_symbol_works
-          assert_equal MyConstant, :my_constant.to_constant
-        end
       end
     end
   end
