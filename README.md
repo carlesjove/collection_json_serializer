@@ -198,7 +198,6 @@ end
 link authors: { href: "http://example.com/authors", model: "people" }
 ```
 
-
 #### Open Attributes Policy
 
 This is not really a CJ extension, but a CJ::Serializer feature. Collection+JSON Serializer introduces an __open attributes policy__, which means that objects' attributes can be extended at will. This makes it easy to add custom extensions to suit your particular needs. Be aware that, [as the specs say](https://github.com/collection-json/spec#7-extensibility), you must only extend attributes in a way that won't break clients that are not aware of them.
