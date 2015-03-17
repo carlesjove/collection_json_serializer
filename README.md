@@ -215,8 +215,6 @@ class UserSerializer < CollectionJson::Serializer
     attribute name: { css_class: "people" }
   end
 
-  template name: { regex: "/\A[a-zA-Z0-9_]*\z/" }
-
   link profile: { on_click: "reboot_universe" }
 end
 ```
