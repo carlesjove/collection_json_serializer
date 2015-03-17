@@ -22,6 +22,14 @@ Add this line to your application's Gemfile:
 gem 'collection_json_serializer'
 ```
 
+Or if you want to use the mornings build:
+
+```ruby
+gem 'collection_json_serializer',
+  git: 'https://github.com/carlesjove/collection_json_serializer',
+  branch: 'dev'
+```
+
 And then execute:
 
     $ bundle
