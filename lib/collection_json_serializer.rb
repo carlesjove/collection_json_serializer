@@ -24,6 +24,7 @@ require "collection_json_serializer/objects/template"
 require "collection_json_serializer/objects/query"
 
 require "collection_json_serializer/extensions/template_validation"
+require "collection_json_serializer/extensions/model"
 
 require "active_support/core_ext/object/blank"
 require "active_support/core_ext/string/inflections"
