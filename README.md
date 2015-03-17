@@ -168,7 +168,7 @@ Please, notice that placeholders can _only_ be used within the `items` block.
 ## Extensions
 
 Collection+JSON has a bunch of registered extensions that add functionality.
-Right now, some of them are ready for useage.
+Right now, some of them are ready for usage.
 
 #### Template Validation
 
@@ -182,6 +182,22 @@ extensions :template_validation
 
 template username: { regexp: "^[a-zA-Z0-9]*$", required: true }
 ```
+
+#### Model
+
+The [model](https://github.com/collection-json/extensions/blob/master/model.md)
+extension introduces an optional `model` attribute to `links` array.
+
+```ruby
+extensions :model
+
+items do
+  link avatar: { href: "http://example.com/avatar", model: "document" }
+end
+
+link authors: { href: "http://example.com/authors", model: "people" }
+```
+
 
 #### Open Attributes Policy
 
