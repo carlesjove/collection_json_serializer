@@ -16,7 +16,7 @@ module CollectionJson
       def validate_extensions
         @serializer.extensions.each do |ext|
           # :open_attrs is not really an extension, but just a way of
-          # allowing any attribute in
+          # allowing random attributes in
           next if ext === :open_attrs
 
           begin
