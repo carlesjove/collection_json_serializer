@@ -49,7 +49,7 @@ module CollectionJson
               error_for :unknown_attribute, root: :links, path: [key]
               next
             end unless @serializer.uses?(:open_attrs)
-
+            # TODO: remove this at some point. Now it's validating href
             attribute_validation(key, value, [:links, params[:name], key])
           end
         end if @serializer.links.present?
@@ -68,8 +68,6 @@ module CollectionJson
               )
               next
             end unless @serializer.uses?(:open_attrs)
-
-            attribute_validation(key, value, [:template, params[:name], key])
           end if params[:properties]
 
         end if @serializer.template.any?
@@ -96,8 +94,6 @@ module CollectionJson
                 path: [params[:name], key]
               )
             end unless @serializer.uses?(:open_attrs)
-
-            attribute_validation(key, value, [:queries, params[:name], key])
           end
 
           if params[:properties].key?(:data)
@@ -111,27 +107,14 @@ module CollectionJson
                   )
                 end unless @serializer.uses?(:open_attrs)
               end
-
-              attribute_validation(
-                :data,
-                hash[:name],
-                [:queries, params[:name], "data", "name"]
-              )
             end
           end
         end if @serializer.queries.present?
       end
 
       def attribute_validation(key, value, path)
-        case key
-        when :href
-          if url_is_invalid?(value)
-            error_for :url, root: path.shift, path: path
-          end
-        else
-          if value_is_invalid?(value)
-            error_for :value, root: path.shift, path: path
-          end
+        if key == :href && url_is_invalid?(value)
+          error_for :url, root: path.shift, path: path
         end
       end
 

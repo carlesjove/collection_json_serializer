@@ -14,7 +14,6 @@ module CollectionJson
         def validate_attributes
           @serializer.items.attributes.each do |attr|
             params = attr.extract_params
-            validate_attributes_values(@serializer.resources, params)
             validate_attributes_properties(params) if params[:properties]
           end if @serializer.items? && @serializer.items.attributes?
         end
@@ -47,24 +46,7 @@ module CollectionJson
                     path: [:links, link[:name], key]
                   )
                 end
-              else
-                if value_is_invalid?(value)
-                  error_for(
-                    :value,
-                    root: :items,
-                    path: [:links, link[:name], key]
-                  )
-                end
               end
-            end
-          end
-        end
-
-        def validate_attributes_values(resources, params)
-          resources.each do |resource|
-            val = extract_value_from(resource, params[:name])
-            if value_is_invalid?(val)
-              error_for :value, root: :attributes, path: [params[:name]]
             end
           end
         end
@@ -79,10 +61,6 @@ module CollectionJson
               )
               next
             end unless @serializer.uses?(:open_attrs)
-
-            if value_is_invalid?(value)
-              error_for :value, root: :attributes, path: [params[:name], key]
-            end
           end
         end
 
