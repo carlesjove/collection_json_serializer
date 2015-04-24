@@ -6,6 +6,10 @@ module CollectionJson::Spec
   end
 end
 
+class UnexistingExtensionSerializer < CollectionJson::Serializer
+  extensions :non_existing
+end
+
 module CollectionJson
   class Serializer
     class Validator
@@ -20,11 +24,11 @@ module CollectionJson
         end
 
         def test_that_unknown_extensions_produce_an_error
-          serializer = empty_serializer_for(@user)
-          serializer.class._extensions = [:non_existing_extension]
+          serializer = UnexistingExtensionSerializer.new(@user)
 
-          assert serializer.invalid?, "serializer should be invalid"
-          assert serializer.errors.include?(:extensions)
+          assert_raises(NameError) do
+            serializer.valid?
+          end
         end
 
         def test_that_known_extensions_dont_producte_an_error
