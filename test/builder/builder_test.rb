@@ -204,6 +204,50 @@ module CollectionJson
           assert_equal expected.to_json, builder.to_json
         end
 
+        def test_that_an_empty_collection_builds
+          serializer = UserSerializer.new([])
+          builder = Builder.new(serializer)
+
+          expected = {
+            collection: {
+              version: "1.0",
+              href: "http://example.com/users",
+              items: [],
+              links: [
+                {
+                  rel: "dashboard",
+                  href: "http://example.com/my-dashboard",
+                  name: "dashboard"
+                }
+              ],
+              template: {
+                data: [
+                  { name: "name", value: "" },
+                  { name: "email", value: "", prompt: "My email" },
+                  { name: "password", value: "" }
+                ]
+              },
+              queries: [
+                {
+                  rel: "search",
+                  href: "http://example.com/search"
+                },
+                {
+                  rel: "page",
+                  href: "http://example.com/page",
+                  name: "pagination",
+                  prompt: "Select a page number",
+                  data: [
+                    { name: "page", value: "" }
+                  ]
+                }
+              ]
+            }
+          }
+
+          assert_equal expected.to_json, builder.to_json
+        end
+
         def test_that_an_invalid_serializer_raises_an_error
           invalid_serializer = InvalidSerializer.new(@user1)
           builder = Builder.new(invalid_serializer)
