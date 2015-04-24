@@ -25,12 +25,15 @@ module CollectionJson
 
       def definition
         result = Hash.new
-        CollectionJson::Spec.constants.each do |extension|
-          # Skip the actual Spec::DEFINITION
-          next if extension === :DEFINITION
 
-          result.deep_merge!(definition_from(extension))
+        @serializer.extensions.each do |extension|
+          # :open_attrs is not really an extension, but just a way of
+          # allowing random attributes in
+          next if extension === :open_attrs
+
+          result.deep_merge! definition_from(extension.to_s.camelize)
         end
+
         result.deep_merge(CollectionJson::Spec::DEFINITION)
       end
 
