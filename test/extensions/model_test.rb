@@ -24,6 +24,18 @@ module CollectionJson
         ]
       end
 
+      def test_that_serializer_is_invalid_when_not_using_model_extension
+        invalid_serializer = empty_serializer_for(@user)
+        invalid_serializer.class._links = [
+          posts: {
+            href: "http://example.com/posts",
+            model: "post"
+          }
+        ]
+
+        assert invalid_serializer.invalid?
+      end
+
       def test_that_serializer_is_valid_using_model_extension
         assert @serializer.valid?, "should be valid using :model"
       end

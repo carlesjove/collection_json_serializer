@@ -17,6 +17,18 @@ module CollectionJson
         ]
       end
 
+      def test_that_serializer_is_invalid_when_not_using_template_validations
+        serializer = empty_serializer_for(@user)
+        serializer.class._template = [
+          email: {
+            regexp: "^[a-zA-Z0-9]*$",
+            required: true
+          }
+        ]
+
+        assert serializer.invalid?
+      end
+
       def test_that_serializer_is_valid_using_template_validations
         assert @serializer.valid?, "should be valid using :template_validation"
       end
