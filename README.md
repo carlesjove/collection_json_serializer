@@ -19,7 +19,7 @@ Rails](https://github.com/carlesjove/collection_json_rails) instead.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'collection_json_serializer'
+gem 'collection_json_serializer', '~> 0.4.2'
 ```
 
 Or if you want to use the mornings build:
