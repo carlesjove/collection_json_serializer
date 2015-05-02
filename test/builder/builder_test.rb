@@ -4,6 +4,8 @@ module CollectionJson
   class Serializer
     class Builder
       class TestBuilder < Minitest::Test
+        include TestHelper
+
         def setup
           @user1 = User.new(name: "Carles Jove", email: "hola@carlus.cat")
           @user2 = User.new(name: "Aina Jove", email: "hola@example.com")
@@ -192,6 +194,15 @@ module CollectionJson
           }
 
           assert_equal expected.to_json, builder.to_json
+        end
+
+        def test_that_a_serializer_with_no_attributes_builds_items
+          serializer = empty_serializer_for @user1
+          serializer.items.link my_link: { href: 'http://example.com' }
+          builder = CollectionJson::Serializer::Builder.new(serializer)
+
+          assert builder.pack[:collection][:items].present?
+          assert builder.pack[:collection][:items][0][:links].present?
         end
 
         def test_that_an_invalid_serializer_raises_an_error
